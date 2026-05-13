@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>古今抄｜読み継がれるには、理由がある。</title>
+<style>
+:root {
+  --bg:#f6f1e8;
+  --paper:#fffdf8;
+  --paper2:#fbf7ef;
+  --ink:#11100e;
+  --soft:#48433e;
+  --muted:#736b61;
+  --line:rgba(20,19,17,.11);
+  --line2:rgba(20,19,17,.18);
+  --accent:#b7352e;
+  --blue:#465b64;
+  --shadow:0 18px 48px rgba(20,19,17,.10);
+  --font-sans:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+  --font-serif:-apple-system,BlinkMacSystemFont,"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 11% 16%, rgba(0,0,0,.032), transparent 22rem),
+    radial-gradient(circle at 88% 82%, rgba(0,0,0,.024), transparent 20rem),
+    linear-gradient(180deg,#fbfaf6 0%,#f0eadf 100%);
+  font-family:var(--font-serif);
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.16;
+  background-image:
+    linear-gradient(90deg,rgba(0,0,0,.016) 1px,transparent 1px),
+    linear-gradient(0deg,rgba(0,0,0,.012) 1px,transparent 1px);
+  background-size:36px 36px;
+}
+.app{
+  position:relative;
+  z-index:1;
+  min-height:100vh;
+  display:grid;
+  grid-template-rows:auto 1fr;
+}
+header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  padding:max(12px, env(safe-area-inset-top)) 16px 10px;
+  background:rgba(250,248,242,.96);
+  border-bottom:1px solid rgba(20,19,17,.08);
+  box-shadow:0 8px 24px rgba(20,19,17,.04);
+  overflow:hidden;
+}
+/* v5の良かった墨の気配を、UI文字に被らない位置で復活 */
+header::before{
+  content:"";
+  position:absolute;
+  left:-10vw;
+  right:-10vw;
+  bottom:-48px;
+  height:96px;
+  pointer-events:none;
+  opacity:.32;
+  background:
+    radial-gradient(ellipse at 20% 48%, rgba(0,0,0,.42) 0 8%, transparent 24%),
+    radial-gradient(ellipse at 47% 62%, rgba(0,0,0,.25) 0 8%, transparent 24%),
+    radial-gradient(ellipse at 76% 44%, rgba(0,0,0,.30) 0 8%, transparent 24%),
+    linear-gradient(174deg, transparent 0 28%, rgba(0,0,0,.36) 34% 42%, transparent 50% 100%);
+  filter:blur(.4px);
+}
+.topbar{
+  max-width:1120px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  position:relative;
+  z-index:2;
+}
+.brandWrap{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+}
+.logoSeal{
+  width:38px;
+  height:38px;
+  border:2px solid var(--accent);
+  color:var(--accent);
+  display:grid;
+  place-items:center;
+  font-family:var(--font-sans);
+  font-weight:900;
+  font-size:18px;
+  line-height:1;
+  transform:rotate(-2deg);
+  background:rgba(255,255,255,.74);
+  flex:0 0 auto;
+  box-shadow:0 4px 12px rgba(0,0,0,.04);
+}
+.logoText{
+  min-width:0;
+}
+.logoText h1{
+  margin:0;
+  font-size:28px;
+  line-height:1;
+  letter-spacing:.18em;
+  font-weight:700;
+  position:relative;
+  display:inline-block;
+  padding-right:10px;
+}
+/* v5方向の、ロゴ下の墨線 */
+.logoText h1::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:18px;
+  bottom:-8px;
+  height:6px;
+  border-radius:999px;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.90), rgba(0,0,0,.42) 48%, rgba(0,0,0,.10) 76%, transparent);
+  opacity:.70;
+  transform:rotate(-1.2deg);
+}
+.logoText h1::before{
+  content:"";
+  position:absolute;
+  left:82px;
+  right:26px;
+  bottom:-4px;
+  height:2px;
+  background:rgba(0,0,0,.18);
+  transform:rotate(.7deg);
+}
+.logoText p{
+  margin:10px 0 0;
+  font-family:var(--font-sans);
+  color:#38342f;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.08em;
+  white-space:nowrap;
+}
+.headerBtns{
+  display:flex;
+  gap:8px;
+  flex:0 0 auto;
+}
+.ghostBtn{
+  border:1px solid var(--line2);
+  background:rgba(255,255,255,.82);
+  color:var(--ink);
+  border-radius:999px;
+  padding:9px 13px;
+  font-family:var(--font-sans);
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+}
+main{
+  width:100%;
+  max-width:1120px;
+  margin:0 auto;
+  padding:12px 14px 28px;
+  display:grid;
+  gap:14px;
+}
+.panel{
+  display:none;
+  gap:10px;
+  padding:12px;
+  background:rgba(255,255,255,.78);
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:0 12px 34px rgba(20,19,17,.05);
+}
+.panel.open{display:grid}
+.filterRow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.chip{
+  border:1px solid var(--line2);
+  background:rgba(255,255,255,.92);
+  color:var(--ink);
+  border-radius:999px;
+  padding:8px 12px;
+  font-family:var(--font-sans);
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+}
+.chip.active{
+  background:var(--ink);
+  color:white;
+  border-color:var(--ink);
+}
+.search{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:11px 13px;
+  font-family:var(--font-sans);
+  font-size:14px;
+  background:#fffefb;
+}
+.stage{
+  min-height:calc(100vh - 118px);
+  display:grid;
+  place-items:start center;
+  padding-top:18px;
+  padding-bottom:44px;
+  position:relative;
+}
+/* コンテンツ側は飾りを外側へ。カード裏にだけ薄く墨の動き */
+.stage::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:8px;
+  width:min(90vw,760px);
+  height:120px;
+  transform:translateX(-50%) rotate(-2deg);
+  pointer-events:none;
+  opacity:.14;
+  background:
+    radial-gradient(ellipse at 18% 42%, rgba(0,0,0,.36), transparent 24%),
+    radial-gradient(ellipse at 60% 34%, rgba(0,0,0,.24), transparent 22%),
+    radial-gradient(ellipse at 86% 54%, rgba(0,0,0,.24), transparent 23%),
+    linear-gradient(92deg, transparent 0 14%, rgba(0,0,0,.28) 18% 22%, transparent 31% 100%);
+  filter:blur(.7px);
+}
+.card{
+  width:min(100%,462px);
+  height:min(790px,calc(100vh - 154px));
+  min-height:620px;
+  background:linear-gradient(180deg,rgba(255,255,255,.965),rgba(252,249,243,.975));
+  border:1px solid var(--line);
+  border-radius:22px;
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.14;
+  background-image:
+    linear-gradient(90deg,rgba(0,0,0,.018) 1px,transparent 1px),
+    linear-gradient(0deg,rgba(0,0,0,.014) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+.card::after{
+  content:"";
+  position:absolute;
+  right:-48px;
+  top:-38px;
+  width:154px;
+  height:154px;
+  border-radius:50%;
+  opacity:.07;
+  pointer-events:none;
+  background:radial-gradient(circle at 42% 42%,rgba(0,0,0,.82),rgba(0,0,0,.26) 40%,transparent 72%);
+}
+.cardInner{
+  position:relative;
+  z-index:1;
+  height:100%;
+  display:grid;
+  grid-template-rows:26px 128px 42px minmax(0,1fr) 118px 52px;
+  padding:18px 16px 16px;
+}
+.meta{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  color:var(--muted);
+  font-family:var(--font-sans);
+  font-size:11px;
+  font-weight:600;
+}
+.meta .genre{
+  color:var(--blue);
+  font-weight:700;
+}
+.originalBlock{
+  padding:13px 14px 11px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(249,246,239,.90));
+  box-shadow:0 10px 26px rgba(20,19,17,.04);
+  overflow:auto;
+}
+.blockLabel{
+  color:var(--muted);
+  font-family:var(--font-sans);
+  font-size:10px;
+  letter-spacing:.15em;
+  font-weight:700;
+  margin-bottom:7px;
+}
+.originalText{
+  font-size:15.6px;
+  line-height:1.62;
+  font-weight:500;
+  margin-bottom:7px;
+}
+.readingText{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.52;
+  font-family:var(--font-sans);
+}
+.tabBar{
+  align-self:center;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  padding:3px;
+  border-radius:999px;
+  background:rgba(20,19,17,.06);
+  border:1px solid rgba(20,19,17,.08);
+  margin:8px 0 10px;
+}
+.tab{
+  border:0;
+  background:transparent;
+  border-radius:999px;
+  padding:8px 10px;
+  color:var(--muted);
+  font-family:var(--font-sans);
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+}
+.tab.active{
+  background:rgba(255,255,255,.94);
+  color:var(--ink);
+  box-shadow:0 4px 14px rgba(20,19,17,.08);
+}
+.translationWrap{
+  min-height:0;
+  overflow:auto;
+  padding:18px 18px 20px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(250,247,241,.92));
+  box-shadow:0 12px 30px rgba(20,19,17,.04);
+}
+.translationText{
+  margin:0;
+  font-size:18.8px;
+  line-height:1.78;
+  font-weight:400;
+  letter-spacing:.01em;
+}
+.translationText.basic{
+  font-size:16.2px;
+  line-height:1.74;
+  color:#2f2c28;
+}
+.translationText.long{
+  font-size:17px;
+  line-height:1.70;
+}
+.translationText.veryLong{
+  font-size:15.8px;
+  line-height:1.62;
+}
+.translationText.basic.long,
+.translationText.basic.veryLong{
+  font-size:15.4px;
+  line-height:1.66;
+}
+.infoBlock{
+  overflow:auto;
+  padding-top:12px;
+}
+.sourceText{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.54;
+  font-family:var(--font-sans);
+  margin-bottom:7px;
+}
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:9px;
+}
+.tag{
+  display:inline-flex;
+  align-items:center;
+  border-radius:999px;
+  padding:4px 8px;
+  background:rgba(20,19,17,.05);
+  border:1px solid rgba(20,19,17,.07);
+  color:var(--soft);
+  font-family:var(--font-sans);
+  font-size:10px;
+  font-weight:700;
+}
+details{
+  border-top:1px solid var(--line);
+  padding-top:9px;
+}
+summary{
+  cursor:pointer;
+  color:var(--soft);
+  font-family:var(--font-sans);
+  font-size:12px;
+  font-weight:700;
+}
+.memo{
+  margin-top:8px;
+  max-height:86px;
+  overflow:auto;
+  padding-right:4px;
+  color:var(--soft);
+  font-family:var(--font-sans);
+  font-size:12px;
+  line-height:1.62;
+}
+.nav{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+  padding-top:10px;
+}
+.nav button{
+  border:1px solid var(--line);
+  background:rgba(20,19,17,.05);
+  color:var(--ink);
+  border-radius:14px;
+  padding:10px 8px;
+  min-height:42px;
+  font-family:var(--font-sans);
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+}
+.nav button:active{
+  transform:none;
+}
+.nav button.primary{
+  background:var(--ink);
+  color:white;
+  border-color:var(--ink);
+}
+.gestureGuide{
+  position:absolute;
+  left:50%;
+  bottom:0;
+  transform:translateX(-50%);
+  padding:6px 12px;
+  border:1px solid rgba(20,19,17,.08);
+  border-radius:999px;
+  background:rgba(255,255,255,.86);
+  color:rgba(20,19,17,.56);
+  font-family:var(--font-sans);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.08em;
+  box-shadow:0 8px 22px rgba(20,19,17,.05);
+  pointer-events:none;
+}
+.sheet{
+  position:fixed;
+  left:12px;
+  right:12px;
+  bottom:12px;
+  z-index:60;
+  display:none;
+  max-height:60vh;
+  overflow:auto;
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:rgba(255,253,248,.98);
+  box-shadow:0 22px 64px rgba(20,19,17,.18);
+}
+.sheet.open{display:block}
+.sheet h2{
+  margin:0 0 10px;
+  font-family:var(--font-sans);
+  font-size:14px;
+  font-weight:700;
+}
+.list{
+  display:grid;
+  gap:7px;
+}
+.listItem{
+  padding:9px 10px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#fffefb;
+  cursor:pointer;
+}
+.listItem.active{
+  border-color:rgba(185,58,50,.42);
+  box-shadow:0 0 0 2px rgba(185,58,50,.08) inset;
+}
+.listId{
+  color:var(--accent);
+  font-family:var(--font-sans);
+  font-size:10px;
+  font-weight:800;
+}
+.listText{
+  color:var(--soft);
+  font-size:12px;
+  line-height:1.5;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+@media (pointer:coarse){
+  .desktopOnly{display:none}
+}
+@media (pointer:fine){
+  .touchOnly{display:none}
+}
+@media (min-width:840px){
+  .panel{display:grid !important}
+  .menuToggle{display:none}
+  .card{
+    width:min(100%,560px);
+    height:800px;
+  }
+  .cardInner{
+    padding:24px 24px 22px;
+    grid-template-rows:28px 140px 44px minmax(0,1fr) 126px 54px;
+  }
+  .originalText{
+    font-size:18px;
+  }
+  .translationText{
+    font-size:22px;
+    line-height:1.80;
+  }
+  .translationText.long{
+    font-size:20px;
+  }
+  .translationText.veryLong{
+    font-size:18px;
+  }
+  .translationText.basic{
+    font-size:18px;
+  }
+  .translationText.basic.long,
+  .translationText.basic.veryLong{
+    font-size:16.8px;
+  }
+}
+@media (max-width:420px){
+  .logoText h1{
+    font-size:24px;
+  }
+  .logoText p{
+    font-size:10px;
+    letter-spacing:.05em;
+  }
+  .logoSeal{
+    width:32px;
+    height:32px;
+    font-size:16px;
+  }
+  .card{
+    height:min(748px,calc(100vh - 142px));
+    min-height:600px;
+  }
+  .cardInner{
+    padding:16px 14px 15px;
+    grid-template-rows:24px 124px 40px minmax(0,1fr) 112px 50px;
+  }
+  .originalText{
+    font-size:15px;
+  }
+  .translationText{
+    font-size:17.2px;
+    line-height:1.68;
+  }
+  .translationText.long{
+    font-size:15.8px;
+    line-height:1.62;
+  }
+  .translationText.veryLong{
+    font-size:14.8px;
+    line-height:1.56;
+  }
+}
+</style>
+
+<meta name="description" content="百人一首と論語を、心に刺さる超訳と意味がわかる基本訳でめくる古典カードアプリ。">
+<meta name="theme-color" content="#f6f1e8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="古今抄">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./assets/icons/favicon-16.png">
+<meta property="og:title" content="古今抄">
+<meta property="og:description" content="読み継がれるには、理由がある。古典を、今の自分に届く言葉で。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="./assets/images/ogp.png">
+
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="topbar">
+    <div class="brandWrap">
+      <div class="logoSeal">古</div>
+      <div class="logoText">
+        <h1>古今抄</h1>
+        <p>読み継がれるには、理由がある。</p>
+      </div>
+    </div>
+    <div class="headerBtns">
+      <button class="ghostBtn menuToggle" id="menuBtn">絞込</button>
+      <button class="ghostBtn" id="listBtn">一覧</button>
+    </div>
+  </div>
+</header>
+<main>
+  <section class="panel" id="filterPanel">
+    <div class="filterRow">
+      <button class="chip active" data-genre="all">すべて</button>
+      <button class="chip" data-genre="百人一首">百人一首</button>
+      <button class="chip" data-genre="論語">論語</button>
+      <button class="chip" id="randomBtn">ランダム</button>
+    </div>
+    <input class="search" id="searchInput" placeholder="原文・超訳・基本訳・テーマを検索">
+  </section>
+  <section class="stage" id="stage">
+    <article class="card">
+      <div class="cardInner">
+        <div class="meta">
+          <div><span class="genre" id="genreLabel"></span> <span id="idLabel"></span></div>
+          <div id="countLabel"></div>
+        </div>
+        <section class="originalBlock">
+          <div class="blockLabel">本文</div>
+          <div class="originalText" id="originalText"></div>
+          <div class="readingText" id="readingText"></div>
+        </section>
+        <div class="tabBar">
+          <button class="tab active" data-tab="super">超訳</button>
+          <button class="tab" data-tab="basic">基本訳</button>
+        </div>
+        <section class="translationWrap">
+          <p class="translationText" id="translationText"></p>
+        </section>
+        <section class="infoBlock">
+          <div class="sourceText" id="sourceText"></div>
+          <div class="tags" id="themeText"></div>
+          <details>
+            <summary>読み解きメモを読む</summary>
+            <div class="memo" id="memoText"></div>
+          </details>
+        </section>
+        <div class="nav">
+          <button id="prevBtn">前へ</button>
+          <button class="primary" id="nextBtn">次へ</button>
+          <button id="copyBtn">コピー</button>
+        </div>
+      </div>
+    </article>
+    <div class="gestureGuide">
+      <span class="touchOnly">縦スワイプでめくる</span>
+      <span class="desktopOnly">ホイール / ↑↓キーでめくる</span>
+    </div>
+  </section>
+</main>
+</div>
+<aside class="sheet" id="listSheet">
+  <h2>カード一覧</h2>
+  <div class="list" id="listBox"></div>
+</aside>
+<script>
+let DATA = [];
+
+let currentGenre = "all";
+let currentTab = "super";
+let query = "";
+let filtered = [...DATA];
+let index = 0;
+let touchStartY = null;
+let wheelLock = false;
+const $ = (id) => document.getElementById(id);
+function escapeHtml(s) {
+  return String(s || "").replace(/[&<>"']/g, (m) => {
+    const map = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" };
+    return map[m];
+  });
+}
+function normalize(s) { return String(s || "").toLowerCase(); }
+function getShownTranslation(item) { return currentTab === "super" ? item.superTranslation : item.basicTranslation; }
+function getLengthClass(text) {
+  const len = (text || "").length;
+  if (len > 190) return "veryLong";
+  if (len > 145) return "long";
+  return "";
+}
+function currentItem() { return filtered[index] || null; }
+function filterData() {
+  const q = normalize(query);
+  filtered = DATA.filter(item => {
+    const genreOk = currentGenre === "all" || item.genre === currentGenre;
+    const haystack = normalize([
+      item.id, item.genre, item.original, item.reading, item.author || "",
+      item.source, item.superTranslation, item.basicTranslation,
+      (item.theme || []).join(" "), item.examMemo
+    ].join(" "));
+    return genreOk && (!q || haystack.includes(q));
+  });
+  if (index >= filtered.length) index = 0;
+  render();
+}
+function renderList() {
+  const box = $("listBox");
+  box.innerHTML = "";
+  filtered.forEach((item, i) => {
+    const div = document.createElement("div");
+    div.className = "listItem" + (i === index ? " active" : "");
+    div.innerHTML = `<div class="listId">${escapeHtml(item.id)}</div><div class="listText">${escapeHtml(item.original || item.source)}</div>`;
+    div.onclick = () => {
+      index = i;
+      $("listSheet").classList.remove("open");
+      render();
+    };
+    box.appendChild(div);
+  });
+}
+function render() {
+  const item = currentItem();
+  if (!item) return;
+  $("genreLabel").textContent = item.genre || "";
+  $("idLabel").textContent = item.id || "";
+  $("countLabel").textContent = `${index + 1} / ${filtered.length}`;
+  $("originalText").textContent = item.original || "";
+  $("readingText").textContent = item.reading || "";
+  const shown = getShownTranslation(item);
+  const trans = $("translationText");
+  trans.textContent = shown;
+  trans.className = "translationText";
+  if (currentTab === "basic") trans.classList.add("basic");
+  const lengthClass = getLengthClass(shown);
+  if (lengthClass) trans.classList.add(lengthClass);
+  $("sourceText").textContent = `${item.author ? "作者：" + item.author + "　" : ""}${item.source || ""}`;
+  $("themeText").innerHTML = (item.theme || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("");
+  $("memoText").textContent = item.examMemo || "";
+  document.querySelectorAll(".tab").forEach(btn => btn.classList.toggle("active", btn.dataset.tab === currentTab));
+  renderList();
+}
+function nextItem() {
+  if (!filtered.length) return;
+  index = (index + 1) % filtered.length;
+  render();
+}
+function prevItem() {
+  if (!filtered.length) return;
+  index = (index - 1 + filtered.length) % filtered.length;
+  render();
+}
+document.querySelectorAll(".chip[data-genre]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    currentGenre = btn.dataset.genre;
+    document.querySelectorAll(".chip[data-genre]").forEach(x => x.classList.toggle("active", x === btn));
+    index = 0;
+    filterData();
+  });
+});
+document.querySelectorAll(".tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    currentTab = btn.dataset.tab;
+    render();
+  });
+});
+$("searchInput").addEventListener("input", (e) => {
+  query = e.target.value;
+  index = 0;
+  filterData();
+});
+$("randomBtn").addEventListener("click", () => {
+  if (!filtered.length) return;
+  index = Math.floor(Math.random() * filtered.length);
+  render();
+});
+$("listBtn").addEventListener("click", () => {
+  $("listSheet").classList.toggle("open");
+});
+$("menuBtn").addEventListener("click", () => {
+  $("filterPanel").classList.toggle("open");
+});
+$("nextBtn").addEventListener("click", (e) => {
+  e.preventDefault();
+  e.currentTarget.blur();
+  nextItem();
+});
+$("prevBtn").addEventListener("click", (e) => {
+  e.preventDefault();
+  e.currentTarget.blur();
+  prevItem();
+});
+$("copyBtn").addEventListener("click", async (e) => {
+  e.preventDefault();
+  e.currentTarget.blur();
+  const item = currentItem();
+  if (!item) return;
+  const body = getShownTranslation(item);
+  const payload = `${item.original}\n\n${body}\n\n${item.source}`;
+  try {
+    await navigator.clipboard.writeText(payload);
+    $("copyBtn").textContent = "コピー済";
+    setTimeout(() => $("copyBtn").textContent = "コピー", 900);
+  } catch (e) {
+    alert("コピーできませんでした");
+  }
+});
+$("stage").addEventListener("touchstart", (e) => {
+  touchStartY = e.changedTouches[0].clientY;
+}, { passive: true });
+$("stage").addEventListener("touchend", (e) => {
+  if (touchStartY === null) return;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if (Math.abs(dy) > 52) {
+    if (dy < 0) nextItem();
+    else prevItem();
+  }
+  touchStartY = null;
+}, { passive: true });
+window.addEventListener("wheel", (e) => {
+  if (wheelLock || Math.abs(e.deltaY) < 24) return;
+  wheelLock = true;
+  if (e.deltaY > 0) nextItem();
+  else prevItem();
+  setTimeout(() => wheelLock = false, 360);
+}, { passive: true });
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ") {
+    e.preventDefault();
+    nextItem();
+  }
+  if (e.key === "ArrowUp" || e.key === "PageUp") {
+    e.preventDefault();
+    prevItem();
+  }
+  if (e.key === "1") {
+    currentTab = "super";
+    render();
+  }
+  if (e.key === "2") {
+    currentTab = "basic";
+    render();
+  }
+  if (e.key === "Escape") {
+    $("listSheet").classList.remove("open");
+  }
+});
+
+async function loadDataAndStart() {
+  try {
+    const res = await fetch("./data/kokonsho_160.json", { cache: "no-store" });
+    if (!res.ok) throw new Error("JSON fetch failed: " + res.status);
+    DATA = await res.json();
+    filtered = [...DATA];
+    filterData();
+  } catch (error) {
+    console.error(error);
+    const el = document.getElementById("translationText");
+    if (el) {
+      el.textContent = "データを読み込めませんでした。ローカルで直接開いている場合は、簡易サーバーで確認してください。";
+    }
+  }
+}
+loadDataAndStart();
+
+</script>
+</body>
+</html>
