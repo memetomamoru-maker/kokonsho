@@ -26,6 +26,8 @@
   --line:rgba(28,26,23,.10);--line2:rgba(28,26,23,.18);
   --serif:-apple-system,BlinkMacSystemFont,"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
   --sans:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",system-ui,sans-serif;
+  --superSans:var(--sans);
+  --superSerif:var(--serif);
 }
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%}
@@ -159,12 +161,24 @@ body::before{
 .tabs{position:relative;z-index:1;margin:16px 18px 0;display:grid;grid-template-columns:1fr 1fr;background:var(--deep);border-radius:999px;padding:4px}
 .tab{border:0;background:transparent;border-radius:999px;padding:9px;font-weight:800;color:var(--tansumi);letter-spacing:.08em;cursor:pointer}
 .tab.active{background:var(--paper);color:var(--sumi);box-shadow:0 5px 16px rgba(28,26,23,.09)}
-.trans{position:relative;z-index:1;padding:28px 26px 26px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.62),rgba(251,249,244,.18))}
-.trans p{margin:0;font-size:21.5px;line-height:1.86;font-weight:600;letter-spacing:.018em;word-break:break-word}
-.trans p.long{font-size:19.2px;line-height:1.72}
-.trans p.veryLong{font-size:17.4px;line-height:1.64}
-.trans.basic{background:rgba(251,249,244,.54)}
-.trans.basic p{font-family:var(--serif);font-size:16.2px;font-weight:400;line-height:1.82;color:var(--tansumi);letter-spacing:.02em}
+.trans{position:relative;z-index:1;padding:22px 24px 24px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(248,244,236,.76));overflow:hidden;isolation:isolate}
+.trans::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 0 0,rgba(182,147,84,.12),transparent 42%),linear-gradient(180deg,rgba(255,255,255,.30),rgba(255,255,255,0));opacity:.92;z-index:-1}
+.trans::after{content:"";position:absolute;left:24px;right:24px;top:76px;height:1px;background:linear-gradient(90deg,rgba(182,147,84,.0),rgba(182,147,84,.42),rgba(182,147,84,.0));opacity:.7}
+.transHeader{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.transBadge{width:42px;height:42px;flex:0 0 auto;display:grid;place-items:center;border-radius:14px;background:linear-gradient(180deg,rgba(183,53,46,.10),rgba(183,53,46,.03));border:1px solid rgba(183,53,46,.22);color:var(--seal);box-shadow:inset 0 1px 0 rgba(255,255,255,.72)}
+.transBadge svg{display:block;width:24px;height:24px}
+.transMeta{min-width:0}
+.transEyebrow{font-size:10px;letter-spacing:.18em;color:var(--usu);font-weight:800;line-height:1;margin-bottom:6px}
+.transTitle{font-family:var(--superSerif);font-size:16px;letter-spacing:.14em;color:var(--sumi);line-height:1.1}
+.trans p{margin:0;max-width:24em;font-family:var(--superSans);font-size:23px;line-height:1.92;font-weight:700;letter-spacing:.008em;word-break:break-word;text-wrap:pretty;color:var(--sumi);font-feature-settings:"palt" 1}
+.trans p.long{font-size:20.4px;line-height:1.80}
+.trans p.veryLong{font-size:18.4px;line-height:1.72}
+.trans.basic{background:rgba(251,249,244,.72)}
+.trans.basic::before{background:radial-gradient(circle at 100% 0,rgba(91,115,144,.06),transparent 42%),linear-gradient(180deg,rgba(255,255,255,.20),rgba(255,255,255,0))}
+.trans.basic .transBadge{background:linear-gradient(180deg,rgba(91,115,144,.10),rgba(91,115,144,.03));border-color:rgba(91,115,144,.20);color:var(--ai)}
+.trans.basic .transTitle{font-family:var(--sans);font-size:14px;letter-spacing:.12em;color:var(--tansumi)}
+.trans.basic .transEyebrow{color:var(--usu)}
+.trans.basic p{max-width:28em;font-family:var(--serif);font-size:16.4px;font-weight:400;line-height:1.86;color:var(--tansumi);letter-spacing:.02em}
 .info{position:relative;z-index:1;padding:14px 22px 18px}
 .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
 .tag{border:1px solid var(--line);background:var(--kinari);color:var(--tansumi);border-radius:999px;padding:4px 8px;font-size:10px;letter-spacing:.06em}
@@ -224,11 +238,18 @@ summary{cursor:pointer;color:var(--midori);font-weight:800;letter-spacing:.06em;
   .reading{font-size:11.6px;line-height:1.48}
   .tabs{margin:10px 14px 0;padding:3px}
   .tab{padding:7px;font-size:12px}
-  .trans{padding:17px 17px 16px}
-  .trans p{font-size:18px;line-height:1.66}
-  .trans p.long{font-size:16.4px;line-height:1.56}
-  .trans p.veryLong{font-size:15.2px;line-height:1.50}
-  .trans.basic p{font-size:14.8px;line-height:1.60}
+  .trans{padding:16px 16px 17px}
+  .trans::after{left:16px;right:16px;top:66px}
+  .transHeader{gap:10px;margin-bottom:14px}
+  .transBadge{width:36px;height:36px;border-radius:12px}
+  .transBadge svg{width:20px;height:20px}
+  .transEyebrow{font-size:9px;margin-bottom:5px}
+  .transTitle{font-size:14px;letter-spacing:.12em}
+  .trans p{font-size:19px;line-height:1.74;max-width:none}
+  .trans p.long{font-size:17px;line-height:1.64}
+  .trans p.veryLong{font-size:15.8px;line-height:1.56}
+  .trans.basic .transTitle{font-size:12px}
+  .trans.basic p{font-size:14.8px;line-height:1.66;max-width:none}
   .info{padding:10px 16px 14px}
   .tags{margin-top:6px}
   details{margin-top:9px;padding-top:9px}
@@ -260,7 +281,21 @@ summary{cursor:pointer;color:var(--midori);font-weight:800;letter-spacing:.06em;
     <section class="card">
       <div class="cardhead"><span class="genre" id="genre"></span><div class="source" id="source"></div></div>
       <div class="tabs"><button class="tab active" data-tab="super">超訳</button><button class="tab" data-tab="basic">基本訳</button></div>
-      <div class="trans" id="transBox"><p id="trans"></p></div>
+      <div class="trans" id="transBox">
+        <div class="transHeader">
+          <div class="transBadge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 5.5h12M6 9.5h12M6 13.5h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M15.2 15.6l1.8 1.8 3.8-4.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="transMeta">
+            <div class="transEyebrow" id="transEyebrow">KOKONSHO</div>
+            <div class="transTitle" id="transTitle">超訳</div>
+          </div>
+        </div>
+        <p id="trans"></p>
+      </div>
       <div class="koten"><div class="label">本文</div><div class="original" id="original"></div><div class="label">読み</div><div class="reading" id="reading"></div></div>
       <div class="info"><div class="tags" id="tags"></div><details><summary>読み解きメモを読む</summary><div class="memo" id="memo"></div></details></div>
     </section>
@@ -285,7 +320,7 @@ function setListOpen(open){const side=$("side"),btn=$("listToggle");side.classLi
 function renderGenreButtons(){const box=$("genreSegment");box.innerHTML="";[{label:"すべて",value:"all"},...uniqueGenres().map(g=>({label:g,value:g}))].forEach(({label,value})=>{const b=document.createElement("button");b.type="button";b.dataset.genre=value;b.textContent=label;b.classList.toggle("active",value===genre);b.onclick=()=>{genre=value;idx=0;filter();topSmooth()};box.appendChild(b)})}
 function renderList(){const box=$("list");if($("listTitle"))$("listTitle").textContent=`カード一覧（${filtered.length}件）`;box.innerHTML="";filtered.forEach((x,i)=>{const div=document.createElement("div");div.className="item"+(i===idx?" active":"");div.innerHTML=`<div class="iid">${esc(x.id)}</div><div class="itxt">${esc(x.original||x.source)}</div>`;div.onclick=()=>{idx=i;render();if(window.matchMedia("(max-width:919px)").matches){$("side").classList.remove("open");setListOpen(false);showToast("カードを表示しました")}topSmooth();};box.appendChild(div)})}
 function renderEmpty(){const empty="該当するカードがありません";$("genre").textContent="";$("genre").className="genre other";$("source").textContent="";$("original").textContent=empty;$("reading").textContent="検索語やジャンルを変えてください";$("trans").textContent="";$("tags").innerHTML="";$("memo").textContent="";$("list").innerHTML=""}
-function render(){const item=filtered[idx];if(!item){renderEmpty();return;}$("genre").textContent=item.genre;$("genre").className="genre "+genreClass(item.genre);$("source").textContent=(item.author?`作者：${item.author}　`:"")+(item.source||"");$("original").textContent=item.original||"";$("reading").textContent=item.reading||"";const t=shown(item)||"";const p=$("trans");p.textContent=t;p.className=cls(t);const box=$("transBox");box.className="trans"+(tab==="basic"?" basic":"");$("tags").innerHTML=(item.theme||[]).map(v=>`<span class="tag ${genreClass(item.genre)}">${esc(v)}</span>`).join("");$("memo").textContent=item.examMemo||"";document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));renderList()}
+function render(){const item=filtered[idx];if(!item){renderEmpty();return;}$("genre").textContent=item.genre;$("genre").className="genre "+genreClass(item.genre);$("source").textContent=(item.author?`作者：${item.author}　`:"")+(item.source||"");$("original").textContent=item.original||"";$("reading").textContent=item.reading||"";const t=shown(item)||"";const p=$("trans");p.textContent=t;p.className=cls(t);const box=$("transBox");box.className="trans"+(tab==="basic"?" basic":"");$("transEyebrow").textContent=tab==="basic"?"MEANING":"KOKONSHO";$("transTitle").textContent=tab==="basic"?"基本訳":"超訳";$("tags").innerHTML=(item.theme||[]).map(v=>`<span class="tag ${genreClass(item.genre)}">${esc(v)}</span>`).join("");$("memo").textContent=item.examMemo||"";document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));renderList()}
 function filter(){const nq=q.toLowerCase();filtered=DATA.filter(x=>(genre==="all"||x.genre===genre)&&(!nq||[x.id,x.genre,x.original,x.reading,x.author,x.source,x.superTranslation,x.basicTranslation,(x.theme||[]).join(" "),x.examMemo].join(" ").toLowerCase().includes(nq)));if(idx>=filtered.length)idx=0;renderGenreButtons();render()}
 function next(){if(filtered.length){idx=(idx+1)%filtered.length;render();topSmooth();}}
 function prev(){if(filtered.length){idx=(idx-1+filtered.length)%filtered.length;render();topSmooth();}}
