@@ -4,7 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>古今抄｜読み継がれるには、理由がある。</title>
+<meta name="description" content="百人一首と論語を、心に刺さる超訳と意味がわかる基本訳でめくる古典カードアプリ。">
 <meta name="theme-color" content="#f6f1e8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="古今抄">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./assets/icons/favicon-16.png">
+<meta property="og:title" content="古今抄">
+<meta property="og:description" content="読み継がれるには、理由がある。古典を、今の自分に届く言葉で。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="./assets/images/ogp.png">
 <style>
 :root {
   --bg:#f6f1e8;
@@ -17,12 +29,12 @@
   --line2:rgba(20,19,17,.18);
   --accent:#b7352e;
   --blue:#465b64;
-  --shadow:0 16px 44px rgba(20,19,17,.10);
+  --shadow:0 18px 48px rgba(20,19,17,.10);
   --font-sans:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
   --font-serif:-apple-system,BlinkMacSystemFont,"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
 }
 * { box-sizing:border-box; }
-html, body { margin:0; min-height:100%; }
+html,body { margin:0; min-height:100%; }
 body {
   color:var(--ink);
   background:
@@ -30,6 +42,7 @@ body {
     radial-gradient(circle at 88% 82%, rgba(0,0,0,.026), transparent 20rem),
     linear-gradient(180deg,#fbfaf6 0%,#f0eadf 100%);
   font-family:var(--font-serif);
+  padding-bottom:88px;
 }
 body::before {
   content:"";
@@ -43,9 +56,9 @@ body::before {
   background-size:36px 36px;
 }
 .app {
+  position:relative;
+  z-index:1;
   min-height:100vh;
-  display:grid;
-  grid-template-rows:auto 1fr;
 }
 header {
   position:sticky;
@@ -77,11 +90,11 @@ header::before {
   max-width:1120px;
   margin:0 auto;
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   gap:14px;
   position:relative;
-  z-index:1;
+  z-index:2;
 }
 .brandWrap {
   display:flex;
@@ -97,20 +110,24 @@ header::before {
   border:2px solid var(--accent);
   color:var(--accent);
   font-family:var(--font-sans);
-  font-size:18px;
   font-weight:900;
-  background:rgba(255,255,255,.76);
+  font-size:18px;
+  line-height:1;
   transform:rotate(-2deg);
+  background:rgba(255,255,255,.74);
   flex:0 0 auto;
 }
+.logoText {
+  min-width:0;
+}
 .logoText h1 {
-  position:relative;
-  display:inline-block;
   margin:0;
   font-size:28px;
   line-height:1;
   letter-spacing:.18em;
   font-weight:700;
+  position:relative;
+  display:inline-block;
   padding-right:10px;
 }
 .logoText h1::after {
@@ -121,14 +138,15 @@ header::before {
   bottom:-8px;
   height:6px;
   border-radius:999px;
-  background:linear-gradient(90deg,rgba(0,0,0,.88),rgba(0,0,0,.38) 48%,rgba(0,0,0,.12) 76%,transparent);
-  opacity:.68;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.90), rgba(0,0,0,.42) 48%, rgba(0,0,0,.10) 76%, transparent);
+  opacity:.70;
   transform:rotate(-1.2deg);
 }
 .logoText p {
   margin:10px 0 0;
   font-family:var(--font-sans);
-  color:#393530;
+  color:#38342f;
   font-size:11px;
   font-weight:700;
   letter-spacing:.08em;
@@ -139,9 +157,9 @@ header::before {
   gap:8px;
   flex:0 0 auto;
 }
-.btn {
+.ghostBtn {
   border:1px solid var(--line2);
-  background:rgba(255,255,255,.84);
+  background:rgba(255,255,255,.82);
   color:var(--ink);
   border-radius:999px;
   padding:9px 13px;
@@ -154,14 +172,14 @@ main {
   width:100%;
   max-width:1120px;
   margin:0 auto;
-  padding:12px 14px 30px;
+  padding:12px 14px 34px;
 }
 .panel {
   display:none;
   gap:10px;
   padding:12px;
   margin-bottom:14px;
-  background:rgba(255,255,255,.80);
+  background:rgba(255,255,255,.78);
   border:1px solid var(--line);
   border-radius:18px;
   box-shadow:0 12px 34px rgba(20,19,17,.05);
@@ -169,8 +187,8 @@ main {
 .panel.open { display:grid; }
 .filterRow {
   display:flex;
-  gap:8px;
   flex-wrap:wrap;
+  gap:8px;
 }
 .chip {
   border:1px solid var(--line2);
@@ -198,22 +216,21 @@ main {
   background:#fffefb;
 }
 .stage {
-  min-height:calc(100vh - 122px);
   display:grid;
   place-items:start center;
-  padding-bottom:70px;
   position:relative;
+  padding-top:18px;
 }
 .stage::before {
   content:"";
   position:absolute;
   left:50%;
-  top:10px;
+  top:8px;
   width:min(90vw,760px);
-  height:110px;
+  height:120px;
   transform:translateX(-50%) rotate(-2deg);
   pointer-events:none;
-  opacity:.12;
+  opacity:.14;
   background:
     radial-gradient(ellipse at 18% 42%, rgba(0,0,0,.36), transparent 24%),
     radial-gradient(ellipse at 60% 34%, rgba(0,0,0,.24), transparent 22%),
@@ -223,8 +240,6 @@ main {
 }
 .card {
   width:min(100%,462px);
-  height:min(782px, calc(100vh - 166px));
-  min-height:610px;
   background:linear-gradient(180deg,rgba(255,255,255,.968),rgba(252,249,243,.978));
   border:1px solid var(--line);
   border-radius:22px;
@@ -237,7 +252,7 @@ main {
   position:absolute;
   inset:0;
   pointer-events:none;
-  opacity:.13;
+  opacity:.14;
   background-image:
     linear-gradient(90deg,rgba(0,0,0,.018) 1px,transparent 1px),
     linear-gradient(0deg,rgba(0,0,0,.014) 1px,transparent 1px);
@@ -246,44 +261,42 @@ main {
 .card::after {
   content:"";
   position:absolute;
-  right:-50px;
-  top:-40px;
+  right:-48px;
+  top:-38px;
   width:154px;
   height:154px;
   border-radius:50%;
-  opacity:.065;
+  opacity:.07;
   pointer-events:none;
   background:radial-gradient(circle at 42% 42%,rgba(0,0,0,.82),rgba(0,0,0,.26) 40%,transparent 72%);
 }
 .cardInner {
   position:relative;
   z-index:1;
-  height:100%;
-  display:grid;
-  grid-template-rows:26px 122px 42px minmax(0,1fr) 110px;
-  padding:18px 16px 16px;
+  padding:18px 16px 18px;
 }
 .meta {
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
   gap:12px;
   color:var(--muted);
   font-family:var(--font-sans);
   font-size:11px;
   font-weight:600;
+  margin-bottom:12px;
 }
 .meta .genre {
   color:var(--blue);
   font-weight:700;
 }
 .originalBlock {
-  padding:12px 13px 10px;
+  padding:13px 14px 11px;
   border:1px solid var(--line);
   border-radius:16px;
   background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(249,246,239,.90));
   box-shadow:0 10px 26px rgba(20,19,17,.04);
-  overflow:auto;
+  margin-bottom:12px;
 }
 .blockLabel {
   color:var(--muted);
@@ -291,29 +304,28 @@ main {
   font-size:10px;
   letter-spacing:.15em;
   font-weight:700;
-  margin-bottom:6px;
+  margin-bottom:7px;
 }
 .originalText {
-  font-size:15.4px;
-  line-height:1.60;
+  font-size:15.8px;
+  line-height:1.68;
   font-weight:500;
-  margin-bottom:6px;
+  margin-bottom:7px;
 }
 .readingText {
   color:var(--muted);
-  font-family:var(--font-sans);
   font-size:12px;
-  line-height:1.50;
+  line-height:1.58;
+  font-family:var(--font-sans);
 }
 .tabBar {
-  align-self:center;
   display:grid;
   grid-template-columns:1fr 1fr;
   padding:3px;
   border-radius:999px;
   background:rgba(20,19,17,.06);
   border:1px solid rgba(20,19,17,.08);
-  margin:8px 0 10px;
+  margin-bottom:12px;
 }
 .tab {
   border:0;
@@ -332,48 +344,46 @@ main {
   box-shadow:0 4px 14px rgba(20,19,17,.08);
 }
 .translationWrap {
-  min-height:0;
-  overflow:auto;
   padding:17px 17px 19px;
   border:1px solid var(--line);
   border-radius:18px;
   background:linear-gradient(180deg,rgba(255,255,255,.965),rgba(250,247,241,.93));
   box-shadow:0 12px 30px rgba(20,19,17,.04);
+  margin-bottom:12px;
 }
 .translationText {
   margin:0;
   font-size:18.2px;
-  line-height:1.70;
+  line-height:1.74;
   font-weight:400;
   letter-spacing:.01em;
 }
 .translationText.basic {
   font-size:15.8px;
-  line-height:1.66;
+  line-height:1.68;
   color:#2f2c28;
 }
 .translationText.long {
   font-size:16.2px;
-  line-height:1.58;
+  line-height:1.60;
 }
 .translationText.veryLong {
   font-size:15px;
-  line-height:1.50;
+  line-height:1.54;
 }
 .translationText.basic.long,
 .translationText.basic.veryLong {
   font-size:14.6px;
-  line-height:1.52;
+  line-height:1.56;
 }
 .infoBlock {
-  overflow:auto;
-  padding-top:11px;
+  padding-top:2px;
 }
 .sourceText {
   color:var(--muted);
-  font-family:var(--font-sans);
   font-size:12px;
-  line-height:1.50;
+  line-height:1.54;
+  font-family:var(--font-sans);
   margin-bottom:7px;
 }
 .tags {
@@ -406,13 +416,10 @@ summary {
 }
 .memo {
   margin-top:7px;
-  max-height:78px;
-  overflow:auto;
-  padding-right:4px;
   color:var(--soft);
   font-family:var(--font-sans);
   font-size:12px;
-  line-height:1.56;
+  line-height:1.62;
 }
 .bottomNav {
   position:fixed;
@@ -420,7 +427,7 @@ summary {
   left:12px;
   right:12px;
   bottom:max(12px, env(safe-area-inset-bottom));
-  max-width:460px;
+  max-width:462px;
   margin:0 auto;
   display:grid;
   grid-template-columns:1fr 1fr 1fr;
@@ -428,7 +435,7 @@ summary {
   padding:8px;
   border:1px solid rgba(20,19,17,.10);
   border-radius:18px;
-  background:rgba(255,253,248,.94);
+  background:rgba(255,253,248,.95);
   box-shadow:0 16px 42px rgba(20,19,17,.14);
 }
 .bottomNav button {
@@ -447,22 +454,6 @@ summary {
   background:var(--ink);
   color:white;
   border-color:var(--ink);
-}
-.swipeNote {
-  position:absolute;
-  left:50%;
-  bottom:14px;
-  transform:translateX(-50%);
-  padding:6px 12px;
-  border:1px solid rgba(20,19,17,.08);
-  border-radius:999px;
-  background:rgba(255,255,255,.86);
-  color:rgba(20,19,17,.56);
-  font-family:var(--font-sans);
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:.08em;
-  pointer-events:none;
 }
 .sheet {
   position:fixed;
@@ -517,29 +508,25 @@ summary {
   overflow:hidden;
   text-overflow:ellipsis;
 }
-@media (pointer:coarse) {
-  .desktopOnly { display:none; }
-}
-@media (pointer:fine) {
-  .touchOnly { display:none; }
-}
 @media (min-width:840px) {
-  .panel { display:grid !important; }
-  .menuToggle { display:none; }
+  .panel {
+    display:grid !important;
+  }
+  .menuToggle {
+    display:none;
+  }
   .card {
     width:min(100%,560px);
-    height:790px;
   }
   .cardInner {
-    padding:24px 24px 22px;
-    grid-template-rows:28px 136px 44px minmax(0,1fr) 122px;
+    padding:24px 24px 24px;
   }
   .originalText {
     font-size:18px;
   }
   .translationText {
     font-size:21px;
-    line-height:1.72;
+    line-height:1.76;
   }
   .translationText.long {
     font-size:19px;
@@ -574,52 +561,26 @@ summary {
   .stage {
     padding-top:10px;
   }
-  .card {
-    height:min(720px,calc(100vh - 158px));
-    min-height:560px;
-  }
-  .cardInner {
-    padding:15px 13px 14px;
-    grid-template-rows:24px 116px 40px minmax(0,1fr) 104px;
-  }
   .originalText {
-    font-size:14.8px;
+    font-size:15px;
   }
   .translationText {
-    font-size:16.6px;
-    line-height:1.58;
+    font-size:16.8px;
+    line-height:1.64;
   }
   .translationText.long {
-    font-size:15.1px;
-    line-height:1.50;
+    font-size:15.4px;
+    line-height:1.56;
   }
   .translationText.veryLong {
-    font-size:14px;
-    line-height:1.44;
+    font-size:14.6px;
+    line-height:1.50;
   }
   .translationText.basic {
-    font-size:14.7px;
-  }
-  .swipeNote {
-    display:none;
+    font-size:14.8px;
   }
 }
 </style>
-
-<meta name="description" content="百人一首と論語を、心に刺さる超訳と意味がわかる基本訳でめくる古典カードアプリ。">
-<meta name="theme-color" content="#f6f1e8">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="古今抄">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="manifest" href="./manifest.webmanifest">
-<link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="./assets/icons/favicon-16.png">
-<meta property="og:title" content="古今抄">
-<meta property="og:description" content="読み継がれるには、理由がある。古典を、今の自分に届く言葉で。">
-<meta property="og:type" content="website">
-<meta property="og:image" content="./assets/images/ogp.png">
-
 </head>
 <body>
 <div class="app">
@@ -677,10 +638,6 @@ summary {
         </section>
       </div>
     </article>
-    <div class="swipeNote">
-      <span class="touchOnly">縦スワイプも可</span>
-      <span class="desktopOnly">ホイール / ↑↓キーも可</span>
-    </div>
   </section>
 </main>
 </div>
@@ -722,6 +679,9 @@ function getLengthClass(text) {
   return "";
 }
 function currentItem() { return filtered[index] || null; }
+function scrollTopCard() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
 function filterData() {
   const q = normalize(query);
   filtered = DATA.filter(item => {
@@ -747,6 +707,7 @@ function renderList() {
       index = i;
       $("listSheet").classList.remove("open");
       render();
+      scrollTopCard();
     };
     box.appendChild(div);
   });
@@ -776,11 +737,13 @@ function nextItem() {
   if (!filtered.length) return;
   index = (index + 1) % filtered.length;
   render();
+  scrollTopCard();
 }
 function prevItem() {
   if (!filtered.length) return;
   index = (index - 1 + filtered.length) % filtered.length;
   render();
+  scrollTopCard();
 }
 document.querySelectorAll(".chip[data-genre]").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -788,6 +751,7 @@ document.querySelectorAll(".chip[data-genre]").forEach(btn => {
     document.querySelectorAll(".chip[data-genre]").forEach(x => x.classList.toggle("active", x === btn));
     index = 0;
     filterData();
+    scrollTopCard();
   });
 });
 document.querySelectorAll(".tab").forEach(btn => {
@@ -805,6 +769,7 @@ $("randomBtn").addEventListener("click", () => {
   if (!filtered.length) return;
   index = Math.floor(Math.random() * filtered.length);
   render();
+  scrollTopCard();
 });
 $("listBtn").addEventListener("click", () => {
   $("listSheet").classList.toggle("open");
@@ -837,24 +802,14 @@ $("copyBtn").addEventListener("click", async (e) => {
     alert("コピーできませんでした");
   }
 });
-$("stage").addEventListener("touchstart", (e) => {
-  touchStartY = e.changedTouches[0].clientY;
-}, { passive: true });
-$("stage").addEventListener("touchend", (e) => {
-  if (touchStartY === null) return;
-  const dy = e.changedTouches[0].clientY - touchStartY;
-  if (Math.abs(dy) > 72) {
-    if (dy < 0) nextItem();
-    else prevItem();
-  }
-  touchStartY = null;
-}, { passive: true });
+// 縦スワイプは誤操作になりやすいため、主操作から外す。
+// ただしキーボードとホイールはPC補助として残す。
 window.addEventListener("wheel", (e) => {
-  if (wheelLock || Math.abs(e.deltaY) < 36) return;
+  if (wheelLock || Math.abs(e.deltaY) < 64) return;
   wheelLock = true;
   if (e.deltaY > 0) nextItem();
   else prevItem();
-  setTimeout(() => wheelLock = false, 420);
+  setTimeout(() => wheelLock = false, 520);
 }, { passive: true });
 document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ") {

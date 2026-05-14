@@ -1,21 +1,14 @@
-古今抄 GitHub Ready Package v2
+古今抄 GitHub Ready Package v3
 
-上げるもの:
-ZIPを解凍し、中身をすべてGitHubリポジトリ直下に置く。
-
-主なファイル:
-index.html
-manifest.webmanifest
-vercel.json
-README.md
-data/kokonsho_160.json
-assets/icons/
-assets/images/ogp.png
+方針:
+縦スワイプを主操作から外し、下部固定ナビを主操作に変更。
+本文と訳文は枠内スクロールではなく、カード全体が自然に伸びる構造に変更。
+本文が見切れて指で枠内を動かさないと読めない問題を改善。
 
 データ:
 百人一首: 100
 論語: 60
 合計: 160
 
-注意:
-ZIPファイル自体をGitHubに上げるのではなく、解凍した中身を上げる。
+上げ方:
+ZIPを解凍し、中身をGitHubリポジトリ直下に置く。
