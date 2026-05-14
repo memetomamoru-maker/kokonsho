@@ -19,3 +19,10 @@ v7 wallpaper fixed:
 - スマホでは背景非表示
 - 背景画像: assets/images/kokonsho_pc_background.webp
 - 背景画像サイズ: 67844 bytes
+
+
+v8 refinement:
+- PC背景の不透明度を下げて壁紙化
+- 中央ベールを広げてUIの背後ノイズを抑制
+- 検索/フィルター/カード一覧/カード本体の紙感を強化
+- 一覧行の背景をより白くして可読性を改善

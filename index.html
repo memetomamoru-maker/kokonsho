@@ -93,13 +93,13 @@ body::after{
 .copy{margin:8px 0 0;font-family:var(--serif);font-size:18px;letter-spacing:.05em}
 .subcopy{margin:10px 0 0;color:var(--sub);font-size:12px;letter-spacing:.08em;line-height:1.8}
 .stats{display:flex;gap:10px}
-.stat{min-width:90px;padding:10px 14px;border:1px solid var(--line2);border-radius:16px;background:rgba(255,255,255,.34)}
+.stat{min-width:90px;padding:10px 14px;border:1px solid var(--line2);border-radius:16px;background:rgba(255,255,255,.58)}
 .stat b{display:block;font-family:var(--serif);font-size:23px;font-weight:500}
 .stat span{display:block;color:var(--muted);font-size:10px;letter-spacing:.14em;margin-top:2px}
 
 .controls{
   display:grid;gap:12px;padding:14px;margin-bottom:18px;
-  border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.38);box-shadow:var(--shadow)
+  border:1px solid var(--line);border-radius:22px;background:rgba(255,252,247,.84);backdrop-filter: blur(10px);-webkit-backdrop-filter: blur(10px);box-shadow:0 18px 46px rgba(30,27,23,.09)
 }
 .controlTop{display:flex;gap:8px;flex-wrap:wrap}
 .chip,.ghostBtn{
@@ -107,11 +107,11 @@ body::after{
   padding:8px 12px;font-size:12px;font-weight:800;letter-spacing:.08em;cursor:pointer
 }
 .chip.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.search{width:100%;height:42px;border:1px solid var(--line2);border-radius:14px;background:rgba(255,255,255,.56);padding:0 14px;font:14px var(--sans)}
+.search{width:100%;height:42px;border:1px solid var(--line2);border-radius:14px;background:rgba(255,255,255,.88);padding:0 14px;font:14px var(--sans)}
 
 .layout{display:grid;grid-template-columns:1fr;gap:18px;align-items:start}
 .card{
-  width:min(100%,580px);margin:0 auto;background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(251,248,241,.98));
+  width:min(100%,580px);margin:0 auto;background:linear-gradient(180deg,rgba(255,255,255,.988),rgba(252,249,243,.99));
   border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);overflow:hidden;position:relative
 }
 .card::before{
@@ -144,14 +144,14 @@ summary{cursor:pointer;color:var(--green);font-size:12px;font-weight:800;letter-
 
 .side{
   display:none;padding:14px;max-height:760px;overflow:auto;overflow-x:hidden;
-  border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.38);box-shadow:var(--shadow)
+  border:1px solid var(--line);border-radius:22px;background:rgba(255,252,247,.84);backdrop-filter: blur(10px);-webkit-backdrop-filter: blur(10px);box-shadow:0 18px 46px rgba(30,27,23,.09)
 }
 .side.open{display:block}
 .side h2{margin:0 0 12px;font-family:var(--serif);font-size:18px;font-weight:500;letter-spacing:.08em}
 .list{display:grid;gap:8px;min-width:0}
 .item{
   min-width:0;padding:10px 11px;border:1px solid var(--line);border-radius:14px;
-  background:rgba(255,253,248,.78);cursor:pointer;overflow:hidden
+  background:rgba(255,253,248,.94);cursor:pointer;overflow:hidden
 }
 .item.active{border-color:rgba(182,147,84,.7);box-shadow:inset 0 0 0 1px rgba(182,147,84,.28)}
 .iid{font-size:10px;color:var(--gold);font-weight:800;letter-spacing:.1em;margin-bottom:4px}
@@ -163,7 +163,7 @@ summary{cursor:pointer;color:var(--green);font-size:12px;font-weight:800;letter-
 .bottomNav{
   position:fixed;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));z-index:60;
   max-width:580px;margin:0 auto;padding:8px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;
-  border:1px solid var(--line2);border-radius:18px;background:rgba(255,253,248,.96);box-shadow:0 16px 42px rgba(30,27,23,.16)
+  border:1px solid var(--line2);border-radius:18px;background:rgba(255,253,248,.98);box-shadow:0 16px 42px rgba(30,27,23,.14)
 }
 .bottomNav button{
   border:0;border-radius:13px;padding:12px 8px;background:rgba(30,27,23,.06);
@@ -207,7 +207,7 @@ summary{cursor:pointer;color:var(--green);font-size:12px;font-weight:800;letter-
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
-    opacity: .74;
+    opacity: .52;
   }
 
   .centerVeil {
@@ -216,32 +216,40 @@ summary{cursor:pointer;color:var(--green);font-size:12px;font-weight:800;letter-
     top: 0;
     bottom: 0;
     left: 50%;
-    width: min(760px, 64vw);
+    width: min(1220px, calc(100vw - 56px));
     transform: translateX(-50%);
     z-index: 1;
     pointer-events: none;
     background: linear-gradient(
       90deg,
-      rgba(246,241,232,0),
-      rgba(246,241,232,.72) 15%,
-      rgba(246,241,232,.86) 50%,
-      rgba(246,241,232,.72) 85%,
-      rgba(246,241,232,0)
+      rgba(246,241,232,.20),
+      rgba(246,241,232,.84) 9%,
+      rgba(246,241,232,.94) 22%,
+      rgba(246,241,232,.97) 50%,
+      rgba(246,241,232,.94) 78%,
+      rgba(246,241,232,.84) 91%,
+      rgba(246,241,232,.20)
     );
   }
 
-  .app,
   .wrap,
-  header,
-  main,
-  .bottomNav,
-  .sheet,
-  .card,
+  .head,
   .controls,
-  .panel,
-  .side {
+  .layout,
+  .card,
+  .side,
+  .bottomNav {
     position: relative;
     z-index: 2;
+  }
+
+  .head {
+    padding-inline: 8px;
+  }
+
+  .controls,
+  .side {
+    border-color: rgba(30,27,23,.08);
   }
 
   body {
