@@ -11,3 +11,12 @@
 百人一首 100
 論語 60
 合計 160
+
+
+v6追加:
+- PC専用背景画像を追加
+- 画像はWebP圧縮済み
+- 元画像: a_wide_horizontal_minimalist_ink_wash_sumi_e_s_1.png
+- 圧縮後: assets/images/kokonsho_pc_background.webp
+- 圧縮後サイズ: 72744 bytes
+- スマホでは非表示
