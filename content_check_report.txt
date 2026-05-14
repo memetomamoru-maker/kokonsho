@@ -1,0 +1,24 @@
+古今抄 160件 content_checked レポート
+
+百人一首: 100件
+論語: 60件
+合計: 160件
+ID重複: なし
+必須フィールド不足: なし
+禁止記号: なし
+superTranslation完全重複: 0件
+超訳最短: ('hyakunin_055', 70)
+超訳最長: ('rongo_037', 119)
+
+手動修正
+hyakunin_061: originalを「けふ九重に」に修正。
+rongo_004: readingとbasicTranslationを自然な読み下し・訳に修正。
+rongo_008: originalを「可以為師矣」まで含め、basicTranslation範囲と一致。
+rongo_017: basicTranslationから文脈説明を外し、examMemoへ移動。
+rongo_029: originalを「見小利則大事不成」まで含め、basicTranslation範囲と一致。
+rongo_060: 顔回と子貢の比較文脈をoriginal/reading/basicTranslationに補完。
+
+総評
+百人一首と論語ともに、basicTranslationとoriginalの範囲ズレが目立つ箇所を修正。公開前の内容土台として使用可能。
+
+自動検査上の残課題: なし
