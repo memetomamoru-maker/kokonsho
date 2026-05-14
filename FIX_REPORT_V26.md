@@ -1,4 +1,4 @@
-# 古今抄 v26 修正内容レポート
+# 古今掌 v26 修正内容レポート
 
 新しい正ファイル:
 - `kokonsho_github_ready_package_v26_supertranslation_typography.zip`

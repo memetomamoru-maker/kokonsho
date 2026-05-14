@@ -1,4 +1,4 @@
-# 古今抄 v24 toneType / 超訳ファースト修正レポート
+# 古今掌 v24 toneType / 超訳ファースト修正レポート
 
 ## 正の起点
 `kokonsho_github_ready_package_v23_content_nuance_review.zip`

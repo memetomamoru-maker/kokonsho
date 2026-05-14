@@ -1,4 +1,4 @@
-# 古今抄 v25 修正レポート
+# 古今掌 v25 修正レポート
 
 ## 正ファイル
 `kokonsho_github_ready_package_v25_claude_wcheck_minfix.zip`
