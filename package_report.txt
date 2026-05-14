@@ -13,9 +13,9 @@
 合計 160
 
 
-v6 full background:
-- 背景画像をヘッダーではなくPC版の画面全体背景へ設定
-- 中央カード部分は和紙ベールで可読性を確保
-- スマホでは背景画像を非表示
-- 圧縮背景: assets/images/kokonsho_pc_background.webp
-- 背景画像サイズ: 65224 bytes
+v7 wallpaper fixed:
+- PC背景を body::after ではなく専用レイヤー .pcWallpaper に変更
+- 中央可読性用に .centerVeil を追加
+- スマホでは背景非表示
+- 背景画像: assets/images/kokonsho_pc_background.webp
+- 背景画像サイズ: 67844 bytes

@@ -188,9 +188,79 @@ summary{cursor:pointer;color:var(--green);font-size:12px;font-weight:800;letter-
   .transWrap p.veryLong{font-size:15.4px;line-height:1.54}
   .transWrap.basic p{font-size:15.8px;line-height:1.76}
 }
+
+/* --- v7 fixed PC wallpaper layer --- */
+/* Use a real fixed layer instead of body::after so it cannot disappear behind existing backgrounds. */
+.pcWallpaper,
+.centerVeil {
+  display: none;
+}
+
+@media (min-width: 940px) {
+  .pcWallpaper {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: url("./assets/images/kokonsho_pc_background.webp");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: .74;
+  }
+
+  .centerVeil {
+    display: block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: min(760px, 64vw);
+    transform: translateX(-50%);
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      rgba(246,241,232,0),
+      rgba(246,241,232,.72) 15%,
+      rgba(246,241,232,.86) 50%,
+      rgba(246,241,232,.72) 85%,
+      rgba(246,241,232,0)
+    );
+  }
+
+  .app,
+  .wrap,
+  header,
+  main,
+  .bottomNav,
+  .sheet,
+  .card,
+  .controls,
+  .panel,
+  .side {
+    position: relative;
+    z-index: 2;
+  }
+
+  body {
+    background: linear-gradient(180deg,#fbfaf6 0%,#f0eadf 100%) !important;
+  }
+}
+
+@media (max-width: 939px) {
+  .pcWallpaper,
+  .centerVeil {
+    display: none !important;
+  }
+}
+
 </style>
 </head>
 <body>
+<div class="pcWallpaper" aria-hidden="true"></div>
+<div class="centerVeil" aria-hidden="true"></div>
 <div class="wrap">
   <header class="head">
     <div>
