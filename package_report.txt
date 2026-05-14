@@ -1,10 +1,2 @@
-古今抄 v20 package
-Base: kokonsho_github_ready_package_v19_uiux_minfix.zip
-Output: kokonsho_github_ready_package_v20_pc_bg_header_fix.zip
-Changes:
-- Reworked PC background WebP from existing ogp.png; no image generation.
-- Increased PC wallpaper visibility while preserving card readability.
-- Removed header stat cards: 160 CARDS / 2 GENRES.
-- Removed user-facing GENRES/CARDS wording from UI.
-- Slightly compressed PC header spacing.
-Data unchanged: 160 entries, Hyakunin Isshu 100 + Rongo 60.
+kokonsho_github_ready_package_v23_content_nuance_review.zip
+Content nuance review based on v22. UI/background unchanged. Rongo 60 superTranslations reviewed; 11 Hyakunin tone fixes.

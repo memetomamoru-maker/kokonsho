@@ -1,73 +1,51 @@
-# 古今抄 v20 修正内容レポート
+# 古今抄 v22 修正内容レポート
 
-## 新しい正のZIP
+## 正のファイル
 
-`kokonsho_github_ready_package_v20_pc_bg_header_fix.zip`
+`kokonsho_github_ready_package_v22_exact_background.zip`
 
-## 修正の前提
+## 起点
 
-起点は `kokonsho_github_ready_package_v19_uiux_minfix.zip`。
-今回も新規画像生成はしていません。既存の `ogp.png` を素材として、PC背景用WebPを再編集しました。
+`kokonsho_github_ready_package_v21_reference_bg.zip`
 
-## 今回の問題
+## 修正理由
 
-1. PC版で背景がほぼ見えない
-   - v19の `kokonsho_pc_background.webp` が白地に近く、さらに `centerVeil` が強すぎたため、実機では壁紙が消えたように見えていました。
-
-2. ヘッダー右上の `CARDS` / `GENRES` がユーザー向きでない
-   - `GENRES` は内部管理っぽく、しかも現時点では `2` と出るため、「百人一首と論語だけの小さなアプリ」に見えてしまう問題がありました。
+v21ではPC背景表示のCSS構造は添付HTMLの方式に戻していたが、背景画像そのものがユーザー指定の正画像と一致しているかの確認が不十分だった。
+今回、ユーザーが提示した `kokonsho_pc_background(2).webp` を正のPC背景画像として扱い、ZIP内の `assets/images/kokonsho_pc_background.webp` を差し替えた。
 
 ## 修正内容
 
-### 1. PC背景を見える状態に戻した
-
-- `assets/images/kokonsho_pc_background.webp` を再作成。
-- 新規生成ではなく、既存 `assets/images/ogp.png` のロゴ・印・タイトル要素を背景用に再配置・透過・圧縮。
-- CSS側も調整し、PCでは背景が見えるが、中央カードや一覧の可読性は落ちないようにした。
-- スマホでは引き続き背景画像を非表示。
-
-### 2. `CARDS` / `GENRES` の統計カードを削除
-
-- ヘッダー右上の `160 CARDS` / `2 GENRES` を削除。
-- `GENRES` という内部的な英語表記を画面から撤去。
-- 「2ジャンルしかない」印象を避け、将来ジャンル追加前提の見え方に寄せた。
-
-### 3. PCヘッダーを少し圧縮
-
-- PC版のヘッダー余白を少し圧縮。
-- タイトル・コピー・説明の階層は維持。
-- スマホ版のファーストビュー圧縮仕様はv19から維持。
-
-## 維持した仕様
-
-- 百人一首 final_v5 反映済み
-- 論語 content_checked 反映済み
-- 外部JSON `data/kokonsho_160.json` とHTML内蔵JSONは一致
-- 表示は「読み解きメモ」
-- 「入試メモ」はなし
-- 縦スワイプ処理なし
-- ホイール送り処理なし
-- コピー機能なし
-- 下部固定ナビが主操作
-- ランダムボタンの押下色は一瞬で戻る
-- 一覧はスマホで表示されたことが分かる仕様
-- 百人一首と論語のタグ色分けあり
-- `genre` からジャンルボタン自動生成
-- 将来ジャンル追加前提の構造を維持
+- `assets/images/kokonsho_pc_background.webp` をユーザー提示の正背景画像に差し替え
+- 新規画像生成なし
+- 画像の加工なし
+- ファイル名は既存参照に合わせて `kokonsho_pc_background.webp` のまま維持
+- v21のUIUX修正は維持
+  - コピー機能なし
+  - `GENRES` / `CARDS` / `HYAKUNIN` / `RONGO` 表示なし
+  - ジャンルボタンは `genre` から自動生成
+  - スマホ背景は非表示
+  - 一覧表示改善
+  - ランダム押下色戻し
+  - スマホファーストビュー圧縮
 
 ## 検証結果
 
-- データ件数：160件
-  - 百人一首：100件
-  - 論語：60件
+- 背景画像のMD5一致確認済み
+  - ZIP内 `assets/images/kokonsho_pc_background.webp`
+  - ユーザー提示 `kokonsho_pc_background(2).webp`
+- 百人一首：100件
+- 論語：60件
+- 合計：160件
 - 外部JSONとHTML内蔵JSON：一致
-- `GENRES` / `CARDS` 表記：なし
-- `入試メモ` 表記：なし
-- `読み解きメモ` 表記：あり
-- `wheel` 処理：なし
-- `touchstart` / `touchmove` / `touchend`：なし
-- PC背景WebP：存在確認済み
+- 「読み解きメモ」表記：あり
+- 「入試メモ」表記：なし
+- コピー機能：なし
+- `GENRES` / `CARDS` / `HYAKUNIN` / `RONGO`：画面用HTML上に表示なし
+- 縦スワイプ処理：なし
+- ホイール送り処理：なし
+- PC背景：ユーザー指定画像を使用
+- スマホ背景：非表示指定を維持
 
-## 今後の正
+## 今後の起点
 
-今後は `kokonsho_github_ready_package_v20_pc_bg_header_fix.zip` を正として扱う。
+今後は `kokonsho_github_ready_package_v22_exact_background.zip` を正のGitHub/Vercel用ZIPとして扱う。
