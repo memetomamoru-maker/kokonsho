@@ -51,52 +51,90 @@ body::before{
   background-size:40px 40px;
 }
 
-.pcWallpaper,.centerVeil{display:none}
-@media(min-width:940px){
-  .pcWallpaper{
-    display:block;
-    position:fixed;
-    inset:0;
-    z-index:0;
-    pointer-events:none;
-    background-image:url("./assets/images/kokonsho_pc_background.webp");
-    background-size:cover;
-    background-position:center center;
-    background-repeat:no-repeat;
-    opacity:.22;
-    filter:saturate(.90) contrast(.98);
-  }
-  .centerVeil{
-    display:block;
-    position:fixed;
-    inset:0;
-    z-index:1;
-    pointer-events:none;
-    background:linear-gradient(90deg,
-      rgba(246,241,232,.70) 0%,
-      rgba(246,241,232,.86) 18%,
-      rgba(246,241,232,.94) 34%,
-      rgba(246,241,232,.97) 50%,
-      rgba(246,241,232,.94) 66%,
-      rgba(246,241,232,.86) 82%,
-      rgba(246,241,232,.70) 100%);
-  }
-  .wrap,.bottomNav,.toast{position:relative;z-index:2}
+/* --- v21 fixed PC wallpaper layer: restored from the supplied reference index --- */
+.pcWallpaper,
+.centerVeil {
+  display: none;
 }
-@media(max-width:939px){.pcWallpaper,.centerVeil{display:none!important}}
 
-.wrap{max-width:1180px;margin:auto;padding:28px 14px 42px}
-.head{display:flex;justify-content:space-between;gap:20px;align-items:end;border-bottom:1px solid var(--line2);padding-bottom:22px;margin-bottom:18px;flex-wrap:wrap;position:relative}
+@media (min-width: 940px) {
+  .pcWallpaper {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: url("./assets/images/kokonsho_pc_background.webp");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: .52;
+  }
+
+  .centerVeil {
+    display: block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: min(1220px, calc(100vw - 56px));
+    transform: translateX(-50%);
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      rgba(246,241,232,.20),
+      rgba(246,241,232,.84) 9%,
+      rgba(246,241,232,.94) 22%,
+      rgba(246,241,232,.97) 50%,
+      rgba(246,241,232,.94) 78%,
+      rgba(246,241,232,.84) 91%,
+      rgba(246,241,232,.20)
+    );
+  }
+
+  .wrap,
+  .head,
+  .controls,
+  .layout,
+  .card,
+  .side,
+  .bottomNav,
+  .toast {
+    position: relative;
+    z-index: 2;
+  }
+
+  .head {
+    padding-inline: 8px;
+  }
+
+  .controls,
+  .side {
+    border-color: rgba(30,27,23,.08);
+  }
+
+  body {
+    background: linear-gradient(180deg,#fbfaf6 0%,#f0eadf 100%) !important;
+  }
+}
+
+@media (max-width: 939px) {
+  .pcWallpaper,
+  .centerVeil {
+    display: none !important;
+  }
+}
+
+
+.wrap{max-width:1180px;margin:auto;padding:22px 14px 42px}
+.head{display:flex;justify-content:flex-start;gap:20px;align-items:end;border-bottom:1px solid var(--line2);padding-bottom:14px;margin-bottom:14px;flex-wrap:wrap;position:relative}
 .head::after{content:"";position:absolute;left:0;bottom:-4px;width:min(340px,72vw);height:6px;border-radius:999px;background:linear-gradient(90deg,rgba(0,0,0,.86),rgba(0,0,0,.34),transparent);opacity:.72;transform:rotate(-.7deg)}
 .logoRow{display:flex;align-items:center;gap:12px}
 .logoSeal{width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--seal);color:var(--seal);background:rgba(255,255,255,.64);font-weight:900;font-size:20px;line-height:1;transform:rotate(-2deg)}
-.wm{font-family:var(--serif);font-size:34px;letter-spacing:.20em;margin:0 0 8px;font-weight:600}
-.copy{font-family:var(--serif);font-size:18px;margin:0;letter-spacing:.05em}
-.sub{color:var(--tansumi);font-size:12px;letter-spacing:.08em;line-height:1.8;margin-top:10px}
-.stats{display:flex;gap:10px}
-.stat{border:1px solid var(--line2);background:rgba(251,249,244,.78);border-radius:16px;padding:10px 14px;min-width:92px}
-.stat b{font-family:var(--serif);font-size:24px;font-weight:500;display:block}
-.stat span{font-size:10px;color:var(--usu);letter-spacing:.15em}
+.wm{font-family:var(--serif);font-size:31px;letter-spacing:.20em;margin:0 0 6px;font-weight:600}
+.copy{font-family:var(--serif);font-size:16px;margin:0;letter-spacing:.05em}
+.sub{color:var(--tansumi);font-size:11px;letter-spacing:.08em;line-height:1.6;margin-top:7px}
 .controls{padding:14px;display:grid;gap:12px;background:rgba(251,249,244,.88);border:1px solid var(--line);border-radius:22px;box-shadow:0 18px 46px rgba(28,26,23,.08);margin-bottom:18px}
 .segment{display:flex;flex-wrap:wrap;gap:6px;background:var(--deep);border-radius:20px;padding:5px;align-items:center}
 .segment button{min-width:92px;flex:1 1 112px;border:0;background:transparent;border-radius:999px;padding:9px 8px;font-size:12px;font-weight:800;color:var(--tansumi);letter-spacing:.06em;cursor:pointer;white-space:nowrap}
@@ -168,7 +206,6 @@ summary{cursor:pointer;color:var(--midori);font-weight:800;letter-spacing:.06em;
   .wm{font-size:23px;letter-spacing:.14em;margin:0}
   .copy{font-size:12px;line-height:1.35;margin:2px 0 0;letter-spacing:.03em}
   .sub{display:none}
-  .stats{display:none}
   .controls{padding:8px;gap:8px;border-radius:18px;margin-bottom:10px;box-shadow:0 10px 24px rgba(28,26,23,.07)}
   .segment{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:4px;border-radius:16px}
   .segment::-webkit-scrollbar{display:none}
@@ -211,7 +248,6 @@ summary{cursor:pointer;color:var(--midori);font-weight:800;letter-spacing:.06em;
       <p class="copy">読み継がれるには、理由がある。</p>
       <div class="sub">超訳と基本訳でめくる、古典カードアプリ</div>
     </div>
-    <div class="stats"><div class="stat"><b id="statCards">160</b><span>CARDS</span></div><div class="stat"><b id="statGenres">2</b><span>GENRES</span></div></div>
   </header>
 
   <section class="controls">
@@ -245,7 +281,6 @@ function cls(t){return (t||"").length>190?"veryLong":(t||"").length>145?"long":"
 function topSmooth(){window.scrollTo({top:0,behavior:"smooth"})}
 function showToast(text){const t=$("toast");t.textContent=text;t.classList.add("show");clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>t.classList.remove("show"),900)}
 function setListOpen(open){const side=$("side"),btn=$("listToggle");side.classList.toggle("open",open);btn.classList.toggle("active",open);btn.setAttribute("aria-expanded",open?"true":"false");btn.textContent=open?"一覧を閉じる":"一覧"}
-function updateStats(){if($("statCards"))$("statCards").textContent=DATA.length;if($("statGenres"))$("statGenres").textContent=uniqueGenres().length}
 function renderGenreButtons(){const box=$("genreSegment");box.innerHTML="";[{label:"すべて",value:"all"},...uniqueGenres().map(g=>({label:g,value:g}))].forEach(({label,value})=>{const b=document.createElement("button");b.type="button";b.dataset.genre=value;b.textContent=label;b.classList.toggle("active",value===genre);b.onclick=()=>{genre=value;idx=0;filter();topSmooth()};box.appendChild(b)})}
 function renderList(){const box=$("list");if($("listTitle"))$("listTitle").textContent=`カード一覧（${filtered.length}件）`;box.innerHTML="";filtered.forEach((x,i)=>{const div=document.createElement("div");div.className="item"+(i===idx?" active":"");div.innerHTML=`<div class="iid">${esc(x.id)}</div><div class="itxt">${esc(x.original||x.source)}</div>`;div.onclick=()=>{idx=i;render();if(window.matchMedia("(max-width:919px)").matches){$("side").classList.remove("open");setListOpen(false);showToast("カードを表示しました")}topSmooth();};box.appendChild(div)})}
 function renderEmpty(){const empty="該当するカードがありません";$("genre").textContent="";$("genre").className="genre other";$("source").textContent="";$("original").textContent=empty;$("reading").textContent="検索語やジャンルを変えてください";$("trans").textContent="";$("tags").innerHTML="";$("memo").textContent="";$("list").innerHTML=""}
@@ -253,7 +288,7 @@ function render(){const item=filtered[idx];if(!item){renderEmpty();return;}$("ge
 function filter(){const nq=q.toLowerCase();filtered=DATA.filter(x=>(genre==="all"||x.genre===genre)&&(!nq||[x.id,x.genre,x.original,x.reading,x.author,x.source,x.superTranslation,x.basicTranslation,(x.theme||[]).join(" "),x.examMemo].join(" ").toLowerCase().includes(nq)));if(idx>=filtered.length)idx=0;renderGenreButtons();render()}
 function next(){if(filtered.length){idx=(idx+1)%filtered.length;render();topSmooth();}}
 function prev(){if(filtered.length){idx=(idx-1+filtered.length)%filtered.length;render();topSmooth();}}
-async function loadData(){const inline=()=>JSON.parse(document.getElementById("data-json").textContent);try{const res=await fetch("./data/kokonsho_160.json",{cache:"no-store"});if(!res.ok)throw new Error(`HTTP ${res.status}`);DATA=await res.json()}catch(err){DATA=inline();console.warn("外部JSONを読めなかったため、HTML内蔵データで表示します",err)}filtered=[...DATA];updateStats();renderGenreButtons();filter()}
+async function loadData(){const inline=()=>JSON.parse(document.getElementById("data-json").textContent);try{const res=await fetch("./data/kokonsho_160.json",{cache:"no-store"});if(!res.ok)throw new Error(`HTTP ${res.status}`);DATA=await res.json()}catch(err){DATA=inline();console.warn("外部JSONを読めなかったため、HTML内蔵データで表示します",err)}filtered=[...DATA];renderGenreButtons();filter()}
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{tab=b.dataset.tab;render()});
 $("search").oninput=e=>{q=e.target.value;idx=0;filter()};
 $("randomBtn").onclick=e=>{if(!filtered.length){showToast("該当するカードがありません");return;}const btn=e.currentTarget;btn.blur();btn.classList.remove("tapFlash");void btn.offsetWidth;btn.classList.add("tapFlash");clearTimeout(btn._tapTimer);btn._tapTimer=setTimeout(()=>btn.classList.remove("tapFlash"),360);let nextIndex=Math.floor(Math.random()*filtered.length);if(filtered.length>1){while(nextIndex===idx){nextIndex=Math.floor(Math.random()*filtered.length)}}idx=nextIndex;render();topSmooth();showToast("ランダム表示しました")};

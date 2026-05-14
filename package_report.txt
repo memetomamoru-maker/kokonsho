@@ -1,21 +1,10 @@
-# package_report v19
-
-正ファイル: kokonsho_github_ready_package_v19_uiux_minfix.zip
-
-## checks
-- json_count: 160
-- inline_count: 160
-- inline_matches_external: True
-- genre_counts: {'百人一首': 100, '論語': 60}
-- has_reading_memo_label: True
-- has_nyuushi_memo_label: False
-- has_copy_text: False
-- has_wheel_listener: False
-- has_touch_listener: False
-- has_pc_background_ref: True
-- has_pc_background_file: True
-- has_mobile_bg_hide: True
-- genre_auto_generated: True
-- list_button_state: True
-- random_flash_resets: True
-- random_avoids_same_when_possible: True
+古今抄 v20 package
+Base: kokonsho_github_ready_package_v19_uiux_minfix.zip
+Output: kokonsho_github_ready_package_v20_pc_bg_header_fix.zip
+Changes:
+- Reworked PC background WebP from existing ogp.png; no image generation.
+- Increased PC wallpaper visibility while preserving card readability.
+- Removed header stat cards: 160 CARDS / 2 GENRES.
+- Removed user-facing GENRES/CARDS wording from UI.
+- Slightly compressed PC header spacing.
+Data unchanged: 160 entries, Hyakunin Isshu 100 + Rongo 60.
