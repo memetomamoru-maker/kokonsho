@@ -1,0 +1,21 @@
+古今抄 GitHub Ready Package v2
+
+上げるもの:
+ZIPを解凍し、中身をすべてGitHubリポジトリ直下に置く。
+
+主なファイル:
+index.html
+manifest.webmanifest
+vercel.json
+README.md
+data/kokonsho_160.json
+assets/icons/
+assets/images/ogp.png
+
+データ:
+百人一首: 100
+論語: 60
+合計: 160
+
+注意:
+ZIPファイル自体をGitHubに上げるのではなく、解凍した中身を上げる。
