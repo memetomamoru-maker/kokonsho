@@ -1,11 +1,11 @@
 {
   "name": "古今掌",
   "short_name": "古今掌",
-  "description": "読み継がれるには、理由がある。古典を、今の自分に届く言葉で。",
+  "description": "小学生にもわかる、古典のいい言葉。親子で読む古典カードアプリ。",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#f3eee2",
-  "theme_color": "#f3eee2",
+  "background_color": "#fbf3dc",
+  "theme_color": "#fbf3dc",
   "lang": "ja",
   "icons": [
     {
