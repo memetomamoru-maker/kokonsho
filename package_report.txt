@@ -13,10 +13,9 @@
 合計 160
 
 
-v6追加:
-- PC専用背景画像を追加
-- 画像はWebP圧縮済み
-- 元画像: a_wide_horizontal_minimalist_ink_wash_sumi_e_s_1.png
-- 圧縮後: assets/images/kokonsho_pc_background.webp
-- 圧縮後サイズ: 72744 bytes
-- スマホでは非表示
+v6 full background:
+- 背景画像をヘッダーではなくPC版の画面全体背景へ設定
+- 中央カード部分は和紙ベールで可読性を確保
+- スマホでは背景画像を非表示
+- 圧縮背景: assets/images/kokonsho_pc_background.webp
+- 背景画像サイズ: 65224 bytes
