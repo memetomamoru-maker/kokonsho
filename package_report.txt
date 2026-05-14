@@ -1,16 +1,21 @@
-古今抄 GitHub Upload Final
+古今抄 GitHub Ready Package v5
 
-使用UI:
-kokonsho_v11_cleanup.html
+修正:
+1. カード一覧の横伸びを修正
+2. スワイプ完全廃止
+3. ホイール送り廃止
+4. 背景の墨を整理
+5. 本文と訳の横はみ出し対策
 
-使用データ:
-百人一首: 100件
-論語: 60件
-合計: 160件
+データ:
+百人一首 100
+論語 60
+合計 160
 
-百人一首:
-final_v5 の superTranslation を反映済み
 
-上げ方:
-このZIPを解凍し、中身をGitHubリポジトリ直下へ配置してください。
-ZIPそのものではなく、中身をアップロードします。
+v12 background restored:
+- PC背景画像を復帰
+- 縦スワイプなしの操作性は維持
+- 背景画像: assets/images/kokonsho_pc_background.webp
+- 背景画像サイズ: 67844 bytes
+- スマホでは背景非表示
