@@ -1,1 +1,14 @@
-古今抄 GitHub Ready Package v16 final candidate\n百人一首: 100\n論語: 60\n合計: 160\n
+古今抄 GitHub Ready Package v17 final with background
+
+背景: あり
+百人一首: 100
+論語: 60
+合計: 160
+
+確認事項:
+- コピー削除済み
+- ランダムは下部ナビ
+- 背景はPCのみ
+- スマホ背景なし
+- 縦スワイプなし
+- ホイール送りなし
