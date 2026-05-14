@@ -1,2 +1,1 @@
-kokonsho_github_ready_package_v23_content_nuance_review.zip
-Content nuance review based on v22. UI/background unchanged. Rongo 60 superTranslations reviewed; 11 Hyakunin tone fixes.
+古今抄 v24: toneType付与・超訳ファーストUI・内容別トーン調整。正の起点はv23。
