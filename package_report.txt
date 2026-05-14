@@ -1,14 +1,21 @@
-古今抄 GitHub Ready Package v17 final with background
+# package_report v19
 
-背景: あり
-百人一首: 100
-論語: 60
-合計: 160
+正ファイル: kokonsho_github_ready_package_v19_uiux_minfix.zip
 
-確認事項:
-- コピー削除済み
-- ランダムは下部ナビ
-- 背景はPCのみ
-- スマホ背景なし
-- 縦スワイプなし
-- ホイール送りなし
+## checks
+- json_count: 160
+- inline_count: 160
+- inline_matches_external: True
+- genre_counts: {'百人一首': 100, '論語': 60}
+- has_reading_memo_label: True
+- has_nyuushi_memo_label: False
+- has_copy_text: False
+- has_wheel_listener: False
+- has_touch_listener: False
+- has_pc_background_ref: True
+- has_pc_background_file: True
+- has_mobile_bg_hide: True
+- genre_auto_generated: True
+- list_button_state: True
+- random_flash_resets: True
+- random_avoids_same_when_possible: True
