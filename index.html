@@ -478,10 +478,117 @@ body:not(.is-top) .audioToggle{
   #homePanel .homeHero .quickLinks button{min-width:62px;min-height:33px;padding:7px 12px;font-size:12.5px}
 }
 
+
+/* v86: modal info pages and SVG audio toggle */
+.audioToggle{
+  width:38px;
+  height:38px;
+  padding:0;
+  display:none;
+  place-items:center;
+  border-radius:999px;
+}
+body:not(.is-top) .audioToggle{display:grid}
+.audioToggle .audioSvg{
+  width:21px;
+  height:21px;
+  display:block;
+}
+.audioToggle .audioSvgOn{display:none}
+.audioToggle.is-on .audioSvgOn{display:block}
+.audioToggle.is-on .audioSvgOff{display:none}
+.infoModal[hidden]{display:none}
+.infoModal{
+  position:fixed;
+  inset:0;
+  z-index:60;
+  display:grid;
+  place-items:center;
+  padding:18px;
+}
+.infoModalBackdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(60,48,30,.32);
+  backdrop-filter:blur(4px);
+}
+.infoModalDialog{
+  position:relative;
+  z-index:1;
+  width:min(100%,430px);
+  max-height:min(76vh,680px);
+  overflow:hidden;
+  background:rgba(255,253,245,.97);
+  border:1px solid rgba(255,255,255,.8);
+  border-radius:28px;
+  box-shadow:0 24px 70px rgba(60,48,30,.24);
+}
+.infoModalBody{
+  max-height:min(76vh,680px);
+  overflow:auto;
+  padding:22px 18px 20px;
+  line-height:1.85;
+}
+.infoModalBody h2{
+  font-family:var(--serif);
+  font-size:28px;
+  margin:0 44px 12px 0;
+  color:var(--brown);
+}
+.infoModalBody h3{
+  font-size:17px;
+  margin:20px 0 6px;
+  color:var(--greenDark);
+}
+.infoModalBody p,.infoModalBody li{
+  font-size:14.5px;
+  color:var(--brown);
+}
+.infoModalBody ul{padding-left:1.2em}
+.infoModalClose{
+  position:absolute;
+  top:12px;
+  right:12px;
+  z-index:2;
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border-radius:999px;
+  border:1px solid rgba(117,139,86,.22);
+  background:rgba(255,255,255,.74);
+  color:var(--greenDark);
+  box-shadow:0 6px 14px rgba(111,89,48,.08);
+}
+.infoModalClose svg{
+  width:18px;
+  height:18px;
+}
+@media(min-width:700px){
+  .audioToggle{
+    width:40px;
+    height:40px;
+  }
+  .audioToggle .audioSvg{
+    width:22px;
+    height:22px;
+  }
+}
+
 </style>
 </head>
 <body class="is-top">
-<button id="audioToggle" class="audioToggle" type="button" aria-label="BGMを切り替える">音OFF</button>
+<button id="audioToggle" class="audioToggle" type="button" aria-label="BGMをオンにする" title="BGM">
+  <svg class="audioSvg audioSvgOn" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M4 9.5v5h3.3L12 18.2V5.8L7.3 9.5H4z" fill="currentColor"/>
+    <path d="M15.3 8.2c1.1 1 1.7 2.3 1.7 3.8s-.6 2.8-1.7 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M17.8 5.9c1.8 1.6 2.9 3.8 2.9 6.1s-1.1 4.5-2.9 6.1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+  </svg>
+  <svg class="audioSvg audioSvgOff" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M4 9.5v5h3.3L12 18.2V5.8L7.3 9.5H4z" fill="currentColor"/>
+    <path d="M16 9l5 5m0-5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</button>
 <div class="app"><main class="content">
 <section id="topPanel" class="panel topPanel active">
   <div class="topCard"><div class="topInner">
@@ -501,6 +608,7 @@ body:not(.is-top) .audioToggle{
       <button id="startSilent" class="startBtn startBtnSilent" type="button">BGMなしではじめる</button>
     </div>
     <div class="topLinks">
+      <button id="guideLinkTop" class="linkBtn" type="button">使い方</button>
       <button id="parentLinkTop" class="linkBtn" type="button">保護者の方へ</button>
       <button id="privacyLinkTop" class="linkBtn" type="button">プライバシーポリシー</button>
       <button id="termsLinkTop" class="linkBtn" type="button">利用規約</button>

@@ -123,7 +123,29 @@ function showPanel(id){
   for(const el of document.querySelectorAll(".panel")) el.classList.remove("active");
   $(id).classList.add("active");
 }
+function infoPanelId(key){
+  const map = {guide:"parentPanel", parent:"parentPanel", privacy:"privacyPanel", terms:"termsPanel", disclaimer:"disclaimerPanel"};
+  return map[key] || "parentPanel";
+}
+function openInfoModal(key){
+  const modal = $("infoModal");
+  const body = $("infoModalBody");
+  const source = document.querySelector(`#${infoPanelId(key)} .infoPage`);
+  if(!modal || !body || !source) return;
+  body.innerHTML = source.innerHTML;
+  modal.hidden = false;
+  document.body.classList.add("modal-open");
+  const close = $("infoModalClose");
+  if(close) close.focus();
+}
+function closeInfoModal(){
+  const modal = $("infoModal");
+  if(!modal) return;
+  modal.hidden = true;
+  document.body.classList.remove("modal-open");
+}
 function setView(v){
+  closeInfoModal();
   view = v;
   document.body.classList.toggle("is-top", v==="top");
   const map = {top:"topPanel", home:"homePanel", search:"searchPanel", likes:"likesPanel", parent:"parentPanel", privacy:"privacyPanel", terms:"termsPanel", disclaimer:"disclaimerPanel"};
@@ -168,7 +190,11 @@ function chooseBgm(mode){
   updateBgmUI();
 }
 function updateBgmUI(){
-  if($("audioToggle")) $("audioToggle").textContent = audio.enabled ? "音OFF" : "音ON";
+  const btn = $("audioToggle");
+  if(!btn) return;
+  btn.classList.toggle("is-on", !!audio.enabled);
+  btn.setAttribute("aria-label", audio.enabled ? "BGMをオフにする" : "BGMをオンにする");
+  btn.setAttribute("title", audio.enabled ? "BGMをオフにする" : "BGMをオンにする");
 }
 function enterApp(mode){
   if(mode) chooseBgm(mode);
@@ -499,16 +525,20 @@ function toggleMusic(){ audio.enabled ? stopMusic(true) : startMusic(); }
 function bind(){
   $("startWithMusic").onclick = () => enterApp("on");
   $("startSilent").onclick = () => enterApp("off");
-  $("parentLinkTop").onclick = () => setView("parent");
-  $("privacyLinkTop").onclick = () => setView("privacy");
-  $("termsLinkTop").onclick = () => setView("terms");
-  $("disclaimerLinkTop").onclick = () => setView("disclaimer");
+  $("guideLinkTop").onclick = () => openInfoModal("guide");
+  $("parentLinkTop").onclick = () => openInfoModal("parent");
+  $("privacyLinkTop").onclick = () => openInfoModal("privacy");
+  $("termsLinkTop").onclick = () => openInfoModal("terms");
+  $("disclaimerLinkTop").onclick = () => openInfoModal("disclaimer");
   $("favoriteBtn").onclick = toggleFav;
-  $("goGuideTop").onclick = () => setView("parent");
+  $("goGuideTop").onclick = () => openInfoModal("guide");
   $("goSearchTop").onclick = () => setView("search");
   $("goLikesTop").onclick = () => setView("likes");
   $("searchInput").oninput = renderSearch;
   $("audioToggle").onclick = toggleMusic;
+  $("infoModalClose").onclick = closeInfoModal;
+  $("infoModal").addEventListener("click", e => { if(e.target && e.target.dataset.closeModal !== undefined) closeInfoModal(); });
+  document.addEventListener("keydown", e => { if(e.key === "Escape") closeInfoModal(); });
 }
 document.addEventListener("visibilitychange", handleVisibilityChange);
 window.addEventListener("pagehide", pauseMusicForVisibility);
