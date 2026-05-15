@@ -175,35 +175,41 @@ function initAudio(){
   master.gain.setValueAtTime(0.0001, ctx.currentTime);
 
   const bus = ctx.createGain();
-  bus.gain.value = 0.82;
+  bus.gain.value = 0.72;
 
   const tone = ctx.createBiquadFilter();
   tone.type = "lowpass";
-  tone.frequency.value = 7200;
-  tone.Q.value = 0.55;
+  tone.frequency.value = 5600;
+  tone.Q.value = 0.45;
+
+  const warmth = ctx.createBiquadFilter();
+  warmth.type = "highpass";
+  warmth.frequency.value = 42;
+  warmth.Q.value = 0.5;
 
   const compressor = ctx.createDynamicsCompressor();
-  compressor.threshold.value = -26;
-  compressor.knee.value = 18;
-  compressor.ratio.value = 2.1;
-  compressor.attack.value = 0.014;
-  compressor.release.value = 0.30;
+  compressor.threshold.value = -30;
+  compressor.knee.value = 20;
+  compressor.ratio.value = 1.75;
+  compressor.attack.value = 0.020;
+  compressor.release.value = 0.38;
 
   const delay = ctx.createDelay(1.2);
-  delay.delayTime.value = 0.42;
+  delay.delayTime.value = 0.36;
   const delayGain = ctx.createGain();
-  delayGain.gain.value = 0.10;
+  delayGain.gain.value = 0.055;
   const delayTone = ctx.createBiquadFilter();
   delayTone.type = "lowpass";
-  delayTone.frequency.value = 3000;
+  delayTone.frequency.value = 2500;
 
   const reverb = ctx.createConvolver();
-  reverb.buffer = makeReverb(ctx, 2.2, 2.4);
+  reverb.buffer = makeReverb(ctx, 2.8, 2.9);
   const reverbGain = ctx.createGain();
-  reverbGain.gain.value = 0.18;
+  reverbGain.gain.value = 0.135;
 
   bus.connect(tone);
-  tone.connect(compressor);
+  tone.connect(warmth);
+  warmth.connect(compressor);
   compressor.connect(master);
 
   bus.connect(delay);
@@ -220,17 +226,19 @@ function initAudio(){
   audio.ctx = ctx;
   audio.master = master;
   audio.bus = bus;
-  audio.loopSec = 28;
+  audio.loopSec = 32;
   audio.scheduledUntil = 0;
 }
-function makeReverb(ctx, seconds=2.2, decay=2.4){
+function makeReverb(ctx, seconds=2.8, decay=2.9){
   const len = Math.floor(ctx.sampleRate * seconds);
   const buffer = ctx.createBuffer(2, len, ctx.sampleRate);
   for(let ch=0; ch<2; ch++){
     const data = buffer.getChannelData(ch);
+    let last = 0;
     for(let i=0; i<len; i++){
       const n = Math.random()*2-1;
-      data[i] = n * Math.pow(1 - i/len, decay) * 0.34;
+      last = last * 0.86 + n * 0.14;
+      data[i] = last * Math.pow(1 - i/len, decay) * 0.28;
     }
   }
   return buffer;
@@ -239,7 +247,7 @@ function connectVoice(node, pan=0){
   if(!audio.ctx || !audio.bus) return;
   if(audio.ctx.createStereoPanner){
     const p = audio.ctx.createStereoPanner();
-    p.pan.value = Math.max(-0.8, Math.min(0.8, pan));
+    p.pan.value = Math.max(-0.72, Math.min(0.72, pan));
     node.connect(p); p.connect(audio.bus);
   }else{
     node.connect(audio.bus);
@@ -249,112 +257,160 @@ function note(freq, when, dur=1.0, vol=0.05, pan=0){
   if(!audio.ctx || !audio.bus) return;
   const ctx = audio.ctx;
   const out = ctx.createGain();
+  const peak = Math.max(0.0001, vol);
   out.gain.setValueAtTime(0.0001, when);
-  out.gain.exponentialRampToValueAtTime(vol, when+0.012);
-  out.gain.exponentialRampToValueAtTime(vol*0.34, when+0.18);
+  out.gain.exponentialRampToValueAtTime(peak, when+0.018);
+  out.gain.exponentialRampToValueAtTime(peak*0.42, when+0.20);
+  out.gain.exponentialRampToValueAtTime(peak*0.15, when+Math.max(0.45, dur*0.62));
   out.gain.exponentialRampToValueAtTime(0.0001, when+dur);
 
   const filter = ctx.createBiquadFilter();
   filter.type = "lowpass";
-  filter.frequency.setValueAtTime(5200, when);
-  filter.frequency.exponentialRampToValueAtTime(1450, when+Math.max(0.28, dur*0.82));
-  filter.Q.value = 0.64;
+  filter.frequency.setValueAtTime(4200, when);
+  filter.frequency.exponentialRampToValueAtTime(1250, when+Math.max(0.36, dur*0.78));
+  filter.Q.value = 0.48;
 
   const body = ctx.createGain();
-  body.gain.value = 0.78;
-  const shine = ctx.createGain();
-  shine.gain.value = 0.18;
+  body.gain.value = 0.74;
+  const overtone = ctx.createGain();
+  overtone.gain.value = 0.13;
+  const air = ctx.createGain();
+  air.gain.value = 0.045;
 
   const o1 = ctx.createOscillator();
   const o2 = ctx.createOscillator();
+  const o3 = ctx.createOscillator();
   o1.type = "triangle";
   o2.type = "sine";
+  o3.type = "sine";
   o1.frequency.setValueAtTime(freq, when);
-  o2.frequency.setValueAtTime(freq*2.002, when);
+  o2.frequency.setValueAtTime(freq*2.004, when);
+  o3.frequency.setValueAtTime(freq*3.01, when);
+  if(o1.detune) o1.detune.setValueAtTime(-3, when);
+  if(o2.detune) o2.detune.setValueAtTime(4, when);
   o1.connect(body);
-  o2.connect(shine);
+  o2.connect(overtone);
+  o3.connect(air);
   body.connect(filter);
-  shine.connect(filter);
+  overtone.connect(filter);
+  air.connect(filter);
   filter.connect(out);
   connectVoice(out, pan);
-  o1.start(when); o2.start(when);
-  o1.stop(when+dur+0.05); o2.stop(when+Math.min(dur,0.70)+0.04);
+  o1.start(when); o2.start(when); o3.start(when);
+  o1.stop(when+dur+0.06); o2.stop(when+Math.min(dur,0.9)+0.04); o3.stop(when+Math.min(dur,0.5)+0.04);
 
-  const len = Math.floor(ctx.sampleRate*0.028);
+  const len = Math.floor(ctx.sampleRate*0.022);
   const buf = ctx.createBuffer(1, len, ctx.sampleRate);
   const d = buf.getChannelData(0);
-  for(let i=0;i<len;i++) d[i] = (Math.random()*2-1) * Math.pow(1-i/len, 2.6);
+  for(let i=0;i<len;i++) d[i] = (Math.random()*2-1) * Math.pow(1-i/len, 3.4) * 0.34;
   const src = ctx.createBufferSource();
   src.buffer = buf;
   const g = ctx.createGain();
-  g.gain.setValueAtTime(vol*0.23, when);
-  g.gain.exponentialRampToValueAtTime(0.0001, when+0.026);
+  g.gain.setValueAtTime(vol*0.075, when);
+  g.gain.exponentialRampToValueAtTime(0.0001, when+0.020);
   const bp = ctx.createBiquadFilter();
   bp.type = "bandpass";
-  bp.frequency.value = 3200;
-  bp.Q.value = 2.2;
+  bp.frequency.value = 2600;
+  bp.Q.value = 1.8;
   src.connect(bp); bp.connect(g); connectVoice(g, pan);
-  src.start(when); src.stop(when+0.03);
+  src.start(when); src.stop(when+0.024);
 }
-function lowNote(freq, when, dur=1.4, vol=0.032, pan=0){
-  note(freq, when, dur, vol, pan);
-}
-function bell(freq, when, vol=0.016, pan=0){
+function lowNote(freq, when, dur=2.4, vol=0.020, pan=0){
   if(!audio.ctx || !audio.bus) return;
   const ctx = audio.ctx;
-  [1,2,4].forEach((r,i)=>{
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(0.0001, when);
+  g.gain.exponentialRampToValueAtTime(vol, when+0.16);
+  g.gain.exponentialRampToValueAtTime(vol*0.45, when+dur*0.62);
+  g.gain.exponentialRampToValueAtTime(0.0001, when+dur);
+
+  const f = ctx.createBiquadFilter();
+  f.type = "lowpass";
+  f.frequency.value = 1100;
+  f.Q.value = 0.35;
+  const o = ctx.createOscillator();
+  const o2 = ctx.createOscillator();
+  o.type = "sine";
+  o2.type = "triangle";
+  o.frequency.setValueAtTime(freq, when);
+  o2.frequency.setValueAtTime(freq*2.001, when);
+  const o2g = ctx.createGain();
+  o2g.gain.value = 0.18;
+  o.connect(f);
+  o2.connect(o2g); o2g.connect(f);
+  f.connect(g); connectVoice(g, pan);
+  o.start(when); o2.start(when);
+  o.stop(when+dur+0.08); o2.stop(when+dur+0.08);
+}
+function bell(freq, when, vol=0.010, pan=0){
+  if(!audio.ctx || !audio.bus) return;
+  const ctx = audio.ctx;
+  [1,2,3.01,4.02].forEach((r,i)=>{
     const o = ctx.createOscillator();
     const g = ctx.createGain();
     o.type = "sine";
-    o.frequency.setValueAtTime(freq*r, when+i*0.006);
+    o.frequency.setValueAtTime(freq*r, when+i*0.008);
     g.gain.setValueAtTime(0.0001, when);
-    g.gain.exponentialRampToValueAtTime(vol/(i+1.25), when+0.018);
-    g.gain.exponentialRampToValueAtTime(0.0001, when+0.88+i*0.06);
+    g.gain.exponentialRampToValueAtTime(vol/(i+1.35), when+0.030);
+    g.gain.exponentialRampToValueAtTime(0.0001, when+1.55+i*0.12);
     o.connect(g); connectVoice(g, pan);
-    o.start(when); o.stop(when+1.0+i*0.06);
+    o.start(when); o.stop(when+1.7+i*0.12);
   });
 }
-function softAir(when, dur=7.5, vol=0.010){
+function softAir(when, dur=8.0, vol=0.0045, pan=-0.10){
   if(!audio.ctx || !audio.bus) return;
   const ctx = audio.ctx;
   const len = Math.floor(ctx.sampleRate*dur);
   const buf = ctx.createBuffer(1, len, ctx.sampleRate);
   const d = buf.getChannelData(0);
-  for(let i=0;i<len;i++) d[i] = (Math.random()*2-1) * 0.18;
+  let last = 0;
+  for(let i=0;i<len;i++){
+    last = last * 0.92 + (Math.random()*2-1) * 0.08;
+    d[i] = last * 0.16;
+  }
   const src = ctx.createBufferSource();
   src.buffer = buf;
   const f = ctx.createBiquadFilter();
   f.type = "bandpass";
-  f.frequency.value = 1400;
-  f.Q.value = 0.38;
+  f.frequency.value = 1180;
+  f.Q.value = 0.42;
   const g = ctx.createGain();
   g.gain.setValueAtTime(0.0001, when);
-  g.gain.linearRampToValueAtTime(vol, when+1.2);
+  g.gain.linearRampToValueAtTime(vol, when+1.6);
+  g.gain.linearRampToValueAtTime(vol*0.62, when+dur*0.58);
   g.gain.linearRampToValueAtTime(0.0001, when+dur);
-  src.connect(f); f.connect(g); connectVoice(g, -0.16);
+  src.connect(f); f.connect(g); connectVoice(g, pan);
   src.start(when); src.stop(when+dur+0.02);
 }
 function schedulePhrase(t){
   const N = {
-    D3:146.83, A3:220.00, D4:293.66, E4:329.63, G4:392.00, A4:440.00, B4:493.88,
-    D5:587.33, E5:659.25, G5:783.99, A5:880.00, D6:1174.66, A6:1760.00
+    D3:146.83, G3:196.00, A3:220.00, B3:246.94,
+    D4:293.66, E4:329.63, G4:392.00, A4:440.00, B4:493.88,
+    D5:587.33, E5:659.25, G5:783.99, A5:880.00, B5:987.77,
+    D6:1174.66, E6:1318.51, A6:1760.00
   };
   const melody = [
-    [0.00,N.D4,1.10,.060,-.18],[0.90,N.G4,0.86,.046,.12],[1.62,N.A4,1.18,.052,-.04],[2.72,N.D5,1.42,.058,.16],
-    [4.35,N.B4,0.92,.044,-.14],[5.10,N.A4,1.08,.050,.10],[6.05,N.G4,0.96,.044,-.08],[6.86,N.E4,1.28,.046,.12],[8.12,N.D4,1.55,.058,-.12],
-    [10.10,N.G4,0.92,.044,.14],[10.86,N.A4,1.02,.048,-.08],[11.76,N.B4,0.82,.042,.12],[12.42,N.A4,1.10,.046,-.16],[13.38,N.G4,1.26,.050,.08],[14.58,N.D4,1.70,.058,0],
-    [17.00,N.D5,1.18,.054,-.12],[17.92,N.B4,0.92,.044,.12],[18.68,N.A4,1.12,.048,-.04],[19.74,N.G4,1.05,.046,.16],[20.70,N.E4,1.18,.044,-.14],
-    [21.82,N.G4,0.82,.042,.10],[22.48,N.A4,1.04,.046,-.08],[23.42,N.D5,1.32,.052,.14],[24.74,N.A4,0.95,.044,-.10],[25.48,N.G4,1.18,.048,.10],[26.54,N.D4,1.36,.058,-.02]
+    [0.00,N.D4,1.22,.042,-.18],[1.12,N.E4,0.86,.033,.10],[2.00,N.G4,1.32,.039,-.05],[3.28,N.A4,1.68,.043,.16],
+    [5.68,N.G4,1.08,.034,-.12],[6.62,N.E4,1.28,.035,.12],[7.92,N.D4,1.95,.042,-.04],
+    [10.60,N.A4,1.12,.039,.14],[11.58,N.B4,0.92,.032,-.10],[12.40,N.D5,1.64,.043,.10],[14.28,N.B4,1.02,.032,-.16],[15.18,N.A4,1.76,.037,.06],
+    [18.20,N.G4,1.08,.034,-.14],[19.12,N.A4,1.02,.035,.14],[20.06,N.B4,1.24,.036,-.06],[21.38,N.D5,1.86,.042,.12],
+    [24.36,N.A4,1.18,.035,-.10],[25.48,N.G4,1.18,.034,.08],[26.60,N.E4,1.34,.032,-.12],[28.10,N.D4,2.18,.043,.02]
+  ];
+  const ornament = [
+    [4.96,N.D5,0.42,.018,-.26],[5.36,N.B4,0.44,.014,-.20],
+    [16.92,N.E5,0.38,.017,.24],[17.26,N.D5,0.46,.014,.18],
+    [22.98,N.G5,0.36,.015,-.22],[23.30,N.E5,0.48,.012,-.16]
   ];
   const bass = [
-    [0.00,N.D3,1.45,.030,-.22],[4.00,N.A3,1.12,.024,.20],[8.00,N.D3,1.55,.029,-.12],[14.00,N.A3,1.05,.022,.16],
-    [17.00,N.D3,1.20,.026,-.20],[21.00,N.A3,1.10,.022,.18],[26.00,N.D3,1.50,.030,0]
+    [0.00,N.D3,2.8,.018,-.20],[7.80,N.A3,2.5,.014,.18],
+    [15.70,N.G3,2.7,.014,-.14],[23.70,N.A3,2.4,.013,.16],[28.00,N.D3,2.8,.018,-.02]
   ];
   melody.forEach(([o,f,d,v,p])=>note(f,t+o,d,v,p));
+  ornament.forEach(([o,f,d,v,p])=>note(f,t+o,d,v,p));
   bass.forEach(([o,f,d,v,p])=>lowNote(f,t+o,d,v,p));
-  [[0.08,N.D6,.012,.28],[8.10,N.A5,.010,-.26],[16.95,N.D6,.011,.22],[26.40,N.A6,.010,-.18]].forEach(([o,f,v,p])=>bell(f,t+o,v,p));
-  softAir(t+0.2, 7.4, 0.006);
-  softAir(t+17.0, 7.8, 0.005);
+  [[0.18,N.D6,.006,.30],[9.95,N.A5,.005,-.28],[17.88,N.E6,.005,.24],[30.00,N.D6,.006,-.16]].forEach(([o,f,v,p])=>bell(f,t+o,v,p));
+  softAir(t+0.2, 9.2, 0.0034, -0.16);
+  softAir(t+15.7, 8.4, 0.0028, 0.14);
 }
 function playPhrase(){
   if(!audio.enabled || !audio.ctx) return;
@@ -370,7 +426,7 @@ async function startMusic(){
   if(audio.master){
     audio.master.gain.cancelScheduledValues(now);
     audio.master.gain.setValueAtTime(Math.max(audio.master.gain.value, 0.0001), now);
-    audio.master.gain.setTargetAtTime(0.44, now, 0.55);
+    audio.master.gain.setTargetAtTime(0.32, now, 0.70);
   }
   clearInterval(audio.timer);
   playPhrase();
