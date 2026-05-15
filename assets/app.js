@@ -75,8 +75,8 @@ function renderCard(){
   const item = current();
   if(!item) return;
   $("kidText").innerHTML = rubyfy(displayKid(item));
-  $("originalText").innerHTML = rubyfy(item.original || "");
-  $("readingText").innerHTML = rubyfy(item.reading || "");
+  $("originalText").textContent = item.original || "";
+  $("readingText").textContent = item.reading || "";
   $("pointText").innerHTML = rubyfy(shortText(pointOf(item), 118));
   $("talkText").innerHTML = rubyfy(talkOf(item));
   if($("currentGenreLabel")) $("currentGenreLabel").textContent = genreLabel(item);
@@ -95,7 +95,7 @@ function makeWordCard(item, like=false){
   const mainText = item.original || displayKid(item);
   const kidText = displayKid(item);
   const meta = [item.source || item.author, ...(Array.isArray(item.theme) ? item.theme.slice(0,1) : [])].filter(Boolean).join("・");
-  div.innerHTML = `${like?'<span class="heartSmall">♥</span>':''}<span class="pill">${esc(item.genre)}</span><div class="title">${rubyfy(shortText(mainText, 58))}</div>${meta?`<div class="subline meta">${rubyfy(shortText(meta, 44))}</div>`:''}<div class="subline">${rubyfy('こども訳：' + shortText(kidText, 56))}</div><span class="chev" style="position:absolute;right:16px;top:50%;transform:translateY(-50%)">›</span>`;
+  div.innerHTML = `${like?'<span class="heartSmall">♥</span>':''}<span class="pill">${esc(item.genre)}</span><div class="title">${esc(shortText(mainText, 58))}</div>${meta?`<div class="subline meta">${esc(shortText(meta, 44))}</div>`:''}<div class="subline">${rubyfy('こども訳：' + shortText(kidText, 56))}</div><span class="chev" style="position:absolute;right:16px;top:50%;transform:translateY(-50%)">›</span>`;
   div.onclick = () => { idx = Math.max(0, DATA.findIndex(x=>x.id===item.id)); setView("home"); };
   return div;
 }
