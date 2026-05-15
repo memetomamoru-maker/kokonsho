@@ -7,7 +7,7 @@ let genre = "all";
 let view = "top";
 let favs = new Set(loadFavs());
 let bgmChoice = localStorage.getItem(STORE_BGM) || "off";
-let audio = { ctx:null, master:null, timer:null, enabled:false };
+let audio = { ctx:null, master:null, timer:null, enabled:false, pausedByVisibility:false };
 
 const RUBY = [
   ["百人一首","ひゃくにんいっしゅ"],["論語","ろんご"],["故事成語","こじせいご"],["枕草子","まくらのそうし"],["徒然草","つれづれぐさ"],
@@ -31,6 +31,15 @@ function shortText(s,n=74){s=String(s||"").replace(/\s+/g,' ');return s.length>n
 function pointOf(item){return item.wordPoint || item.examMemo || "ことばの意味を、親子でゆっくり話してみよう。";}
 function talkOf(item){return item.parentQuestion || "このことばを、今日の生活で使うならどんな場面があるかな？";}
 function displayKid(item){return item.superTranslation || item.basicTranslation || item.original || "";}
+function genreLabel(item){
+  return item && item.genre ? `${item.genre}のことば` : "古典のことば";
+}
+function resultHeading(count){
+  const q = ($("searchInput")?.value || "").trim();
+  if(!count) return "見つかりませんでした";
+  if(q) return "検索結果";
+  return genre === "all" ? "すべてのことば" : `${genre}のことば`;
+}
 
 async function loadData(){
   const inline = () => JSON.parse($("data-json").textContent);
@@ -70,6 +79,7 @@ function renderCard(){
   $("readingText").innerHTML = rubyfy(item.reading || "");
   $("pointText").innerHTML = rubyfy(shortText(pointOf(item), 118));
   $("talkText").innerHTML = rubyfy(talkOf(item));
+  if($("currentGenreLabel")) $("currentGenreLabel").textContent = genreLabel(item);
   $("favoriteBtn").classList.toggle("active", favs.has(item.id));
   $("favoriteBtn").textContent = favs.has(item.id) ? "♥" : "♡";
   updateFavCount();
@@ -95,7 +105,7 @@ function renderSearch(){
   if(!box) return;
   const results = getSearchResults();
   const title = $("resultTitle");
-  if(title) title.textContent = results.length ? "おすすめのことば" : "見つかりませんでした";
+  if(title) title.textContent = resultHeading(results.length);
   box.innerHTML = "";
   if(!results.length){ box.innerHTML = `<div class="empty">ことばが見つかりませんでした。<br>検索やジャンルを変えてみよう。</div>`; return; }
   results.slice(0,24).forEach(item => box.appendChild(makeWordCard(item, favs.has(item.id))));
@@ -417,11 +427,18 @@ function playPhrase(){
   schedulePhrase(audio.ctx.currentTime + 0.10);
 }
 async function startMusic(){
+  chooseBgm("on");
+  audio.enabled = true;
+  if(document.hidden){
+    audio.pausedByVisibility = true;
+    clearInterval(audio.timer); audio.timer = null;
+    updateBgmUI(); updateCommandBar();
+    return;
+  }
   initAudio();
   if(!audio.ctx) return;
   try{ await audio.ctx.resume(); }catch(e){}
-  audio.enabled = true;
-  chooseBgm("on");
+  audio.pausedByVisibility = false;
   const now = audio.ctx.currentTime;
   if(audio.master){
     audio.master.gain.cancelScheduledValues(now);
@@ -440,9 +457,43 @@ function stopMusic(save=true){
     audio.master.gain.setTargetAtTime(0.0001, now, 0.25);
   }
   audio.enabled = false;
+  audio.pausedByVisibility = false;
   clearInterval(audio.timer); audio.timer = null;
   if(save) chooseBgm("off");
   updateBgmUI(); updateCommandBar();
+}
+async function pauseMusicForVisibility(){
+  if(!audio.enabled || !audio.ctx) return;
+  audio.pausedByVisibility = true;
+  clearInterval(audio.timer); audio.timer = null;
+  if(audio.master){
+    const now = audio.ctx.currentTime;
+    audio.master.gain.cancelScheduledValues(now);
+    audio.master.gain.setTargetAtTime(0.0001, now, 0.08);
+  }
+  try{ await audio.ctx.suspend(); }catch(e){}
+  updateBgmUI(); updateCommandBar();
+}
+async function resumeMusicForVisibility(){
+  if(!audio.enabled || bgmChoice !== "on" || !audio.pausedByVisibility) return;
+  initAudio();
+  if(!audio.ctx) return;
+  try{ await audio.ctx.resume(); }catch(e){}
+  audio.pausedByVisibility = false;
+  const now = audio.ctx.currentTime;
+  if(audio.master){
+    audio.master.gain.cancelScheduledValues(now);
+    audio.master.gain.setValueAtTime(Math.max(audio.master.gain.value, 0.0001), now);
+    audio.master.gain.setTargetAtTime(0.32, now, 0.55);
+  }
+  clearInterval(audio.timer);
+  playPhrase();
+  audio.timer = setInterval(playPhrase, (audio.loopSec || 32) * 1000);
+  updateBgmUI(); updateCommandBar();
+}
+function handleVisibilityChange(){
+  if(document.hidden) pauseMusicForVisibility();
+  else resumeMusicForVisibility();
 }
 function toggleMusic(){ audio.enabled ? stopMusic(true) : startMusic(); }
 function bind(){
@@ -458,4 +509,7 @@ function bind(){
   $("searchInput").oninput = renderSearch;
   $("audioToggle").onclick = toggleMusic;
 }
+document.addEventListener("visibilitychange", handleVisibilityChange);
+window.addEventListener("pagehide", pauseMusicForVisibility);
+window.addEventListener("pageshow", () => { if(!document.hidden) resumeMusicForVisibility(); });
 document.addEventListener("DOMContentLoaded",()=>{bind(); loadData(); updateBgmUI();});
