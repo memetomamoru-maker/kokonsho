@@ -523,21 +523,37 @@ function handleVisibilityChange(){
 }
 function toggleMusic(){ audio.enabled ? stopMusic(true) : startMusic(); }
 function bind(){
-  $("startWithMusic").onclick = () => enterApp("on");
-  $("startSilent").onclick = () => enterApp("off");
-  $("guideLinkTop").onclick = () => openInfoModal("guide");
-  $("parentLinkTop").onclick = () => openInfoModal("parent");
-  $("privacyLinkTop").onclick = () => openInfoModal("privacy");
-  $("termsLinkTop").onclick = () => openInfoModal("terms");
-  $("disclaimerLinkTop").onclick = () => openInfoModal("disclaimer");
-  $("favoriteBtn").onclick = toggleFav;
-  $("goGuideTop").onclick = () => openInfoModal("guide");
-  $("goSearchTop").onclick = () => setView("search");
-  $("goLikesTop").onclick = () => setView("likes");
-  $("searchInput").oninput = renderSearch;
-  $("audioToggle").onclick = toggleMusic;
-  $("infoModalClose").onclick = closeInfoModal;
-  $("infoModal").addEventListener("click", e => { if(e.target && e.target.dataset.closeModal !== undefined) closeInfoModal(); });
+  const startWithMusic = $("startWithMusic");
+  const startSilent = $("startSilent");
+  const guideLinkTop = $("guideLinkTop");
+  const parentLinkTop = $("parentLinkTop");
+  const privacyLinkTop = $("privacyLinkTop");
+  const termsLinkTop = $("termsLinkTop");
+  const disclaimerLinkTop = $("disclaimerLinkTop");
+  const favoriteBtn = $("favoriteBtn");
+  const goGuideTop = $("goGuideTop");
+  const goSearchTop = $("goSearchTop");
+  const goLikesTop = $("goLikesTop");
+  const searchInput = $("searchInput");
+  const audioToggle = $("audioToggle");
+  const infoModalClose = $("infoModalClose");
+  const infoModal = $("infoModal");
+
+  if(startWithMusic) startWithMusic.onclick = () => enterApp("on");
+  if(startSilent) startSilent.onclick = () => enterApp("off");
+  if(guideLinkTop) guideLinkTop.onclick = () => openInfoModal("guide");
+  if(parentLinkTop) parentLinkTop.onclick = () => openInfoModal("parent");
+  if(privacyLinkTop) privacyLinkTop.onclick = () => openInfoModal("privacy");
+  if(termsLinkTop) termsLinkTop.onclick = () => openInfoModal("terms");
+  if(disclaimerLinkTop) disclaimerLinkTop.onclick = () => openInfoModal("disclaimer");
+  if(favoriteBtn) favoriteBtn.onclick = toggleFav;
+  if(goGuideTop) goGuideTop.onclick = () => openInfoModal("guide");
+  if(goSearchTop) goSearchTop.onclick = () => setView("search");
+  if(goLikesTop) goLikesTop.onclick = () => setView("likes");
+  if(searchInput) searchInput.oninput = renderSearch;
+  if(audioToggle) audioToggle.onclick = toggleMusic;
+  if(infoModalClose) infoModalClose.onclick = closeInfoModal;
+  if(infoModal) infoModal.addEventListener("click", e => { if(e.target && e.target.dataset.closeModal !== undefined) closeInfoModal(); });
   document.addEventListener("keydown", e => { if(e.key === "Escape") closeInfoModal(); });
 }
 document.addEventListener("visibilitychange", handleVisibilityChange);
