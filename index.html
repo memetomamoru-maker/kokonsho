@@ -442,6 +442,42 @@ body:not(.is-top) .audioToggle{
   #homePanel .homeHero .quickLinks button{min-height:33px;padding:7px 13px;font-size:12.5px}
   #homePanel .homeHero .homeHeroMascot{display:none}
 }
+
+/* v84: home header utility chips */
+#homePanel .homeHero .quickLinks{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-start;
+  align-items:center;
+  gap:7px;
+  margin:11px 0 0;
+}
+#homePanel .homeHero .quickLinks button{
+  flex:0 0 auto;
+  width:auto;
+  min-width:58px;
+  min-height:31px;
+  border-radius:999px;
+  padding:6px 11px;
+  font-size:12px;
+  line-height:1;
+  color:var(--greenDark);
+  background:rgba(255,255,255,.62);
+  border:1px solid rgba(117,139,86,.22);
+  box-shadow:0 4px 10px rgba(111,89,48,.035);
+}
+#homePanel .homeHero .quickLinks button:first-child{
+  background:rgba(255,255,255,.62);
+}
+@media(max-width:380px){
+  #homePanel .homeHero .quickLinks{gap:6px;margin-top:10px}
+  #homePanel .homeHero .quickLinks button{min-width:54px;min-height:30px;padding:6px 9px;font-size:11.5px}
+}
+@media(min-width:700px){
+  #homePanel .homeHero .quickLinks{gap:8px;margin-top:13px}
+  #homePanel .homeHero .quickLinks button{min-width:62px;min-height:33px;padding:7px 12px;font-size:12.5px}
+}
+
 </style>
 </head>
 <body class="is-top">
@@ -465,7 +501,6 @@ body:not(.is-top) .audioToggle{
       <button id="startSilent" class="startBtn startBtnSilent" type="button">BGMなしではじめる</button>
     </div>
     <div class="topLinks">
-      <button id="guideLinkTop" class="linkBtn" type="button">使い方ガイド</button>
       <button id="parentLinkTop" class="linkBtn" type="button">保護者の方へ</button>
       <button id="privacyLinkTop" class="linkBtn" type="button">プライバシーポリシー</button>
       <button id="termsLinkTop" class="linkBtn" type="button">利用規約</button>
@@ -479,6 +514,7 @@ body:not(.is-top) .audioToggle{
   <div class="hero homeHero">
     <div class="brand"><div class="kana">こ こん しょう</div><h1>古今掌</h1><p>小学生にもわかる、古典のいい言葉。</p></div>
     <div class="quickLinks" aria-label="ホーム上部の操作">
+      <button id="goGuideTop" type="button">使い方</button>
       <button id="goSearchTop" type="button">さがす</button>
       <button id="goLikesTop" type="button" aria-label="すきなことば">すき <span id="favCountTop">0</span></button>
     </div>
@@ -516,42 +552,19 @@ body:not(.is-top) .audioToggle{
   <div class="screenHeader"><img class="smallFairy" src="./assets/images/kokon_icon.png" alt="ココン"><div class="screenHeading"><h2>すきなことば</h2><p>こころにのこした ことばたち</p></div></div>
   <div id="likesList" class="resultList"></div>
 </section>
-<section id="guidePanel" class="panel">
-  <article class="infoPage">
-    <h2>使い方ガイド</h2>
-    <p>古今掌は、古典の言葉に「出会う」ためのカードアプリです。暗記よりも、声に出して読むこと、意味をたしかめること、親子で話すことを大切にしています。</p>
-    <h3>基本の使い方</h3>
-    <ol>
-      <li>ホームで、今日のことばを開きます。</li>
-      <li>まずは原文を見て、古典の形に触れます。</li>
-      <li>次に「読み」を声に出して、言葉のリズムを味わいます。</li>
-      <li>「こども訳」で、何を言っているのかをたしかめます。</li>
-      <li>「ことばポイント」で、大事な言葉をひとつ拾います。</li>
-      <li>最後に「親子で話してみよう」を使って、感じたことを話します。</li>
-    </ol>
-    <h3>親子で読むときのコツ</h3>
-    <ul>
-      <li>正解を当てるより、「どんな気持ちになる？」と話してみてください。</li>
-      <li>短い時間で大丈夫です。一日一枚だけでも続けやすくなります。</li>
-      <li>わからない言葉があっても、すぐに調べきらなくて大丈夫です。まずは音と雰囲気を楽しめます。</li>
-      <li>気に入ったことばは、下の「すき」から保存できます。</li>
-    </ul>
-    <h3>画面の見方</h3>
-    <ul>
-      <li>「原文」は、古典の言葉そのものです。</li>
-      <li>「読み」は、声に出して読むための助けです。</li>
-      <li>「こども訳」は、意味をつかみやすくした言い換えです。</li>
-      <li>「ことばポイント」は、覚えておきたい語彙や表現です。</li>
-      <li>「親子で話してみよう」は、会話のきっかけになる問いです。</li>
-    </ul>
-  </article>
-</section>
 <section id="parentPanel" class="panel">
   <article class="infoPage">
     <h2>保護者の方へ</h2>
     <p>古今掌は、親子で古典の言葉に触れるためのカードアプリです。受験対策そのものではありません。中学受験にもつながる語彙・教養・読解の土台を育てることを目指しています。</p>
-    <p>具体的な読み方や親子での使い方は、上部の「使い方ガイド」から確認できます。</p>
-    <p><button id="guideLinkParent" class="linkBtn" type="button">使い方ガイドを開く</button></p>
+    <h3>使い方ガイド</h3>
+    <ul>
+      <li>まずはホームで、今日のことばを読んでみてください。</li>
+      <li>原文を見たあと、「読み」を声に出すと、古典のリズムに触れやすくなります。</li>
+      <li>「こども訳」で意味をたしかめ、「ことばポイント」で大事な言葉をひとつ拾えます。</li>
+      <li>最後に「親子で話してみよう」を使って、正解を探すより、感じたことを話してみてください。</li>
+      <li>気に入ったことばは、下の「すき」から保存できます。</li>
+    </ul>
+
     <p>Developed by <a href="https://note.com/memetomamoru" target="_blank" rel="noopener noreferrer">memetomamoru / 芽芽斗守</a></p>
     <h3>想定している年齢</h3>
     <p>小学3年生から6年生くらいを想定しています。低学年のお子さまは、保護者の方が横で読んであげると使いやすくなります。</p>
@@ -566,7 +579,7 @@ body:not(.is-top) .audioToggle{
       <li>検索語、すきな言葉、BGM設定は端末内で扱います。</li>
       <li>外部リンクとして、保護者向け情報のためにnoteへのリンクがあります。</li>
     </ul>
-  </article>
+</article>
 </section>
 <section id="privacyPanel" class="panel">
   <article class="infoPage">

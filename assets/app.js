@@ -126,7 +126,7 @@ function showPanel(id){
 function setView(v){
   view = v;
   document.body.classList.toggle("is-top", v==="top");
-  const map = {top:"topPanel", home:"homePanel", search:"searchPanel", likes:"likesPanel", guide:"guidePanel", parent:"parentPanel", privacy:"privacyPanel", terms:"termsPanel", disclaimer:"disclaimerPanel"};
+  const map = {top:"topPanel", home:"homePanel", search:"searchPanel", likes:"likesPanel", parent:"parentPanel", privacy:"privacyPanel", terms:"termsPanel", disclaimer:"disclaimerPanel"};
   showPanel(map[v] || "homePanel");
   if(v==="home") renderCard();
   if(v==="search") renderSearch();
@@ -499,13 +499,12 @@ function toggleMusic(){ audio.enabled ? stopMusic(true) : startMusic(); }
 function bind(){
   $("startWithMusic").onclick = () => enterApp("on");
   $("startSilent").onclick = () => enterApp("off");
-  $("guideLinkTop").onclick = () => setView("guide");
   $("parentLinkTop").onclick = () => setView("parent");
   $("privacyLinkTop").onclick = () => setView("privacy");
   $("termsLinkTop").onclick = () => setView("terms");
   $("disclaimerLinkTop").onclick = () => setView("disclaimer");
-  $("guideLinkParent").onclick = () => setView("guide");
   $("favoriteBtn").onclick = toggleFav;
+  $("goGuideTop").onclick = () => setView("parent");
   $("goSearchTop").onclick = () => setView("search");
   $("goLikesTop").onclick = () => setView("likes");
   $("searchInput").oninput = renderSearch;
