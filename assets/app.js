@@ -234,11 +234,11 @@ function initAudio(){
   master.gain.setValueAtTime(0.0001, ctx.currentTime);
 
   const bus = ctx.createGain();
-  bus.gain.value = 0.56;
+  bus.gain.value = 0.64;
 
   const tone = ctx.createBiquadFilter();
   tone.type = "lowpass";
-  tone.frequency.value = 4200;
+  tone.frequency.value = 5000;
   tone.Q.value = 0.34;
 
   const warmth = ctx.createBiquadFilter();
@@ -256,7 +256,7 @@ function initAudio(){
   const delay = ctx.createDelay(1.6);
   delay.delayTime.value = 0.44;
   const delayGain = ctx.createGain();
-  delayGain.gain.value = 0.038;
+  delayGain.gain.value = 0.044;
   const delayTone = ctx.createBiquadFilter();
   delayTone.type = "lowpass";
   delayTone.frequency.value = 1850;
@@ -264,7 +264,7 @@ function initAudio(){
   const reverb = ctx.createConvolver();
   reverb.buffer = makeReverb(ctx, 3.8, 3.6);
   const reverbGain = ctx.createGain();
-  reverbGain.gain.value = 0.20;
+  reverbGain.gain.value = 0.18;
 
   bus.connect(tone);
   tone.connect(warmth);
@@ -476,29 +476,30 @@ function schedulePhrase(t){
   // 曲っぽさを抑えた、読書の邪魔をしない和風アンビエント。
   // 琴の撥弦音を疎らに置き、笛と空気音はごく薄く支える。
   const plucks = [
-    [0.00,N.D4,2.4,.033,-.18,.82],[0.78,N.A4,2.1,.024,.12,.78],[1.52,N.B4,2.6,.021,-.04,.74],
-    [5.80,N.G4,2.9,.027,.18,.76],[7.10,N.E4,2.5,.020,-.16,.70],
-    [12.60,N.A4,2.8,.027,-.08,.78],[13.44,N.D5,2.5,.021,.14,.76],[15.05,N.B4,2.7,.020,.02,.72],
-    [21.80,N.G4,3.0,.025,-.18,.73],[23.15,N.A4,2.5,.020,.16,.72],
-    [29.40,N.E4,2.9,.024,.08,.70],[30.36,N.G4,2.6,.021,-.12,.72],[31.42,N.B4,2.7,.019,.14,.70],
-    [38.30,N.A4,2.8,.025,-.10,.74],[39.28,N.E5,2.4,.018,.16,.72],[41.10,N.D5,3.2,.022,-.02,.70]
+    [0.00,N.D4,2.4,.043,-.18,.82],[0.78,N.A4,2.1,.031,.12,.78],[1.52,N.B4,2.6,.027,-.04,.74],
+    [5.80,N.G4,2.9,.035,.18,.76],[7.10,N.E4,2.5,.026,-.16,.70],
+    [12.60,N.A4,2.8,.035,-.08,.78],[13.44,N.D5,2.5,.027,.14,.76],[15.05,N.B4,2.7,.026,.02,.72],
+    [21.80,N.G4,3.0,.032,-.18,.73],[23.15,N.A4,2.5,.026,.16,.72],
+    [29.40,N.E4,2.9,.031,.08,.70],[30.36,N.G4,2.6,.027,-.12,.72],[31.42,N.B4,2.7,.025,.14,.70],
+    [38.30,N.A4,2.8,.032,-.10,.74],[39.28,N.E5,2.4,.023,.16,.72],[41.10,N.D5,3.2,.029,-.02,.70]
   ];
   const bass = [
-    [0.00,N.D2,13.5,.008,-.10],[18.00,N.A2,12.0,.006,.12],[34.00,N.D2,11.2,.007,0]
+    [0.00,N.D2,13.5,.010,-.10],[18.00,N.A2,12.0,.008,.12],[34.00,N.D2,11.2,.009,0]
   ];
   const flutes = [
-    [9.80,N.D5,3.6,.008,-.22],[25.80,N.A4,4.2,.007,.20],[43.20,N.E5,3.2,.006,-.12]
+    [9.80,N.D5,3.6,.010,-.22],[25.80,N.A4,4.2,.009,.20],[43.20,N.E5,3.2,.008,-.12]
   ];
   const bells = [
-    [0.18,N.D6,.0048,.24],[17.60,N.A5,.0038,-.22],[33.70,N.E6,.0035,.18],[46.00,N.D6,.0042,-.12]
+    [0.18,N.D6,.0062,.24],[17.60,N.A5,.0049,-.22],[33.70,N.E6,.0045,.18],[46.00,N.D6,.0054,-.12]
   ];
   plucks.forEach(([o,f,d,v,p,b])=>koto(f,t+o,d,v,p,b));
   bass.forEach(([o,f,d,v,p])=>bassDrone(f,t+o,d,v,p));
   flutes.forEach(([o,f,d,v,p])=>breathFlute(f,t+o,d,v,p));
   bells.forEach(([o,f,v,p])=>smallBell(f,t+o,v,p));
-  softAir(t+0.4, 16.5, 0.0024, -0.18);
-  softAir(t+18.5, 15.5, 0.0020, 0.16);
-  softAir(t+35.2, 11.8, 0.0018, -0.02);
+  softAir(t+0.4, 16.5, 0.0027, -0.18);
+  softAir(t+18.5, 15.5, 0.0023, 0.16);
+  softAir(t+35.2, 11.8, 0.0021, -0.02);
+  // v90: v89は実機で小さく感じやすかったため、上品さは維持しつつ全体音量と琴の存在感を上げた。
 }
 function playPhrase(){
   if(!audio.enabled || !audio.ctx) return;
@@ -521,7 +522,7 @@ async function startMusic(){
   if(audio.master){
     audio.master.gain.cancelScheduledValues(now);
     audio.master.gain.setValueAtTime(Math.max(audio.master.gain.value, 0.0001), now);
-    audio.master.gain.setTargetAtTime(0.26, now, 0.70);
+    audio.master.gain.setTargetAtTime(0.36, now, 0.55);
   }
   clearInterval(audio.timer);
   playPhrase();
@@ -562,7 +563,7 @@ async function resumeMusicForVisibility(){
   if(audio.master){
     audio.master.gain.cancelScheduledValues(now);
     audio.master.gain.setValueAtTime(Math.max(audio.master.gain.value, 0.0001), now);
-    audio.master.gain.setTargetAtTime(0.26, now, 0.55);
+    audio.master.gain.setTargetAtTime(0.36, now, 0.45);
   }
   clearInterval(audio.timer);
   playPhrase();
