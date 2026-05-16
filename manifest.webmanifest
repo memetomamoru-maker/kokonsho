@@ -1,7 +1,7 @@
 {
   "name": "古今掌",
   "short_name": "古今掌",
-  "description": "小学生にもわかる、古典のいい言葉。親子で読む古典カードアプリ。",
+  "description": "小学生にもわかる、古典のいい言葉。いっしょに読める古典カードアプリ。",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#fbf3dc",

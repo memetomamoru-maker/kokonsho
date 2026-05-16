@@ -81,7 +81,7 @@ function saveFavs(){localStorage.setItem(STORE_FAV, JSON.stringify([...favs]));}
 function current(){return DATA[idx] || DATA[0];}
 function genres(){return [...new Set(DATA.map(x=>x.genre).filter(Boolean))];}
 function shortText(s,n=74){s=String(s||"").replace(/\s+/g,' ');return s.length>n?s.slice(0,n-1)+'…':s;}
-function pointOf(item){return item.wordPoint || item.examMemo || "ことばの意味を、親子でゆっくり話してみよう。";}
+function pointOf(item){return item.wordPoint || item.examMemo || "ことばの意味を、おうちの人とゆっくり話してみよう。";}
 function talkOf(item){return item.parentQuestion || "このことばを、今日の生活で使うならどんな場面があるかな？";}
 function displayKid(item){return item.superTranslation || item.basicTranslation || item.original || "";}
 
@@ -248,26 +248,26 @@ function makeWordCard(item, like=false){
   return div;
 }
 
-function makeDailyCard(item, read=false){
+function makeDailyCard(item, read=false, number=0){
   const div = document.createElement("article");
   div.className = "dailyReadCard" + (read ? " is-read" : "");
   const liked = favs.has(item.id);
   div.innerHTML = `
     <div class="dailyReadHead">
-      <span class="pill">${esc(item.genre)}</span>
-      <span class="dailyReadState">${read ? "✓ 読んだ" : "未読"}</span>
+      <div class="dailyMeta"><span class="dailyNum">${String(number || "").padStart(2,"0")}</span><span class="pill">${esc(item.genre)}</span></div>
+      <span class="dailyReadState">${read ? "読了" : "未読"}</span>
     </div>
     <div class="dailyOriginal">${esc(item.original || "")}</div>
     ${item.reading ? `<div class="dailyReading">${esc(item.reading)}</div>` : ""}
     <div class="dailyKid">${rubyfy(displayKid(item))}</div>
     <div class="dailyMiniRows">
       <div><b>ことばポイント</b><p>${rubyfy(pointOf(item))}</p></div>
-      <div><b>親子で話してみよう</b><p>${rubyfy(talkOf(item))}</p></div>
+      <div><b>おうちの人と話してみよう</b><p>${rubyfy(talkOf(item))}</p></div>
     </div>
     <div class="dailyActions">
-      <button type="button" class="dailyReadBtn ${read ? "done" : ""}" data-read-id="${esc(item.id)}">${read ? "チェックを外す" : "読んだ"}</button>
+      <button type="button" class="dailyReadBtn ${read ? "done" : ""}" data-read-id="${esc(item.id)}">${read ? "読了済み" : "読んだ"}</button>
       <button type="button" class="dailyLikeBtn ${liked ? "liked" : ""}" data-like-id="${esc(item.id)}">${liked ? "♥ すき" : "♡ すき"}</button>
-      <button type="button" class="dailyOpenBtn" data-open-id="${esc(item.id)}">カードで読む</button>
+      <button type="button" class="dailyOpenBtn" data-open-id="${esc(item.id)}">くわしく読む</button>
     </div>`;
   return div;
 }
@@ -284,7 +284,7 @@ function renderDaily(){
   saveDailyProgress(key, done, items.length);
   box.innerHTML = "";
   if(!items.length){ box.innerHTML = `<div class="empty">まいにち10枚を読み込めませんでした。</div>`; return; }
-  items.forEach(item => box.appendChild(makeDailyCard(item, read.has(item.id))));
+  items.forEach((item, i) => box.appendChild(makeDailyCard(item, read.has(item.id), i + 1)));
   box.querySelectorAll("[data-read-id]").forEach(btn => btn.addEventListener("click", e => {
     const id = e.currentTarget.dataset.readId;
     const isRead = readSetFor(key).has(id);

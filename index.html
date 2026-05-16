@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>古今掌｜小学生にもわかる、古典のいい言葉。</title>
-<meta name="description" content="小学生にもわかる、古典のいい言葉。親子で読む古典カードアプリ。こども訳、ことばポイント、親子で話す問いつき。">
+<meta name="description" content="小学生にもわかる、古典のいい言葉。いっしょに読む古典カードアプリ。こども訳、ことばポイント、おうちの人と話す問いつき。">
 <meta name="theme-color" content="#fbf3dc">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="古今掌">
@@ -14,7 +14,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="./assets/icons/favicon-16.png">
 <meta property="og:title" content="古今掌">
-<meta property="og:description" content="小学生にもわかる、古典のいい言葉。親子で読む古典カードアプリ。">
+<meta property="og:description" content="小学生にもわかる、古典のいい言葉。いっしょに読む古典カードアプリ。">
 <meta property="og:type" content="website">
 <meta property="og:image" content="./assets/images/ogp.png">
 <style>
@@ -573,16 +573,159 @@ body:not(.is-top) .audioToggle{display:grid}
 
 /* v100: まいにち10枚・読んだきろく */
 .quickLinks{grid-template-columns:repeat(2,minmax(0,1fr))}
-.dailySummary{background:rgba(255,253,245,.93);border:1px solid rgba(255,255,255,.72);border-radius:30px;box-shadow:var(--shadow);padding:18px;margin:0 0 14px;overflow:hidden}
-.dailyKicker{display:inline-flex;align-items:center;gap:8px;background:var(--green2);color:var(--greenDark);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:900;letter-spacing:.08em}
-.dailySummary h2{font-family:var(--serif);font-size:32px;line-height:1.12;margin:11px 0 4px;color:var(--brown)}
-.dailyLead{margin:0 0 14px;color:var(--sub);font-weight:800;line-height:1.7}
-.dailyProgressLine{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:10px 0 8px;font-weight:900;color:var(--greenDark)}
-.dailyBar{height:10px;background:rgba(117,139,86,.16);border-radius:999px;overflow:hidden;border:1px solid rgba(117,139,86,.16)}
-.dailyBarFill{height:100%;width:0%;background:linear-gradient(90deg,var(--green),#a8b975);border-radius:999px;transition:width .2s ease}
-.dailySummaryActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.dailySummaryActions button,.dailyActions button,.recordTopActions button{border:1px solid rgba(117,139,86,.24);background:rgba(255,255,255,.84);color:var(--greenDark);border-radius:999px;padding:10px 13px;font-weight:900;box-shadow:0 6px 14px rgba(111,89,48,.06)}.dailySummaryActions .primaryMini,.dailyActions .done{background:linear-gradient(180deg,#91a765,var(--green));color:#fff;border-color:transparent}.dailyList{display:grid;gap:12px}.dailyReadCard{background:rgba(255,255,255,.86);border:1px solid var(--line);border-radius:26px;box-shadow:0 8px 20px rgba(111,89,48,.08);padding:15px;position:relative;overflow:hidden}.dailyReadCard.is-read{border-color:rgba(117,139,86,.34);background:linear-gradient(180deg,rgba(255,255,255,.91),rgba(238,240,229,.82))}.dailyReadHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}.dailyReadHead .pill{display:inline-flex;background:var(--green2);color:var(--green);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:900}.dailyReadState{font-size:12px;font-weight:900;color:var(--sub)}.is-read .dailyReadState{color:var(--greenDark)}.dailyOriginal{font-family:var(--serif);font-size:20px;line-height:1.6;font-weight:800;letter-spacing:.04em}.dailyReading{font-size:13px;line-height:1.55;color:var(--sub);font-weight:800;margin-top:4px}.dailyKid{font-family:var(--serif);font-size:18px;line-height:1.72;font-weight:700;margin-top:10px;background:rgba(255,246,203,.72);border:1px solid rgba(230,190,90,.24);border-radius:20px;padding:11px}.dailyMiniRows{display:grid;gap:8px;margin-top:10px}.dailyMiniRows div{background:rgba(255,253,245,.84);border:1px solid rgba(117,139,86,.14);border-radius:18px;padding:10px}.dailyMiniRows b{display:block;color:var(--greenDark);font-size:13px;margin-bottom:3px}.dailyMiniRows p{margin:0;line-height:1.65;font-size:14px;color:var(--brown)}.dailyActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.dailyActions button{font-size:13px;padding:9px 12px}.dailyActions .liked{background:#fff0e6;color:#d76544;border-color:rgba(225,111,77,.22)}.recordTopActions{margin:0 0 12px}.recordList{display:grid;gap:12px}.recordDay{background:rgba(255,255,255,.84);border:1px solid var(--line);border-radius:24px;box-shadow:0 8px 20px rgba(111,89,48,.07);padding:14px}.recordDayHead{display:flex;justify-content:space-between;gap:10px;align-items:center;color:var(--greenDark);font-weight:900;margin-bottom:9px}.recordDayHead b{font-family:var(--serif);font-size:18px;color:var(--brown)}.recordDayHead span{font-size:13px}.recordItems{display:grid;gap:7px}.recordItem{width:100%;text-align:left;border:1px solid rgba(117,139,86,.16);background:rgba(255,253,245,.82);border-radius:16px;padding:10px 12px;color:var(--brown);font-weight:800;line-height:1.45}.recordItem span{display:inline-flex;background:var(--green2);color:var(--green);border-radius:999px;padding:2px 8px;font-size:11px;font-weight:900;margin-right:7px}.recordNone{margin:0;color:var(--sub);font-size:14px}.storageNote{font-size:12px;line-height:1.65;color:rgba(79,64,42,.66);margin:12px 0 0}
-@media(max-width:380px){.dailySummary{padding:15px;border-radius:26px}.dailySummary h2{font-size:28px}.dailyOriginal{font-size:18px}.dailyKid{font-size:16px}.dailyMiniRows p{font-size:13px}.dailyActions button{font-size:12px;padding:8px 10px}.recordDayHead{display:block}.recordDayHead span{display:block;margin-top:3px}}
-@media(min-width:700px){.dailyMiniRows{grid-template-columns:1fr 1fr}.dailySummary h2{font-size:35px}.dailyKid{font-size:19px}}
+#dailyPanel .screenHeader,#recordsPanel .screenHeader{margin:10px 2px 14px;align-items:center}
+#dailyPanel .smallFairy,#recordsPanel .smallFairy{width:64px;height:64px;padding:6px;background:rgba(255,255,255,.72)}
+#dailyPanel .screenHeading h2,#recordsPanel .screenHeading h2{font-size:34px;letter-spacing:.04em}
+#dailyPanel .screenHeading p,#recordsPanel .screenHeading p{font-size:14px;color:var(--greenDark)}
+.dailySummary{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(252,248,238,.96));border:1px solid rgba(79,64,42,.10);border-radius:32px;box-shadow:0 16px 36px rgba(111,89,48,.10);padding:20px 18px 18px;margin:0 0 16px;overflow:hidden}
+.dailySummary::before{content:"";position:absolute;inset:auto -40px 50% auto;width:180px;height:180px;background:radial-gradient(circle,rgba(230,237,207,.68),transparent 68%);pointer-events:none;opacity:.9}
+.dailyKicker{display:inline-flex;align-items:center;gap:8px;background:rgba(117,139,86,.14);color:var(--greenDark);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:900;letter-spacing:.08em;border:1px solid rgba(117,139,86,.12)}
+.dailySummary h2{position:relative;font-family:var(--serif);font-size:30px;line-height:1.16;margin:12px 0 8px;color:var(--brown);letter-spacing:.02em}
+.dailyLead{position:relative;margin:0 0 14px;color:var(--sub);font-size:14px;font-weight:800;line-height:1.82;max-width:38em}
+.dailyProgressLine{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:12px 0 8px;font-weight:900;color:var(--greenDark);font-size:14px}
+.dailyProgressLine span:last-child{font-size:13px;color:rgba(79,64,42,.68)}
+.dailyBar{height:12px;background:rgba(117,139,86,.14);border-radius:999px;overflow:hidden;border:1px solid rgba(117,139,86,.10);box-shadow:inset 0 1px 2px rgba(79,64,42,.05)}
+.dailyBarFill{height:100%;width:0%;background:linear-gradient(90deg,#8ea46a,var(--green));border-radius:999px;transition:width .2s ease}
+.dailySummaryActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.dailySummaryActions button,.dailyActions button,.recordTopActions button{border:1px solid rgba(117,139,86,.20);background:rgba(255,255,255,.88);color:var(--greenDark);border-radius:999px;padding:10px 14px;font-weight:900;box-shadow:0 6px 14px rgba(111,89,48,.05);min-height:42px}
+.dailySummaryActions .primaryMini,.dailyActions .done{background:linear-gradient(180deg,#91a765,var(--green));color:#fff;border-color:transparent;box-shadow:0 10px 18px rgba(117,139,86,.18)}
+.dailyList{display:grid;gap:14px}
+.dailyReadCard{background:rgba(255,255,255,.90);border:1px solid rgba(79,64,42,.10);border-radius:30px;box-shadow:0 10px 26px rgba(111,89,48,.07);padding:16px;position:relative;overflow:hidden}
+.dailyReadCard::before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:4px;border-radius:999px;background:linear-gradient(180deg,rgba(117,139,86,.22),rgba(117,139,86,0))}
+.dailyReadCard.is-read{border-color:rgba(117,139,86,.26);background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(242,245,236,.92))}
+.dailyReadHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.dailyReadHead .pill{display:inline-flex;background:rgba(117,139,86,.13);color:var(--greenDark);border-radius:999px;padding:5px 10px;font-size:12px;font-weight:900}
+.dailyReadState{font-size:12px;font-weight:900;color:var(--sub);letter-spacing:.03em}
+.is-read .dailyReadState{color:var(--greenDark)}
+.dailyOriginal{font-family:var(--serif);font-size:22px;line-height:1.56;font-weight:800;letter-spacing:.03em;color:var(--brown)}
+.dailyReading{font-size:13px;line-height:1.6;color:var(--sub);font-weight:800;margin-top:4px}
+.dailyKid{font-family:var(--serif);font-size:18px;line-height:1.82;font-weight:700;margin-top:12px;background:linear-gradient(180deg,rgba(255,248,214,.92),rgba(255,245,205,.84));border:1px solid rgba(230,190,90,.24);border-radius:22px;padding:12px 13px}
+.dailyMiniRows{display:grid;gap:9px;margin-top:12px}
+.dailyMiniRows div{background:rgba(255,253,245,.88);border:1px solid rgba(117,139,86,.12);border-radius:18px;padding:11px 12px}
+.dailyMiniRows b{display:block;color:var(--greenDark);font-size:13px;margin-bottom:4px}
+.dailyMiniRows p{margin:0;line-height:1.68;font-size:14px;color:var(--brown)}
+.dailyActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.dailyActions button{font-size:13px;padding:9px 13px}
+.dailyActions .dailyOpenBtn{background:rgba(255,253,245,.92)}
+.dailyActions .liked{background:#fff0e6;color:#d76544;border-color:rgba(225,111,77,.22)}
+.recordTopActions{margin:0 0 12px}
+.recordList{display:grid;gap:12px}
+.recordDay{background:rgba(255,255,255,.88);border:1px solid rgba(79,64,42,.10);border-radius:26px;box-shadow:0 8px 20px rgba(111,89,48,.06);padding:15px}
+.recordDayHead{display:flex;justify-content:space-between;gap:10px;align-items:center;color:var(--greenDark);font-weight:900;margin-bottom:10px}
+.recordDayHead b{font-family:var(--serif);font-size:19px;color:var(--brown)}
+.recordDayHead span{font-size:13px;color:rgba(79,64,42,.72)}
+.recordItems{display:grid;gap:8px}
+.recordItem{width:100%;text-align:left;border:1px solid rgba(117,139,86,.15);background:rgba(255,253,245,.86);border-radius:17px;padding:11px 12px;color:var(--brown);font-weight:800;line-height:1.48}
+.recordItem span{display:inline-flex;background:rgba(117,139,86,.13);color:var(--greenDark);border-radius:999px;padding:2px 8px;font-size:11px;font-weight:900;margin-right:7px}
+.recordNone{margin:0;color:var(--sub);font-size:14px}
+.storageNote{font-size:12px;line-height:1.7;color:rgba(79,64,42,.66);margin:12px 0 0;max-width:40em}
+@media(max-width:380px){#dailyPanel .smallFairy,#recordsPanel .smallFairy{width:58px;height:58px}#dailyPanel .screenHeading h2,#recordsPanel .screenHeading h2{font-size:30px}.dailySummary{padding:16px;border-radius:28px}.dailySummary h2{font-size:26px}.dailyLead{font-size:13px}.dailyOriginal{font-size:19px}.dailyKid{font-size:16px}.dailyMiniRows p{font-size:13px}.dailyActions button,.dailySummaryActions button,.recordTopActions button{font-size:12px;padding:8px 11px;min-height:40px}.recordDayHead{display:block}.recordDayHead span{display:block;margin-top:4px}}
+@media(min-width:560px){.dailyMiniRows{grid-template-columns:1fr 1fr}}
+@media(min-width:700px){#dailyPanel .smallFairy,#recordsPanel .smallFairy{width:72px;height:72px}#dailyPanel .screenHeading h2,#recordsPanel .screenHeading h2{font-size:36px}.dailySummary{padding:22px 22px 20px}.dailySummary h2{font-size:34px}.dailyLead{font-size:15px}.dailyKid{font-size:19px}.dailyReadCard{padding:18px 18px 17px}.recordDay{padding:16px}}
+
+
+
+
+/* v101: まいにち10枚 visual refinement */
+#dailyPanel .screenHeader,#recordsPanel .screenHeader{
+  margin:4px 0 14px;
+  padding:14px 16px;
+  border-radius:30px;
+  background:linear-gradient(180deg,rgba(255,253,245,.94),rgba(255,248,232,.88));
+  border:1px solid rgba(255,255,255,.72);
+  box-shadow:0 14px 34px rgba(111,89,48,.10);
+}
+#dailyPanel .smallFairy,#recordsPanel .smallFairy{width:58px;height:58px;border-radius:22px}
+#dailyPanel .screenHeading h2,#recordsPanel .screenHeading h2{font-size:29px;letter-spacing:.04em}
+#dailyPanel .screenHeading p,#recordsPanel .screenHeading p{font-size:13px;letter-spacing:.04em}
+.dailySummary{
+  padding:20px 22px 18px;
+  margin:0 0 16px;
+  border-radius:30px;
+  background:linear-gradient(180deg,rgba(255,253,247,.96),rgba(250,246,232,.92));
+  border:1px solid rgba(255,255,255,.82);
+  box-shadow:0 14px 34px rgba(111,89,48,.10);
+}
+.dailyKicker{padding:5px 12px;font-size:11px;background:rgba(230,237,207,.86);color:#607549}
+.dailySummary h2{font-size:30px;line-height:1.18;margin:14px 0 7px;letter-spacing:.02em}
+.dailyLead{font-size:14px;line-height:1.75;font-weight:760;color:#75664d;margin-bottom:16px;max-width:34em}
+.dailyProgressLine{font-size:15px;margin:12px 0 8px}
+.dailyProgressLine span:last-child{font-size:13px;color:#6e7f4f;background:rgba(230,237,207,.55);border-radius:999px;padding:5px 11px;white-space:nowrap}
+.dailyBar{height:8px;background:rgba(117,139,86,.13);border:0}
+.dailySummaryActions{margin-top:15px}
+.dailySummaryActions button,.recordTopActions button{box-shadow:none;background:rgba(255,255,255,.76)}
+.dailySummaryActions .primaryMini{padding:11px 17px;background:linear-gradient(180deg,#849b60,#6f8750)}
+.storageNote{font-size:11.5px;line-height:1.65;color:rgba(79,64,42,.55);margin-top:13px}
+.dailyList{gap:14px}
+.dailyReadCard{
+  padding:16px;
+  border-radius:28px;
+  background:rgba(255,253,247,.91);
+  border:1px solid rgba(79,64,42,.10);
+  box-shadow:0 12px 30px rgba(111,89,48,.085);
+}
+.dailyReadCard.is-read{
+  background:linear-gradient(180deg,rgba(255,253,247,.95),rgba(238,242,226,.78));
+  border-color:rgba(117,139,86,.26);
+}
+.dailyReadHead{margin-bottom:10px}
+.dailyMeta{display:flex;align-items:center;gap:8px;min-width:0}
+.dailyNum{
+  display:inline-grid;place-items:center;
+  min-width:32px;height:26px;padding:0 8px;
+  border-radius:999px;
+  background:rgba(201,163,82,.18);
+  color:#7b6331;
+  font-size:12px;font-weight:900;letter-spacing:.05em;
+}
+.dailyReadHead .pill{font-size:11px;padding:4px 10px;background:rgba(230,237,207,.82);color:#667b4d}
+.dailyReadState{font-size:11px;color:rgba(79,64,42,.58);background:rgba(255,255,255,.62);border:1px solid rgba(79,64,42,.08);border-radius:999px;padding:4px 10px}
+.is-read .dailyReadState{color:#5f7747;background:rgba(230,237,207,.72);border-color:rgba(117,139,86,.16)}
+.dailyOriginal{font-size:19px;line-height:1.55;letter-spacing:.035em;margin-top:2px}
+.dailyReading{font-size:12.5px;line-height:1.55;color:#7a6a50;margin-top:2px}
+.dailyKid{
+  margin-top:11px;
+  padding:12px 13px;
+  border-radius:20px;
+  font-size:17px;
+  line-height:1.72;
+  background:linear-gradient(180deg,rgba(255,249,223,.78),rgba(255,244,197,.58));
+  border:1px solid rgba(201,163,82,.22);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
+}
+.dailyMiniRows{gap:9px;margin-top:10px}
+.dailyMiniRows div{border-radius:18px;background:rgba(255,253,247,.70);border:1px solid rgba(117,139,86,.12);padding:10px 11px}
+.dailyMiniRows b{font-size:12.5px;letter-spacing:.02em;margin-bottom:4px}
+.dailyMiniRows p{font-size:13.5px;line-height:1.65;color:#5d503c}
+.dailyActions{gap:7px;margin-top:12px}
+.dailyActions button{
+  min-height:36px;
+  padding:8px 12px;
+  font-size:12.5px;
+  background:rgba(255,255,255,.74);
+  box-shadow:none;
+  border-color:rgba(117,139,86,.18);
+}
+.dailyActions .done{background:linear-gradient(180deg,#81985e,#6f8750);color:#fff}
+.dailyActions .liked{background:rgba(255,240,230,.72);color:#c75f3f}
+.recordDay{border-radius:26px;background:rgba(255,253,247,.90);box-shadow:0 12px 28px rgba(111,89,48,.08)}
+.recordItem{background:rgba(255,253,247,.76)}
+@media(max-width:380px){
+  #dailyPanel .screenHeader,#recordsPanel .screenHeader{padding:12px 13px;border-radius:26px}
+  #dailyPanel .smallFairy,#recordsPanel .smallFairy{width:50px;height:50px;border-radius:18px}
+  #dailyPanel .screenHeading h2,#recordsPanel .screenHeading h2{font-size:25px}
+  .dailySummary{padding:17px 16px;border-radius:26px}
+  .dailySummary h2{font-size:26px}
+  .dailyProgressLine{align-items:flex-start;flex-direction:column;gap:6px}
+  .dailyOriginal{font-size:17px}
+  .dailyKid{font-size:15.5px}
+}
+@media(min-width:700px){
+  #dailyPanel .screenHeader,#recordsPanel .screenHeader{padding:16px 20px}
+  .dailySummary{padding:22px 24px 19px}
+  .dailyReadCard{padding:18px}
+  .dailyOriginal{font-size:20px}
+}
 
 </style>
 </head>
@@ -655,7 +798,7 @@ body:not(.is-top) .audioToggle{display:grid}
     </div>
     <div class="infoList homeInfoList">
       <div class="infoRow staticInfo"><div class="icon point">💡</div><div><div class="rowLabel">ことばポイント</div><div id="pointText" class="rowText"></div></div></div>
-      <div class="infoRow staticInfo"><div class="icon talk">💬</div><div><div class="rowLabel">親子で話してみよう</div><div id="talkText" class="rowText"></div></div></div>
+      <div class="infoRow staticInfo"><div class="icon talk">💬</div><div><div class="rowLabel">おうちの人と話してみよう</div><div id="talkText" class="rowText"></div></div></div>
     </div>
   </article>
 </section>
@@ -671,14 +814,14 @@ body:not(.is-top) .audioToggle{display:grid}
   <div id="likesList" class="resultList"></div>
 </section>
 <section id="dailyPanel" class="panel">
-  <div class="screenHeader"><img class="smallFairy" src="./assets/images/kokon_icon.png" alt="ココン"><div class="screenHeading"><h2>まいにち10枚</h2><p>パパとママとチェック</p></div></div>
+  <div class="screenHeader"><img class="smallFairy" src="./assets/images/kokon_icon.png" alt="ココン"><div class="screenHeading"><h2>まいにち10枚</h2><p>おうちの人とチェック</p></div></div>
   <div class="dailySummary">
     <span class="dailyKicker" id="dailyDate">今日の日付</span>
-    <h2>親子で読む、今日の10枚</h2>
-    <p class="dailyLead">毎日、300枚の中から10枚をえらびます。同じ日は同じ10枚。読んだらチェックをつけて、日付ごとのきろくに残せます。</p>
+    <h2>おうちの人と読む、今日の10枚</h2>
+    <p class="dailyLead">300枚から10枚をえらびます。同じ日は同じ10枚。読んだらチェックして、日付ごとのきろくに残せます。</p>
     <div class="dailyProgressLine"><span id="dailyProgress">0 / 10枚 読んだ</span><span>ぜんぶ読まなくてもOK</span></div>
     <div class="dailyBar" aria-hidden="true"><div id="dailyBarFill" class="dailyBarFill"></div></div>
-    <div class="dailySummaryActions"><button id="dailyRecordsBtn" class="primaryMini" type="button">読んだきろくを見る</button></div>
+    <div class="dailySummaryActions"><button id="dailyRecordsBtn" class="primaryMini" type="button">きろくを見る</button></div>
     <p class="storageNote">読んだきろくは、この端末とブラウザの中に保存されます。端末変更やブラウザのデータ削除では引き継がれない場合があります。</p>
   </div>
   <div id="dailyList" class="dailyList"></div>
@@ -691,14 +834,14 @@ body:not(.is-top) .audioToggle{display:grid}
 <section id="parentPanel" class="panel">
   <article class="infoPage">
     <h2>保護者の方へ</h2>
-    <p>古今掌は、親子で古典の言葉に触れるためのカードアプリです。受験対策そのものではありません。中学受験にもつながる語彙・教養・読解の土台を育てることを目指しています。</p>
+    <p>古今掌は、お子さんといっしょに古典の言葉に触れるためのカードアプリです。受験対策そのものではありません。中学受験にもつながる語彙・教養・読解の土台を育てることを目指しています。</p>
     <h3>使い方ガイド</h3>
     <ul>
-      <li>ホームで表示された「百人一首のことば」「論語のことば」「故事成語のことば」「ことわざのことば」「慣用句のことば」を親子で読んでみてください。</li>
+      <li>ホームで表示された「百人一首のことば」「論語のことば」「故事成語のことば」「ことわざのことば」「慣用句のことば」を、お子さんといっしょに読んでみてください。</li>
       <li>まず「原文」を眺めて、古典の言葉の形に触れます。</li>
       <li>次に「読み」を声に出すと、古典のリズムに触れやすくなります。</li>
       <li>「こども訳」で意味をたしかめ、「ことばポイント」で大事な表現をひとつ拾えます。</li>
-      <li>「親子で話してみよう」は、正解を当てるものではなく、感じたことを話すきっかけとして使ってください。</li>
+      <li>「おうちの人と話してみよう」は、正解を当てるものではなく、感じたことを話すきっかけとして使ってください。</li>
       <li>気に入ったことばは、ハートで「すき」に保存できます。</li>
       <li>「まいにち10枚」では、日付ごとにえらばれた10枚を読み、読んだカードにチェックをつけられます。</li>
       <li>「読んだきろく」では、日付ごとに読んだカードを確認できます。</li>
@@ -744,11 +887,11 @@ body:not(.is-top) .audioToggle{display:grid}
 <section id="termsPanel" class="panel">
   <article class="infoPage">
     <h2>利用規約</h2>
-    <p>古今掌は、親子で古典や昔から伝わる言葉に触れるための無料カードアプリです。利用者は、本規約に同意したうえで本アプリを利用するものとします。</p>
+    <p>古今掌は、お子さんと古典や昔から伝わる言葉に触れるための無料カードアプリです。利用者は、本規約に同意したうえで本アプリを利用するものとします。</p>
     <h3>利用料金</h3>
     <p>本アプリは無料で利用できます。現時点で、課金、購入、サブスクリプション、有料会員機能はありません。</p>
     <h3>コンテンツの扱い</h3>
-    <p>掲載している古典の原文は、主に著作権保護期間が満了した古典作品を対象としています。一方、こども訳、ことばポイント、親子で話してみよう等の編集文・解説文・画面デザインは、古今掌または制作者に権利が帰属します。</p>
+    <p>掲載している古典の原文は、主に著作権保護期間が満了した古典作品を対象としています。一方、こども訳、ことばポイント、おうちの人と話してみよう等の編集文・解説文・画面デザインは、古今掌または制作者に権利が帰属します。</p>
     <h3>禁止事項</h3>
     <ul>
       <li>本アプリの内容を無断で大量転載、再配布、販売すること。</li>
@@ -766,7 +909,7 @@ body:not(.is-top) .audioToggle{display:grid}
     <p>古今掌は、古典や昔から伝わる言葉に親しむための学習・鑑賞支援アプリです。学校の成績、受験結果、学習効果を保証するものではありません。</p>
     <h3>訳と解説について</h3>
     <p>こども訳は、子どもが意味を受け取りやすいようにした意訳です。厳密な逐語訳、学術的な解釈、入試対策としての完全性を保証するものではありません。</p>
-    <p>本アプリのこども訳、ことばポイント、親子で話してみよう等の作成には、AIを補助的に利用しています。内容は確認のうえ掲載していますが、古典や語句の解釈には諸説があり、誤字、誤訳、不自然な表現、解釈の違いが含まれる可能性があります。</p>
+    <p>本アプリのこども訳、ことばポイント、おうちの人と話してみよう等の作成には、AIを補助的に利用しています。内容は確認のうえ掲載していますが、古典や語句の解釈には諸説があり、誤字、誤訳、不自然な表現、解釈の違いが含まれる可能性があります。</p>
     <h3>情報の正確性について</h3>
     <p>内容の正確性には注意していますが、表示上の不具合や不正確な情報が含まれる可能性があります。必要に応じて、書籍、学校教材、専門資料などもあわせてご確認ください。</p>
     <h3>外部リンクについて</h3>
