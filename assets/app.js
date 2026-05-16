@@ -1,6 +1,10 @@
 const $ = (id) => document.getElementById(id);
-const STORE_FAV = "kokonsho:favorites:v1";
+const STORE_FAV = "kokonsho_favorites_v1";
+const STORE_FAV_LEGACY = "kokonsho:favorites:v1";
 const STORE_BGM = "kokonsho:bgm:v1";
+const STORE_DAILY_SETS = "kokonsho_daily_sets_v1";
+const STORE_READ_LOG = "kokonsho_read_log_v1";
+const STORE_DAILY_PROGRESS = "kokonsho_daily_progress_v1";
 let DATA = [];
 let idx = 0;
 let genre = "all";
@@ -13,7 +17,7 @@ const RUBY = [
   // 古今掌の方針：原文・読みには使わず、説明系の欄だけに必要最小限で使う。
   // 基本漢字の単独ルビは避け、古典語・抽象語・論語語彙・百人一首語彙を中心にする。
   ["百人一首","ひゃくにんいっしゅ"],["論語","ろんご"],["古典語","こてんご"],["古典","こてん"],["和歌","わか"],["漢文","かんぶん"],
-  ["故事成語","こじせいご"],["ことわざ","ことわざ"],["慣用句","かんようく"],
+  ["故事成語","こじせいご"],["慣用句","かんようく"],
   ["矛盾","むじゅん"],["蛇足","だそく"],["推敲","すいこう"],["漁夫の利","ぎょふのり"],["五十歩百歩","ごじっぽひゃっぽ"],["朝三暮四","ちょうさんぼし"],["杞憂","きゆう"],["助長","じょちょう"],
   ["背水の陣","はいすいのじん"],["画竜点睛","がりょうてんせい"],["四面楚歌","しめんそか"],["虎の威を借る狐","とらのいをかるきつね"],["塞翁が馬","さいおうがうま"],["完璧","かんぺき"],
   ["蛍雪の功","けいせつのこう"],["温故知新","おんこちしん"],["切磋琢磨","せっさたくま"],["大器晩成","たいきばんせい"],["臥薪嘗胆","がしんしょうたん"],["守株","しゅしゅ"],
@@ -51,6 +55,9 @@ function rubyfy(raw){
   return src.replace(RUBY_RE, (match, offset, full) => {
     const before = full[offset - 1] || '';
     const after = full[offset + match.length] || '';
+    // ひらがな・カタカナだけの語にはルビを振らない。
+    // 「ことわざ」に「ことわざ」のルビが付くような重複表示を防ぐ。
+    if(!KANJI_RE.test(match)) return match;
     // すでに「仁（じん）」のように本文側で読みが付いている場合は二重にしない。
     if(after === '（' || after === '(') return match;
     // 一字語は「自信」「利益」のような熟語の一部では振らない。
@@ -59,7 +66,17 @@ function rubyfy(raw){
     return kana ? `<ruby>${match}<rt>${kana}</rt></ruby>` : match;
   });
 }
-function loadFavs(){try{return JSON.parse(localStorage.getItem(STORE_FAV)||"[]");}catch{return []}}
+function safeParse(raw, fallback){try{return raw ? JSON.parse(raw) : fallback;}catch{return fallback;}}
+function loadFavs(){
+  const current = safeParse(localStorage.getItem(STORE_FAV), null);
+  if(Array.isArray(current)) return current;
+  const legacy = safeParse(localStorage.getItem(STORE_FAV_LEGACY), []);
+  if(Array.isArray(legacy) && legacy.length){
+    localStorage.setItem(STORE_FAV, JSON.stringify(legacy));
+    return legacy;
+  }
+  return [];
+}
 function saveFavs(){localStorage.setItem(STORE_FAV, JSON.stringify([...favs]));}
 function current(){return DATA[idx] || DATA[0];}
 function genres(){return [...new Set(DATA.map(x=>x.genre).filter(Boolean))];}
@@ -67,6 +84,101 @@ function shortText(s,n=74){s=String(s||"").replace(/\s+/g,' ');return s.length>n
 function pointOf(item){return item.wordPoint || item.examMemo || "ことばの意味を、親子でゆっくり話してみよう。";}
 function talkOf(item){return item.parentQuestion || "このことばを、今日の生活で使うならどんな場面があるかな？";}
 function displayKid(item){return item.superTranslation || item.basicTranslation || item.original || "";}
+
+function pad2(n){return String(n).padStart(2,"0");}
+function todayKey(date=new Date()){return `${date.getFullYear()}-${pad2(date.getMonth()+1)}-${pad2(date.getDate())}`;}
+function dateLabel(key){
+  const [y,m,d] = String(key).split("-").map(Number);
+  if(!y || !m || !d) return key;
+  return `${y}年${m}月${d}日`;
+}
+function loadDailySets(){return safeParse(localStorage.getItem(STORE_DAILY_SETS), {}) || {};}
+function saveDailySets(sets){localStorage.setItem(STORE_DAILY_SETS, JSON.stringify(sets));}
+function loadReadLog(){return safeParse(localStorage.getItem(STORE_READ_LOG), {}) || {};}
+function saveReadLog(log){localStorage.setItem(STORE_READ_LOG, JSON.stringify(log));}
+function saveDailyProgress(key, done, total){
+  const progress = safeParse(localStorage.getItem(STORE_DAILY_PROGRESS), {}) || {};
+  progress[key] = {done, total, updatedAt:new Date().toISOString()};
+  localStorage.setItem(STORE_DAILY_PROGRESS, JSON.stringify(progress));
+}
+function hashSeed(str){
+  let h = 2166136261;
+  for(let i=0;i<str.length;i++){
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+function mulberry32(a){
+  return function(){
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+function seededShuffle(items, seedText){
+  const arr = items.slice();
+  const rand = mulberry32(hashSeed(seedText));
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(rand() * (i+1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+function generateDailyIds(key){
+  const selected = [];
+  const used = new Set();
+  const byGenre = new Map();
+  DATA.forEach(item => {
+    if(!item || !item.id) return;
+    const g = item.genre || "その他";
+    if(!byGenre.has(g)) byGenre.set(g, []);
+    byGenre.get(g).push(item);
+  });
+  const order = seededShuffle([...byGenre.keys()].sort(), `${key}:genres`);
+  order.forEach(g => {
+    const picks = seededShuffle(byGenre.get(g), `${key}:${g}`).slice(0, 2);
+    picks.forEach(item => { if(!used.has(item.id)){ selected.push(item.id); used.add(item.id); } });
+  });
+  if(selected.length < 10){
+    for(const item of seededShuffle(DATA, `${key}:all`)){
+      if(selected.length >= 10) break;
+      if(item && item.id && !used.has(item.id)){ selected.push(item.id); used.add(item.id); }
+    }
+  }
+  return selected.slice(0, 10);
+}
+function getDailyIds(key=todayKey()){
+  const sets = loadDailySets();
+  const valid = new Set(DATA.map(x=>x.id));
+  const saved = Array.isArray(sets[key]) ? sets[key].filter(id=>valid.has(id)) : [];
+  if(saved.length === 10) return saved;
+  const ids = generateDailyIds(key);
+  sets[key] = ids;
+  saveDailySets(sets);
+  return ids;
+}
+function getDailyItems(key=todayKey()){
+  const byId = new Map(DATA.map(x=>[x.id,x]));
+  return getDailyIds(key).map(id=>byId.get(id)).filter(Boolean);
+}
+function readSetFor(key=todayKey()){
+  const log = loadReadLog();
+  const entry = log[key] || {};
+  return new Set(Array.isArray(entry) ? entry : Object.keys(entry).filter(id=>entry[id]));
+}
+function setReadForToday(id, value=true){
+  const key = todayKey();
+  const log = loadReadLog();
+  if(!log[key] || Array.isArray(log[key])) log[key] = {};
+  if(value) log[key][id] = true;
+  else delete log[key][id];
+  saveReadLog(log);
+  const ids = getDailyIds(key);
+  const done = ids.filter(x => log[key] && log[key][x]).length;
+  saveDailyProgress(key, done, ids.length);
+}
 function genreLabel(item){
   return item && item.genre ? `${item.genre}のことば` : "古典のことば";
 }
@@ -84,13 +196,7 @@ async function loadData(){
     DATA = await res.json();
   }catch(e){
     console.warn("外部JSONを読めませんでした", e);
-    const inlineEl = $("data-json");
-    if(inlineEl && inlineEl.textContent.trim()){
-      try{ DATA = JSON.parse(inlineEl.textContent); }
-      catch(err){ console.error("HTML内蔵データも読めませんでした", err); DATA = []; }
-    }else{
-      DATA = [];
-    }
+    DATA = [];
   }
   if(!Array.isArray(DATA)) DATA = [];
   renderGenres();
@@ -141,6 +247,93 @@ function makeWordCard(item, like=false){
   div.onclick = () => { idx = Math.max(0, DATA.findIndex(x=>x.id===item.id)); setView("home"); };
   return div;
 }
+
+function makeDailyCard(item, read=false){
+  const div = document.createElement("article");
+  div.className = "dailyReadCard" + (read ? " is-read" : "");
+  const liked = favs.has(item.id);
+  div.innerHTML = `
+    <div class="dailyReadHead">
+      <span class="pill">${esc(item.genre)}</span>
+      <span class="dailyReadState">${read ? "✓ 読んだ" : "未読"}</span>
+    </div>
+    <div class="dailyOriginal">${esc(item.original || "")}</div>
+    ${item.reading ? `<div class="dailyReading">${esc(item.reading)}</div>` : ""}
+    <div class="dailyKid">${rubyfy(displayKid(item))}</div>
+    <div class="dailyMiniRows">
+      <div><b>ことばポイント</b><p>${rubyfy(pointOf(item))}</p></div>
+      <div><b>親子で話してみよう</b><p>${rubyfy(talkOf(item))}</p></div>
+    </div>
+    <div class="dailyActions">
+      <button type="button" class="dailyReadBtn ${read ? "done" : ""}" data-read-id="${esc(item.id)}">${read ? "チェックを外す" : "読んだ"}</button>
+      <button type="button" class="dailyLikeBtn ${liked ? "liked" : ""}" data-like-id="${esc(item.id)}">${liked ? "♥ すき" : "♡ すき"}</button>
+      <button type="button" class="dailyOpenBtn" data-open-id="${esc(item.id)}">カードで読む</button>
+    </div>`;
+  return div;
+}
+function renderDaily(){
+  const box = $("dailyList");
+  if(!box) return;
+  const key = todayKey();
+  const items = getDailyItems(key);
+  const read = readSetFor(key);
+  const done = items.filter(x=>read.has(x.id)).length;
+  if($("dailyDate")) $("dailyDate").textContent = dateLabel(key);
+  if($("dailyProgress")) $("dailyProgress").textContent = `${done} / ${items.length}枚 読んだ`;
+  if($("dailyBarFill")) $("dailyBarFill").style.width = items.length ? `${Math.round(done/items.length*100)}%` : "0%";
+  saveDailyProgress(key, done, items.length);
+  box.innerHTML = "";
+  if(!items.length){ box.innerHTML = `<div class="empty">まいにち10枚を読み込めませんでした。</div>`; return; }
+  items.forEach(item => box.appendChild(makeDailyCard(item, read.has(item.id))));
+  box.querySelectorAll("[data-read-id]").forEach(btn => btn.addEventListener("click", e => {
+    const id = e.currentTarget.dataset.readId;
+    const isRead = readSetFor(key).has(id);
+    setReadForToday(id, !isRead);
+    renderDaily(); renderRecords();
+  }));
+  box.querySelectorAll("[data-like-id]").forEach(btn => btn.addEventListener("click", e => {
+    const id = e.currentTarget.dataset.likeId;
+    favs.has(id) ? favs.delete(id) : favs.add(id);
+    saveFavs(); renderDaily(); renderLikes(); updateFavCount(); updateCommandBar();
+  }));
+  box.querySelectorAll("[data-open-id]").forEach(btn => btn.addEventListener("click", e => {
+    const id = e.currentTarget.dataset.openId;
+    idx = Math.max(0, DATA.findIndex(x=>x.id===id));
+    setView("home");
+  }));
+}
+function renderRecords(){
+  const box = $("recordList");
+  if(!box) return;
+  const sets = loadDailySets();
+  const log = loadReadLog();
+  const byId = new Map(DATA.map(x=>[x.id,x]));
+  const keys = Object.keys(log).filter(key => log[key] && Object.keys(log[key]).some(id => log[key][id])).sort().reverse().slice(0, 30);
+  box.innerHTML = "";
+  if(!keys.length){
+    box.innerHTML = `<div class="empty">読んだきろくはまだありません。<br>まいにち10枚で「読んだ」を押すと、日付ごとに残ります。</div>`;
+    return;
+  }
+  keys.forEach(key => {
+    const ids = (sets[key] || []).filter(id => byId.has(id));
+    const entry = log[key] || {};
+    const readIds = ids.filter(id => Array.isArray(entry) ? entry.includes(id) : entry[id]);
+    const wrap = document.createElement("article");
+    wrap.className = "recordDay";
+    wrap.innerHTML = `
+      <div class="recordDayHead"><b>${esc(dateLabel(key))}</b><span>${readIds.length} / ${ids.length}枚 読んだ</span></div>
+      <div class="recordItems">${readIds.length ? readIds.map(id => {
+        const item = byId.get(id);
+        return `<button type="button" class="recordItem" data-open-id="${esc(id)}"><span>${esc(item.genre)}</span>${esc(shortText(item.original || displayKid(item), 36))}</button>`;
+      }).join("") : `<p class="recordNone">この日はまだチェックがありません。</p>`}</div>`;
+    box.appendChild(wrap);
+  });
+  box.querySelectorAll("[data-open-id]").forEach(btn => btn.addEventListener("click", e => {
+    const id = e.currentTarget.dataset.openId;
+    idx = Math.max(0, DATA.findIndex(x=>x.id===id));
+    setView("home");
+  }));
+}
 function renderSearch(){
   renderGenres();
   const box = $("list");
@@ -190,10 +383,12 @@ function setView(v){
   closeInfoModal();
   view = v;
   document.body.classList.toggle("is-top", v==="top");
-  const map = {top:"topPanel", home:"homePanel", search:"searchPanel", likes:"likesPanel", parent:"parentPanel", privacy:"privacyPanel", terms:"termsPanel", disclaimer:"disclaimerPanel"};
+  const map = {top:"topPanel", home:"homePanel", daily:"dailyPanel", records:"recordsPanel", search:"searchPanel", likes:"likesPanel", parent:"parentPanel", privacy:"privacyPanel", terms:"termsPanel", disclaimer:"disclaimerPanel"};
   showPanel(map[v] || "homePanel");
   if(v==="home") renderCard();
   if(v==="search") renderSearch();
+  if(v==="daily") renderDaily();
+  if(v==="records") renderRecords();
   if(v==="likes") renderLikes();
   updateCommandBar();
   window.scrollTo({top:0,behavior:"smooth"});
@@ -222,7 +417,14 @@ function updateCommandBar(){
     save.style.display = "grid"; save.onclick = toggleFav; save.querySelector(".cmdIcon").textContent = item && favs.has(item.id) ? "♥" : "♡"; save.querySelector("span:last-child").textContent = item && favs.has(item.id) ? "保存済" : "保存"; save.classList.toggle("liked", !!item && favs.has(item.id));
   }else{
     prev.querySelector(".cmdIcon").textContent = "⌂"; prev.querySelector("span:last-child").textContent = "ホーム"; prev.onclick = () => setView("home");
-    next.querySelector(".cmdIcon").textContent = view==="search" ? "♥" : "⌕"; next.querySelector("span:last-child").textContent = view==="search" ? "すき" : "さがす"; next.onclick = () => setView(view==="search" ? "likes" : "search"); next.classList.add("primary");
+    if(view==="daily"){
+      next.querySelector(".cmdIcon").textContent = "✓"; next.querySelector("span:last-child").textContent = "きろく"; next.onclick = () => setView("records");
+    }else if(view==="records"){
+      next.querySelector(".cmdIcon").textContent = "十"; next.querySelector("span:last-child").textContent = "10枚"; next.onclick = () => setView("daily");
+    }else{
+      next.querySelector(".cmdIcon").textContent = view==="search" ? "♥" : "⌕"; next.querySelector("span:last-child").textContent = view==="search" ? "すき" : "さがす"; next.onclick = () => setView(view==="search" ? "likes" : "search");
+    }
+    next.classList.add("primary");
     save.style.display = "grid"; save.onclick = toggleMusic; save.querySelector(".cmdIcon").textContent = audio.enabled ? "♪" : "×"; save.querySelector("span:last-child").textContent = audio.enabled ? "音OFF" : "音ON"; save.classList.remove("liked");
   }
 }
@@ -604,6 +806,7 @@ function bind(){
   const disclaimerLinkTop = $("disclaimerLinkTop");
   const favoriteBtn = $("favoriteBtn");
   const goGuideTop = $("goGuideTop");
+  const goDailyTop = $("goDailyTop");
   const goSearchTop = $("goSearchTop");
   const goLikesTop = $("goLikesTop");
   const searchInput = $("searchInput");
@@ -620,6 +823,9 @@ function bind(){
   if(disclaimerLinkTop) disclaimerLinkTop.onclick = () => openInfoModal("disclaimer");
   if(favoriteBtn) favoriteBtn.onclick = toggleFav;
   if(goGuideTop) goGuideTop.onclick = () => openInfoModal("guide");
+  if(goDailyTop) goDailyTop.onclick = () => setView("daily");
+  if($("dailyRecordsBtn")) $("dailyRecordsBtn").onclick = () => setView("records");
+  if($("recordsDailyBtn")) $("recordsDailyBtn").onclick = () => setView("daily");
   if(goSearchTop) goSearchTop.onclick = () => setView("search");
   if(goLikesTop) goLikesTop.onclick = () => setView("likes");
   if(searchInput) searchInput.oninput = renderSearch;

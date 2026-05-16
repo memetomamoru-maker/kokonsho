@@ -570,6 +570,20 @@ body:not(.is-top) .audioToggle{display:grid}
   }
 }
 
+
+/* v100: まいにち10枚・読んだきろく */
+.quickLinks{grid-template-columns:repeat(2,minmax(0,1fr))}
+.dailySummary{background:rgba(255,253,245,.93);border:1px solid rgba(255,255,255,.72);border-radius:30px;box-shadow:var(--shadow);padding:18px;margin:0 0 14px;overflow:hidden}
+.dailyKicker{display:inline-flex;align-items:center;gap:8px;background:var(--green2);color:var(--greenDark);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:900;letter-spacing:.08em}
+.dailySummary h2{font-family:var(--serif);font-size:32px;line-height:1.12;margin:11px 0 4px;color:var(--brown)}
+.dailyLead{margin:0 0 14px;color:var(--sub);font-weight:800;line-height:1.7}
+.dailyProgressLine{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:10px 0 8px;font-weight:900;color:var(--greenDark)}
+.dailyBar{height:10px;background:rgba(117,139,86,.16);border-radius:999px;overflow:hidden;border:1px solid rgba(117,139,86,.16)}
+.dailyBarFill{height:100%;width:0%;background:linear-gradient(90deg,var(--green),#a8b975);border-radius:999px;transition:width .2s ease}
+.dailySummaryActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.dailySummaryActions button,.dailyActions button,.recordTopActions button{border:1px solid rgba(117,139,86,.24);background:rgba(255,255,255,.84);color:var(--greenDark);border-radius:999px;padding:10px 13px;font-weight:900;box-shadow:0 6px 14px rgba(111,89,48,.06)}.dailySummaryActions .primaryMini,.dailyActions .done{background:linear-gradient(180deg,#91a765,var(--green));color:#fff;border-color:transparent}.dailyList{display:grid;gap:12px}.dailyReadCard{background:rgba(255,255,255,.86);border:1px solid var(--line);border-radius:26px;box-shadow:0 8px 20px rgba(111,89,48,.08);padding:15px;position:relative;overflow:hidden}.dailyReadCard.is-read{border-color:rgba(117,139,86,.34);background:linear-gradient(180deg,rgba(255,255,255,.91),rgba(238,240,229,.82))}.dailyReadHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}.dailyReadHead .pill{display:inline-flex;background:var(--green2);color:var(--green);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:900}.dailyReadState{font-size:12px;font-weight:900;color:var(--sub)}.is-read .dailyReadState{color:var(--greenDark)}.dailyOriginal{font-family:var(--serif);font-size:20px;line-height:1.6;font-weight:800;letter-spacing:.04em}.dailyReading{font-size:13px;line-height:1.55;color:var(--sub);font-weight:800;margin-top:4px}.dailyKid{font-family:var(--serif);font-size:18px;line-height:1.72;font-weight:700;margin-top:10px;background:rgba(255,246,203,.72);border:1px solid rgba(230,190,90,.24);border-radius:20px;padding:11px}.dailyMiniRows{display:grid;gap:8px;margin-top:10px}.dailyMiniRows div{background:rgba(255,253,245,.84);border:1px solid rgba(117,139,86,.14);border-radius:18px;padding:10px}.dailyMiniRows b{display:block;color:var(--greenDark);font-size:13px;margin-bottom:3px}.dailyMiniRows p{margin:0;line-height:1.65;font-size:14px;color:var(--brown)}.dailyActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.dailyActions button{font-size:13px;padding:9px 12px}.dailyActions .liked{background:#fff0e6;color:#d76544;border-color:rgba(225,111,77,.22)}.recordTopActions{margin:0 0 12px}.recordList{display:grid;gap:12px}.recordDay{background:rgba(255,255,255,.84);border:1px solid var(--line);border-radius:24px;box-shadow:0 8px 20px rgba(111,89,48,.07);padding:14px}.recordDayHead{display:flex;justify-content:space-between;gap:10px;align-items:center;color:var(--greenDark);font-weight:900;margin-bottom:9px}.recordDayHead b{font-family:var(--serif);font-size:18px;color:var(--brown)}.recordDayHead span{font-size:13px}.recordItems{display:grid;gap:7px}.recordItem{width:100%;text-align:left;border:1px solid rgba(117,139,86,.16);background:rgba(255,253,245,.82);border-radius:16px;padding:10px 12px;color:var(--brown);font-weight:800;line-height:1.45}.recordItem span{display:inline-flex;background:var(--green2);color:var(--green);border-radius:999px;padding:2px 8px;font-size:11px;font-weight:900;margin-right:7px}.recordNone{margin:0;color:var(--sub);font-size:14px}.storageNote{font-size:12px;line-height:1.65;color:rgba(79,64,42,.66);margin:12px 0 0}
+@media(max-width:380px){.dailySummary{padding:15px;border-radius:26px}.dailySummary h2{font-size:28px}.dailyOriginal{font-size:18px}.dailyKid{font-size:16px}.dailyMiniRows p{font-size:13px}.dailyActions button{font-size:12px;padding:8px 10px}.recordDayHead{display:block}.recordDayHead span{display:block;margin-top:3px}}
+@media(min-width:700px){.dailyMiniRows{grid-template-columns:1fr 1fr}.dailySummary h2{font-size:35px}.dailyKid{font-size:19px}}
+
 </style>
 </head>
 <body class="is-top">
@@ -618,6 +632,7 @@ body:not(.is-top) .audioToggle{display:grid}
     <div class="brand"><div class="kana">こ こん しょう</div><h1>古今掌</h1><p>小学生にもわかる、古典のいい言葉。</p></div>
     <div class="quickLinks" aria-label="ホーム上部の操作">
       <button id="goGuideTop" type="button">使い方</button>
+      <button id="goDailyTop" type="button">まいにち</button>
       <button id="goSearchTop" type="button">さがす</button>
       <button id="goLikesTop" type="button" aria-label="すきなことば">すき <span id="favCountTop">0</span></button>
     </div>
@@ -655,6 +670,24 @@ body:not(.is-top) .audioToggle{display:grid}
   <div class="screenHeader"><img class="smallFairy" src="./assets/images/kokon_icon.png" alt="ココン"><div class="screenHeading"><h2>すきなことば</h2><p>こころにのこした ことばたち</p></div></div>
   <div id="likesList" class="resultList"></div>
 </section>
+<section id="dailyPanel" class="panel">
+  <div class="screenHeader"><img class="smallFairy" src="./assets/images/kokon_icon.png" alt="ココン"><div class="screenHeading"><h2>まいにち10枚</h2><p>パパとママとチェック</p></div></div>
+  <div class="dailySummary">
+    <span class="dailyKicker" id="dailyDate">今日の日付</span>
+    <h2>親子で読む、今日の10枚</h2>
+    <p class="dailyLead">毎日、300枚の中から10枚をえらびます。同じ日は同じ10枚。読んだらチェックをつけて、日付ごとのきろくに残せます。</p>
+    <div class="dailyProgressLine"><span id="dailyProgress">0 / 10枚 読んだ</span><span>ぜんぶ読まなくてもOK</span></div>
+    <div class="dailyBar" aria-hidden="true"><div id="dailyBarFill" class="dailyBarFill"></div></div>
+    <div class="dailySummaryActions"><button id="dailyRecordsBtn" class="primaryMini" type="button">読んだきろくを見る</button></div>
+    <p class="storageNote">読んだきろくは、この端末とブラウザの中に保存されます。端末変更やブラウザのデータ削除では引き継がれない場合があります。</p>
+  </div>
+  <div id="dailyList" class="dailyList"></div>
+</section>
+<section id="recordsPanel" class="panel">
+  <div class="screenHeader"><img class="smallFairy" src="./assets/images/kokon_icon.png" alt="ココン"><div class="screenHeading"><h2>読んだきろく</h2><p>日付ごとのチェック</p></div></div>
+  <div class="recordTopActions"><button id="recordsDailyBtn" type="button">まいにち10枚にもどる</button></div>
+  <div id="recordList" class="recordList"></div>
+</section>
 <section id="parentPanel" class="panel">
   <article class="infoPage">
     <h2>保護者の方へ</h2>
@@ -667,6 +700,8 @@ body:not(.is-top) .audioToggle{display:grid}
       <li>「こども訳」で意味をたしかめ、「ことばポイント」で大事な表現をひとつ拾えます。</li>
       <li>「親子で話してみよう」は、正解を当てるものではなく、感じたことを話すきっかけとして使ってください。</li>
       <li>気に入ったことばは、ハートで「すき」に保存できます。</li>
+      <li>「まいにち10枚」では、日付ごとにえらばれた10枚を読み、読んだカードにチェックをつけられます。</li>
+      <li>「読んだきろく」では、日付ごとに読んだカードを確認できます。</li>
       <li>探したい言葉があるときは、ホーム上部または下部メニューの「さがす」を使えます。</li>
     </ul>
 
@@ -681,7 +716,7 @@ body:not(.is-top) .audioToggle{display:grid}
       <li>広告は表示していません。</li>
       <li>ログイン機能はありません。</li>
       <li>アクセス解析・広告配信ツールは使用していません。</li>
-      <li>検索語、すきな言葉、BGM設定は端末内で扱います。</li>
+      <li>検索語、すきな言葉、読んだきろく、BGM設定は端末内で扱います。</li>
       <li>外部リンクとして、保護者向け情報のためにnoteへのリンクがあります。</li>
     </ul>
 </article>
@@ -693,11 +728,12 @@ body:not(.is-top) .audioToggle{display:grid}
     <h3>端末内に保存する情報</h3>
     <ul>
       <li>すきな言葉は、ブラウザのlocalStorageに保存します。</li>
+      <li>まいにち10枚の組み合わせ、読んだきろく、進捗は、ブラウザのlocalStorageに保存します。</li>
       <li>BGM設定は、ブラウザのlocalStorageに保存する場合があります。</li>
       <li>入力された検索語は、画面内の絞り込みにのみ使用します。</li>
     </ul>
     <h3>外部送信について</h3>
-    <p>すきな言葉、検索語、BGM設定は、古今掌のサーバーには送信しません。作品データは同一サイト内のJSONファイルを読み込む場合があります。</p>
+    <p>すきな言葉、読んだきろく、検索語、BGM設定は、古今掌のサーバーには送信しません。作品データは同一サイト内のJSONファイルを読み込む場合があります。</p>
     <h3>外部リンクについて</h3>
     <p>保護者向け情報として、<a href="https://note.com/memetomamoru" target="_blank" rel="noopener noreferrer">note: memetomamoru</a> へのリンクを設置しています。外部サイトの個人情報の取り扱いは、各サイトの方針をご確認ください。</p>
     <h3>変更について</h3>
