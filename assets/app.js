@@ -362,7 +362,26 @@ function infoPanelId(key){
   const map = {guide:"parentPanel", parent:"parentPanel", privacy:"privacyPanel", terms:"termsPanel", disclaimer:"disclaimerPanel"};
   return map[key] || "parentPanel";
 }
+function openSideMenu(){
+  const menu = $("sideMenu");
+  const open = $("homeMenuOpen");
+  if(!menu) return;
+  menu.hidden = false;
+  document.body.classList.add("side-menu-open");
+  if(open) open.setAttribute("aria-expanded", "true");
+  const close = $("homeMenuClose");
+  if(close) close.focus();
+}
+function closeSideMenu(){
+  const menu = $("sideMenu");
+  const open = $("homeMenuOpen");
+  if(!menu) return;
+  menu.hidden = true;
+  document.body.classList.remove("side-menu-open");
+  if(open) open.setAttribute("aria-expanded", "false");
+}
 function openInfoModal(key){
+  closeSideMenu();
   const modal = $("infoModal");
   const body = $("infoModalBody");
   const source = document.querySelector(`#${infoPanelId(key)} .infoPage`);
@@ -381,6 +400,7 @@ function closeInfoModal(){
 }
 function setView(v){
   closeInfoModal();
+  closeSideMenu();
   view = v;
   document.body.classList.toggle("is-top", v==="top");
   const map = {top:"topPanel", home:"homePanel", daily:"dailyPanel", records:"recordsPanel", search:"searchPanel", likes:"likesPanel", parent:"parentPanel", privacy:"privacyPanel", terms:"termsPanel", disclaimer:"disclaimerPanel"};
@@ -809,6 +829,9 @@ function bind(){
   const goDailyTop = $("goDailyTop");
   const goSearchTop = $("goSearchTop");
   const goLikesTop = $("goLikesTop");
+  const homeMenuOpen = $("homeMenuOpen");
+  const homeMenuClose = $("homeMenuClose");
+  const sideMenu = $("sideMenu");
   const searchInput = $("searchInput");
   const audioToggle = $("audioToggle");
   const infoModalClose = $("infoModalClose");
@@ -822,6 +845,9 @@ function bind(){
   if(termsLinkTop) termsLinkTop.onclick = () => openInfoModal("terms");
   if(disclaimerLinkTop) disclaimerLinkTop.onclick = () => openInfoModal("disclaimer");
   if(favoriteBtn) favoriteBtn.onclick = toggleFav;
+  if(homeMenuOpen) homeMenuOpen.onclick = openSideMenu;
+  if(homeMenuClose) homeMenuClose.onclick = closeSideMenu;
+  if(sideMenu) sideMenu.addEventListener("click", e => { if(e.target && e.target.dataset.closeSideMenu !== undefined) closeSideMenu(); });
   if(goGuideTop) goGuideTop.onclick = () => openInfoModal("guide");
   if(goDailyTop) goDailyTop.onclick = () => setView("daily");
   if($("dailyRecordsBtn")) $("dailyRecordsBtn").onclick = () => setView("records");
@@ -832,7 +858,7 @@ function bind(){
   if(audioToggle) audioToggle.onclick = toggleMusic;
   if(infoModalClose) infoModalClose.onclick = closeInfoModal;
   if(infoModal) infoModal.addEventListener("click", e => { if(e.target && e.target.dataset.closeModal !== undefined) closeInfoModal(); });
-  document.addEventListener("keydown", e => { if(e.key === "Escape") closeInfoModal(); });
+  document.addEventListener("keydown", e => { if(e.key === "Escape"){ closeInfoModal(); closeSideMenu(); } });
 }
 document.addEventListener("visibilitychange", handleVisibilityChange);
 window.addEventListener("pagehide", pauseMusicForVisibility);

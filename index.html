@@ -727,6 +727,200 @@ body:not(.is-top) .audioToggle{display:grid}
   .dailyOriginal{font-size:20px}
 }
 
+
+/* v103: ホーム上部のタグ風導線を、押せることが明確なサイドメニューに変更 */
+#homePanel .homeHero{
+  padding-right:76px;
+}
+#homePanel .homeHero .brand{
+  padding-right:116px;
+}
+#homePanel .homeHero .homeMenuLauncher{
+  position:absolute;
+  z-index:4;
+  top:14px;
+  right:14px;
+  display:block;
+  margin:0;
+}
+#homePanel .homeHero .homeMenuOpen{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+  min-height:42px;
+  padding:10px 14px 10px 12px;
+  border-radius:999px;
+  border:1px solid rgba(117,139,86,.28);
+  background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(250,247,235,.90));
+  color:var(--greenDark);
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:.02em;
+  box-shadow:0 9px 22px rgba(111,89,48,.12);
+  backdrop-filter:blur(6px);
+}
+#homePanel .homeHero .homeMenuOpen:active{
+  transform:translateY(1px);
+  box-shadow:0 6px 15px rgba(111,89,48,.10);
+}
+.homeMenuIcon{
+  width:20px;
+  height:16px;
+  display:grid;
+  gap:4px;
+}
+.homeMenuIcon span{
+  display:block;
+  height:2px;
+  border-radius:999px;
+  background:currentColor;
+}
+.sideMenu[hidden]{display:none}
+.sideMenu{
+  position:fixed;
+  inset:0;
+  z-index:58;
+}
+.sideMenuBackdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(60,48,30,.28);
+  backdrop-filter:blur(3px);
+}
+.sideMenuPanel{
+  position:absolute;
+  top:0;
+  right:0;
+  width:min(88vw,374px);
+  height:100%;
+  padding:calc(env(safe-area-inset-top) + 18px) 16px calc(env(safe-area-inset-bottom) + 18px);
+  background:linear-gradient(180deg,rgba(255,253,245,.98),rgba(248,241,220,.97));
+  border-left:1px solid rgba(201,163,82,.22);
+  box-shadow:-24px 0 60px rgba(60,48,30,.22);
+  overflow:auto;
+}
+.sideMenuHeader{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:8px;
+}
+.sideMenuKicker{
+  display:block;
+  color:rgba(117,139,86,.86);
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.22em;
+  margin-bottom:3px;
+}
+.sideMenuHeader h2{
+  margin:0;
+  font-family:var(--serif);
+  font-size:34px;
+  line-height:1.1;
+  color:var(--brown);
+  letter-spacing:.06em;
+}
+.sideMenuClose{
+  flex:0 0 auto;
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:999px;
+  border:1px solid rgba(117,139,86,.22);
+  background:rgba(255,255,255,.78);
+  color:var(--greenDark);
+  box-shadow:0 6px 16px rgba(111,89,48,.08);
+}
+.sideMenuClose svg{width:19px;height:19px}
+.sideMenuLead{
+  margin:0 0 14px;
+  color:#75664d;
+  font-size:14px;
+  font-weight:760;
+  line-height:1.7;
+}
+.sideMenuList{
+  display:grid;
+  gap:11px;
+}
+.sideMenuItem{
+  width:100%;
+  min-height:76px;
+  display:grid;
+  grid-template-columns:44px minmax(0,1fr) 18px;
+  align-items:center;
+  gap:12px;
+  text-align:left;
+  border:1px solid rgba(117,139,86,.17);
+  border-radius:24px;
+  padding:13px 13px 13px 12px;
+  background:rgba(255,255,255,.78);
+  color:var(--brown);
+  box-shadow:0 10px 24px rgba(111,89,48,.08);
+}
+.sideMenuItem:active{transform:translateY(1px)}
+.sideMenuMark{
+  width:44px;
+  height:44px;
+  display:grid;
+  place-items:center;
+  border-radius:18px;
+  background:linear-gradient(180deg,#91a765,var(--green));
+  color:#fff;
+  font-weight:900;
+  font-family:var(--serif);
+  font-size:20px;
+  box-shadow:0 8px 18px rgba(117,139,86,.18);
+}
+.sideMenuMark.heart{
+  background:linear-gradient(180deg,#ef9f87,#df7d58);
+  font-family:var(--sans);
+}
+.sideMenuItem b{
+  display:block;
+  font-size:16px;
+  line-height:1.25;
+  color:var(--brown);
+  font-weight:900;
+}
+.sideMenuItem small{
+  display:block;
+  margin-top:4px;
+  font-size:12px;
+  line-height:1.45;
+  color:#75664d;
+  font-weight:760;
+}
+.sideMenuArrow{
+  color:rgba(117,139,86,.9);
+  font-size:26px;
+  font-weight:900;
+  line-height:1;
+}
+body.side-menu-open{overflow:hidden}
+@media(max-width:380px){
+  #homePanel .homeHero{padding-right:68px}
+  #homePanel .homeHero .brand{padding-right:104px}
+  #homePanel .homeHero .homeMenuLauncher{top:12px;right:12px}
+  #homePanel .homeHero .homeMenuOpen{min-height:38px;padding:9px 12px 9px 10px;font-size:12px}
+  .homeMenuIcon{width:18px;height:14px;gap:3.5px}
+  .sideMenuPanel{width:min(90vw,344px);padding-left:14px;padding-right:14px}
+  .sideMenuHeader h2{font-size:30px}
+  .sideMenuItem{min-height:72px;border-radius:22px;grid-template-columns:40px minmax(0,1fr) 16px}
+  .sideMenuMark{width:40px;height:40px;border-radius:16px;font-size:18px}
+}
+@media(min-width:700px){
+  #homePanel .homeHero{padding-right:88px}
+  #homePanel .homeHero .brand{padding-right:132px}
+  #homePanel .homeHero .homeMenuLauncher{top:18px;right:18px}
+  #homePanel .homeHero .homeMenuOpen{min-height:44px;padding:11px 16px 11px 13px;font-size:13.5px}
+  .sideMenuPanel{width:min(390px,38vw);padding-left:18px;padding-right:18px}
+}
+
 </style>
 </head>
 <body class="is-top">
@@ -773,11 +967,11 @@ body:not(.is-top) .audioToggle{display:grid}
 <section id="homePanel" class="panel">
   <div class="hero homeHero">
     <div class="brand"><div class="kana">こ こん しょう</div><h1>古今掌</h1><p>小学生にもわかる、古典のいい言葉。</p></div>
-    <div class="quickLinks" aria-label="ホーム上部の操作">
-      <button id="goGuideTop" type="button">使い方</button>
-      <button id="goDailyTop" type="button">まいにち</button>
-      <button id="goSearchTop" type="button">さがす</button>
-      <button id="goLikesTop" type="button" aria-label="すきなことば">すき <span id="favCountTop">0</span></button>
+    <div class="quickLinks homeMenuLauncher" aria-label="ホーム上部の操作">
+      <button id="homeMenuOpen" class="homeMenuOpen" type="button" aria-controls="sideMenu" aria-expanded="false">
+        <span class="homeMenuIcon" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span>メニュー</span>
+      </button>
     </div>
     <img class="homeHeroMascot" src="./assets/images/home_header_mascot.webp" alt="" aria-hidden="true" decoding="async">
   </div>
@@ -920,6 +1114,45 @@ body:not(.is-top) .audioToggle{display:grid}
   </article>
 </section>
 </main></div>
+<div id="sideMenu" class="sideMenu" hidden>
+  <div class="sideMenuBackdrop" data-close-side-menu></div>
+  <aside class="sideMenuPanel" role="dialog" aria-modal="true" aria-label="古今掌メニュー">
+    <div class="sideMenuHeader">
+      <div>
+        <span class="sideMenuKicker">ここんしょう</span>
+        <h2>メニュー</h2>
+      </div>
+      <button id="homeMenuClose" class="sideMenuClose" type="button" aria-label="メニューを閉じる">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <p class="sideMenuLead">読みたい場所へすぐ移動できます。</p>
+    <div class="sideMenuList">
+      <button id="goDailyTop" class="sideMenuItem" type="button">
+        <span class="sideMenuMark">十</span>
+        <span><b>まいにち10枚</b><small>今日の10枚を読んで、きろくを残す</small></span>
+        <span class="sideMenuArrow">›</span>
+      </button>
+      <button id="goSearchTop" class="sideMenuItem" type="button">
+        <span class="sideMenuMark">探</span>
+        <span><b>さがす</b><small>ジャンルやことばから探す</small></span>
+        <span class="sideMenuArrow">›</span>
+      </button>
+      <button id="goLikesTop" class="sideMenuItem" type="button" aria-label="すきなことば">
+        <span class="sideMenuMark heart">♥</span>
+        <span><b>すきなことば</b><small>保存したことばを見る　<span id="favCountTop">0</span>件</small></span>
+        <span class="sideMenuArrow">›</span>
+      </button>
+      <button id="goGuideTop" class="sideMenuItem" type="button">
+        <span class="sideMenuMark">使</span>
+        <span><b>使い方</b><small>保護者向けの説明と使い方</small></span>
+        <span class="sideMenuArrow">›</span>
+      </button>
+    </div>
+  </aside>
+</div>
 <nav id="commandBar" class="commandbar" aria-label="固定操作">
   <button id="cmdTop" class="cmd" type="button"><span class="cmdIcon">⌕</span><span>さがす</span></button>
   <button id="cmdPrev" class="cmd" type="button"><span class="cmdIcon">‹</span><span>まえ</span></button>
