@@ -921,6 +921,146 @@ body.side-menu-open{overflow:hidden}
   .sideMenuPanel{width:min(390px,38vw);padding-left:18px;padding-right:18px}
 }
 
+
+
+/* v104: スマホのヘッダー干渉を解消し、全ページ共通メニューを追加 */
+.globalMenuOpen{
+  position:fixed;
+  top:max(12px,env(safe-area-inset-top));
+  right:calc(50% - min(50vw,234px) + 14px);
+  z-index:25;
+  width:40px;
+  height:40px;
+  display:none;
+  place-items:center;
+  border-radius:999px;
+  border:1px solid rgba(117,139,86,.28);
+  background:rgba(255,253,245,.94);
+  color:var(--greenDark);
+  box-shadow:0 8px 20px rgba(111,89,48,.12);
+  backdrop-filter:blur(6px);
+}
+body:not(.is-top) .globalMenuOpen{display:grid}
+.globalMenuOpen:active{transform:translateY(1px)}
+.globalMenuIcon{
+  width:18px;
+  height:14px;
+  display:grid;
+  gap:3px;
+}
+.globalMenuIcon span{
+  display:block;
+  height:2px;
+  border-radius:999px;
+  background:currentColor;
+}
+.sideMenuMark.music{
+  background:linear-gradient(180deg,#7ba3b7,#5d849a);
+  font-family:var(--sans);
+}
+.sideMenuItemAudio.is-on{
+  border-color:rgba(93,132,154,.28);
+  background:linear-gradient(180deg,rgba(240,248,252,.96),rgba(228,241,247,.92));
+}
+.sideMenuItemAudio.is-on .sideMenuArrow,
+.sideMenuItemAudio.is-on b{
+  color:#4c6e81;
+}
+@media(max-width:699px){
+  #homePanel .homeHero{
+    padding-top:14px;
+    padding-right:14px;
+    min-height:118px;
+  }
+  #homePanel .homeHero .brand{
+    padding-right:94px;
+  }
+  #homePanel .homeHero .homeMenuLauncher{
+    display:none;
+  }
+  #homePanel .homeHero .homeHeroMascot{
+    width:104px;
+    right:4px;
+    bottom:4px;
+  }
+  .audioToggle{
+    display:none !important;
+  }
+}
+@media(min-width:700px){
+  .globalMenuOpen{
+    right:calc(50% - 220px + 62px);
+    top:34px;
+    width:42px;
+    height:42px;
+  }
+}
+
+
+/* v105: サイドメニューの現在地表示とPCメニュー位置調整 */
+#homePanel .homeHero .homeMenuLauncher{
+  display:none !important;
+}
+.sideMenuItem.is-active{
+  border-color:rgba(117,139,86,.38);
+  background:linear-gradient(180deg,rgba(244,249,232,.98),rgba(230,237,207,.92));
+  box-shadow:0 12px 28px rgba(117,139,86,.14);
+}
+.sideMenuItem.is-active .sideMenuMark{
+  background:linear-gradient(180deg,#718850,#5f7744);
+}
+.sideMenuItem.is-active b{
+  color:#4d6538;
+}
+.sideMenuItem.is-active small{
+  color:#62754e;
+}
+.sideMenuItem.is-active .sideMenuArrow{
+  font-size:0;
+  width:30px;
+  height:26px;
+  display:grid;
+  place-items:center;
+  border-radius:999px;
+  background:rgba(117,139,86,.13);
+}
+.sideMenuItem.is-active .sideMenuArrow::before{
+  content:"いま";
+  font-size:11px;
+  line-height:1;
+  font-weight:900;
+  color:#5f7744;
+}
+@media(min-width:700px){
+  .globalMenuOpen{
+    width:auto;
+    min-width:104px;
+    height:42px;
+    padding:0 15px 0 13px;
+    gap:8px;
+    right:calc(50% - 220px + 62px);
+    top:34px;
+    display:none;
+    grid-auto-flow:column;
+    grid-auto-columns:max-content;
+    align-items:center;
+    justify-content:center;
+  }
+  body:not(.is-top) .globalMenuOpen{
+    display:grid;
+  }
+  .globalMenuOpen::after{
+    content:"メニュー";
+    font-size:13px;
+    font-weight:900;
+    letter-spacing:.03em;
+  }
+  .globalMenuIcon{
+    width:18px;
+    height:14px;
+  }
+}
+
 </style>
 </head>
 <body class="is-top">
@@ -934,6 +1074,9 @@ body.side-menu-open{overflow:hidden}
     <path d="M4 9.5v5h3.3L12 18.2V5.8L7.3 9.5H4z" fill="currentColor"/>
     <path d="M16 9l5 5m0-5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
   </svg>
+</button>
+<button id="globalMenuOpen" class="globalMenuOpen" type="button" aria-controls="sideMenu" aria-expanded="false" aria-label="メニューを開く" title="メニュー">
+  <span class="globalMenuIcon" aria-hidden="true"><span></span><span></span><span></span></span>
 </button>
 <div class="app"><main class="content">
 <section id="topPanel" class="panel topPanel active">
@@ -1130,24 +1273,34 @@ body.side-menu-open{overflow:hidden}
     </div>
     <p class="sideMenuLead">読みたい場所へすぐ移動できます。</p>
     <div class="sideMenuList">
-      <button id="goDailyTop" class="sideMenuItem" type="button">
+      <button id="goHomeTop" class="sideMenuItem" type="button" data-menu-view="home">
+        <span class="sideMenuMark home">家</span>
+        <span><b>ホーム</b><small>ことばカードへ戻ります。</small></span>
+        <span class="sideMenuArrow">›</span>
+      </button>
+      <button id="goDailyTop" class="sideMenuItem" type="button" data-menu-view="daily">
         <span class="sideMenuMark">十</span>
         <span><b>まいにち10枚</b><small>今日の10枚を読んで、きろくを残す</small></span>
         <span class="sideMenuArrow">›</span>
       </button>
-      <button id="goSearchTop" class="sideMenuItem" type="button">
+      <button id="goSearchTop" class="sideMenuItem" type="button" data-menu-view="search">
         <span class="sideMenuMark">探</span>
         <span><b>さがす</b><small>ジャンルやことばから探す</small></span>
         <span class="sideMenuArrow">›</span>
       </button>
-      <button id="goLikesTop" class="sideMenuItem" type="button" aria-label="すきなことば">
+      <button id="goLikesTop" class="sideMenuItem" type="button" aria-label="すきなことば" data-menu-view="likes">
         <span class="sideMenuMark heart">♥</span>
         <span><b>すきなことば</b><small>保存したことばを見る　<span id="favCountTop">0</span>件</small></span>
         <span class="sideMenuArrow">›</span>
       </button>
-      <button id="goGuideTop" class="sideMenuItem" type="button">
+      <button id="goGuideTop" class="sideMenuItem" type="button" data-menu-view="guide">
         <span class="sideMenuMark">使</span>
         <span><b>使い方</b><small>保護者向けの説明と使い方</small></span>
+        <span class="sideMenuArrow">›</span>
+      </button>
+      <button id="sideMenuAudioToggle" class="sideMenuItem sideMenuItemAudio" type="button" aria-label="BGMをオンにする">
+        <span class="sideMenuMark music" id="sideMenuAudioMark">♪</span>
+        <span><b id="sideMenuAudioLabel">BGM</b><small id="sideMenuAudioState">今はオフです。流すときはここを押してね。</small></span>
         <span class="sideMenuArrow">›</span>
       </button>
     </div>

@@ -362,23 +362,42 @@ function infoPanelId(key){
   const map = {guide:"parentPanel", parent:"parentPanel", privacy:"privacyPanel", terms:"termsPanel", disclaimer:"disclaimerPanel"};
   return map[key] || "parentPanel";
 }
+function menuOpenButtons(){
+  return [$("homeMenuOpen"), $("globalMenuOpen")].filter(Boolean);
+}
+function setMenuExpanded(isExpanded){
+  menuOpenButtons().forEach(btn => btn.setAttribute("aria-expanded", isExpanded ? "true" : "false"));
+}
+function sideMenuActiveView(){
+  if(view === "records") return "daily";
+  if(view === "parent" || view === "privacy" || view === "terms" || view === "disclaimer") return "guide";
+  return view;
+}
+function updateSideMenuActive(){
+  const active = sideMenuActiveView();
+  document.querySelectorAll(".sideMenuItem[data-menu-view]").forEach(btn => {
+    const isActive = btn.dataset.menuView === active;
+    btn.classList.toggle("is-active", isActive);
+    if(isActive) btn.setAttribute("aria-current", "page");
+    else btn.removeAttribute("aria-current");
+  });
+}
 function openSideMenu(){
   const menu = $("sideMenu");
-  const open = $("homeMenuOpen");
   if(!menu) return;
+  updateSideMenuActive();
   menu.hidden = false;
   document.body.classList.add("side-menu-open");
-  if(open) open.setAttribute("aria-expanded", "true");
+  setMenuExpanded(true);
   const close = $("homeMenuClose");
   if(close) close.focus();
 }
 function closeSideMenu(){
   const menu = $("sideMenu");
-  const open = $("homeMenuOpen");
   if(!menu) return;
   menu.hidden = true;
   document.body.classList.remove("side-menu-open");
-  if(open) open.setAttribute("aria-expanded", "false");
+  setMenuExpanded(false);
 }
 function openInfoModal(key){
   closeSideMenu();
@@ -411,6 +430,7 @@ function setView(v){
   if(v==="records") renderRecords();
   if(v==="likes") renderLikes();
   updateCommandBar();
+  updateSideMenuActive();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function toggleFav(){
@@ -454,11 +474,22 @@ function chooseBgm(mode){
   updateBgmUI();
 }
 function updateBgmUI(){
+  const isOn = !!audio.enabled;
   const btn = $("audioToggle");
-  if(!btn) return;
-  btn.classList.toggle("is-on", !!audio.enabled);
-  btn.setAttribute("aria-label", audio.enabled ? "BGMをオフにする" : "BGMをオンにする");
-  btn.setAttribute("title", audio.enabled ? "BGMをオフにする" : "BGMをオンにする");
+  if(btn){
+    btn.classList.toggle("is-on", isOn);
+    btn.setAttribute("aria-label", isOn ? "BGMをオフにする" : "BGMをオンにする");
+    btn.setAttribute("title", isOn ? "BGMをオフにする" : "BGMをオンにする");
+  }
+  const sideBtn = $("sideMenuAudioToggle");
+  const sideState = $("sideMenuAudioState");
+  const sideMark = $("sideMenuAudioMark");
+  if(sideBtn){
+    sideBtn.classList.toggle("is-on", isOn);
+    sideBtn.setAttribute("aria-label", isOn ? "BGMをオフにする" : "BGMをオンにする");
+  }
+  if(sideState) sideState.textContent = isOn ? "今はオンです。止めるときはここを押してね。" : "今はオフです。流すときはここを押してね。";
+  if(sideMark) sideMark.textContent = "♪";
 }
 function enterApp(mode){
   if(mode) chooseBgm(mode);
@@ -825,15 +856,18 @@ function bind(){
   const termsLinkTop = $("termsLinkTop");
   const disclaimerLinkTop = $("disclaimerLinkTop");
   const favoriteBtn = $("favoriteBtn");
+  const goHomeTop = $("goHomeTop");
   const goGuideTop = $("goGuideTop");
   const goDailyTop = $("goDailyTop");
   const goSearchTop = $("goSearchTop");
   const goLikesTop = $("goLikesTop");
   const homeMenuOpen = $("homeMenuOpen");
+  const globalMenuOpen = $("globalMenuOpen");
   const homeMenuClose = $("homeMenuClose");
   const sideMenu = $("sideMenu");
   const searchInput = $("searchInput");
   const audioToggle = $("audioToggle");
+  const sideMenuAudioToggle = $("sideMenuAudioToggle");
   const infoModalClose = $("infoModalClose");
   const infoModal = $("infoModal");
 
@@ -846,8 +880,10 @@ function bind(){
   if(disclaimerLinkTop) disclaimerLinkTop.onclick = () => openInfoModal("disclaimer");
   if(favoriteBtn) favoriteBtn.onclick = toggleFav;
   if(homeMenuOpen) homeMenuOpen.onclick = openSideMenu;
+  if(globalMenuOpen) globalMenuOpen.onclick = openSideMenu;
   if(homeMenuClose) homeMenuClose.onclick = closeSideMenu;
   if(sideMenu) sideMenu.addEventListener("click", e => { if(e.target && e.target.dataset.closeSideMenu !== undefined) closeSideMenu(); });
+  if(goHomeTop) goHomeTop.onclick = () => setView("home");
   if(goGuideTop) goGuideTop.onclick = () => openInfoModal("guide");
   if(goDailyTop) goDailyTop.onclick = () => setView("daily");
   if($("dailyRecordsBtn")) $("dailyRecordsBtn").onclick = () => setView("records");
@@ -856,6 +892,7 @@ function bind(){
   if(goLikesTop) goLikesTop.onclick = () => setView("likes");
   if(searchInput) searchInput.oninput = renderSearch;
   if(audioToggle) audioToggle.onclick = toggleMusic;
+  if(sideMenuAudioToggle) sideMenuAudioToggle.onclick = toggleMusic;
   if(infoModalClose) infoModalClose.onclick = closeInfoModal;
   if(infoModal) infoModal.addEventListener("click", e => { if(e.target && e.target.dataset.closeModal !== undefined) closeInfoModal(); });
   document.addEventListener("keydown", e => { if(e.key === "Escape"){ closeInfoModal(); closeSideMenu(); } });
